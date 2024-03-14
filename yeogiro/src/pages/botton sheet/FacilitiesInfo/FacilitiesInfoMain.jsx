@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-const Map = () => {
+const FacilitiesInfoMain = () => {
   return (
     <View>
       <Text style={styles.text}>FacilitiesInfoMain</Text>
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Map;
+export default FacilitiesInfoMain;
