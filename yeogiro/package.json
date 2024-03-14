@@ -16,7 +16,8 @@
     "react-native": "^0.73.5",
     "react-native-config": "^1.5.1",
     "react-native-gesture-handler": "^2.15.0",
-    "react-native-reanimated": "^3.8.0"
+    "react-native-reanimated": "^3.8.0",
+    "react-native-nmap": "github:zerocho/react-native-naver-map"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
