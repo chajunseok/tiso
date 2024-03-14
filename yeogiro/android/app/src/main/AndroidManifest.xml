@@ -21,5 +21,11 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+      <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="wa1kfdhhnl" />
+      <meta-data
+            android:name="com.naver.maps.map.CLIENT_SECRET"
+            android:value="DTLnBlntzCRn3cZMb9M7Buyjdr0um9Hjm7IbdMxQ" />
     </application>
 </manifest>
