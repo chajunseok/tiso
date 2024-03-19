@@ -1,8 +1,8 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import SystemSettingMain from './botton sheet/SystemSetting/SystemSettingMain';
-import RegionalSettings from './botton sheet/SystemSetting/RegionalSettings/RegionalSettings';
+import SystemSettingMain from './Bottomsheet/SystemSetting/SystemSettingMain';
+import RegionalSettings from './Bottomsheet/SystemSetting/RegionalSettings/RegionalSettings';
 
 const Stack = createStackNavigator();
 

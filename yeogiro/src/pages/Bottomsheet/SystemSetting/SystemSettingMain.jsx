@@ -8,7 +8,7 @@ function SettingsScreen({navigation}) {
       <Text>Settings Screen</Text>
       <Button
         title="Go to Other Screen"
-        onPress={() => navigation?.navigate('RegionMainScreen')}
+        onPress={() => navigation.navigate('RegionalSettings')}
       />
     </View>
   );
