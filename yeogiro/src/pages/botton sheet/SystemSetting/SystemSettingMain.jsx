@@ -1,25 +1,17 @@
+// SettingsScreen.js
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Button, Text} from 'react-native';
 
-const Map = () => {
+function SettingsScreen({navigation}) {
   return (
-    <View>
-      <Text style={styles.text}>SystemSettingMain</Text>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Settings Screen</Text>
+      <Button
+        title="Go to Other Screen"
+        onPress={() => navigation?.navigate('RegionMainScreen')}
+      />
     </View>
   );
-};
+}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'black',
-  },
-});
-
-export default Map;
+export default SettingsScreen;

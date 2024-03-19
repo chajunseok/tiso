@@ -1,25 +1,17 @@
+// OtherScreen.js
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Button, Text} from 'react-native';
 
-const Map = () => {
+function OtherScreen({navigation}) {
   return (
-    <View>
-      <Text style={styles.text}>RegionalSettings</Text>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Other Screen</Text>
+      <Button
+        title="Back to Settings Screen"
+        onPress={() => navigation.goBack()}
+      />
     </View>
   );
-};
+}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'black',
-  },
-});
-
-export default Map;
+export default OtherScreen;
