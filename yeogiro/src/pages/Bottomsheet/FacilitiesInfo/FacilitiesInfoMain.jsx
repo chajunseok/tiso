@@ -29,6 +29,7 @@ function FacilitiesInfoMain({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
   buttonContainer: {
     flex: 1,
@@ -41,12 +42,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 120,
     height: 120,
-    backgroundColor: '#D9ACF5',
+    backgroundColor: 'rgb(178, 201, 219)',
     borderRadius: 8,
   },
   buttonTitle: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: 'white',
   },
 });
 

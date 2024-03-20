@@ -2,18 +2,24 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const shelterCategory = () => {
+const ShelterCategory = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>대피소</Text>
+      <Text style={styles.containerTitle}>대피소</Text>
       <View style={styles.categoryContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('ShelterInfoDetail')}>
           <Text style={styles.buttonTitle}>민방위 대피소</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('ShelterInfoDetail')}>
           <Text style={styles.buttonTitle}>지진 옥외 대피소</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('ShelterInfoDetail')}>
           <Text style={styles.buttonTitle}>무더위 쉼터</Text>
         </TouchableOpacity>
       </View>
@@ -24,6 +30,7 @@ const shelterCategory = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
   categoryContainer: {
     flex: 1,
@@ -32,7 +39,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 10,
   },
-  text: {
+  containerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
@@ -42,7 +49,7 @@ const styles = StyleSheet.create({
   button: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#D9ACF5',
+    backgroundColor: 'rgb(178, 201, 219)',
     borderRadius: 8,
     width: 175,
     height: 80,
@@ -51,7 +58,8 @@ const styles = StyleSheet.create({
   buttonTitle: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: 'white',
   },
 });
 
-export default shelterCategory;
+export default ShelterCategory;

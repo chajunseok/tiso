@@ -18,6 +18,7 @@ import FacilitiesInfoMain from './Bottomsheet/FacilitiesInfo/FacilitiesInfoMain'
 import ShelterCategory from './Bottomsheet/FacilitiesInfo/ShelterCategory';
 import HospitalInfoDetail from './Bottomsheet/FacilitiesInfo/HospitalInfoDetail';
 import PharmacyInfoDetail from './Bottomsheet/FacilitiesInfo/PharmacyInfoDetail';
+import ShelterInfoDetail from './Bottomsheet/FacilitiesInfo/ShelterInfoDetail';
 
 const Stack = createStackNavigator();
 
@@ -104,6 +105,10 @@ const MyBottomSheet = () => {
           <Stack.Screen
             name="PharmacyInfoDetail"
             component={PharmacyInfoDetail}
+          />
+          <Stack.Screen
+            name="ShelterInfoDetail"
+            component={ShelterInfoDetail}
           />
         </Stack.Navigator>
       </NavigationContainer>
