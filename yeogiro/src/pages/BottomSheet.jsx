@@ -33,17 +33,17 @@ const MyBottomSheet = () => {
         <TouchableOpacity
           style={[styles.button, {backgroundColor: 'skyblue'}]}
           onPress={() => navigation.navigate('SystemSettingMain')}>
-          <Text style={styles.buttonText}>SystemSettingMain</Text>
+          <Text style={styles.buttonText}>환경 설정</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, {backgroundColor: 'coral'}]}
           onPress={() => navigation.navigate('SafetyGuidelineMain')}>
-          <Text style={styles.buttonText}>SafetyGuidelineMain</Text>
+          <Text style={styles.buttonText}>행동 요령</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, {backgroundColor: 'lightgreen'}]}
           onPress={() => navigation.navigate('FacilitiesInfoMain')}>
-          <Text style={styles.buttonText}>FacilitiesInfoMain</Text>
+          <Text style={styles.buttonText}>시설 정보</Text>
         </TouchableOpacity>
       </View>
     );
