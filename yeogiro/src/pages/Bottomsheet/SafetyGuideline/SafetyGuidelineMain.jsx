@@ -1,17 +1,34 @@
 import React from 'react';
-import {View, Button, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
 
 function SafetyGuidelineMain({navigation}) {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Button
-        title="SafetyCategory"
-        onPress={() => navigation.navigate('SafetyCategory')}
-      />
-      <Button
-        title="SafetyGuidelineDetail"
-        onPress={() => navigation.navigate('SafetyGuidelineDetail')}
-      />
+    <View style={styles.container}>
+      <View style={styles.row}>
+        <TouchableOpacity
+          style={[styles.button, styles.firstButton]}
+          onPress={() => navigation.navigate('SafetyCategory')}>
+          <Text style={styles.buttonText}>자연재난</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, styles.secondButton]}
+          onPress={() => navigation.navigate('SafetyCategory')}>
+          <Text style={styles.buttonText}>사회재난</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.spacing} />
+      <View style={styles.row}>
+        <TouchableOpacity
+          style={[styles.button, styles.firstButton]}
+          onPress={() => navigation.navigate('SafetyCategory')}>
+          <Text style={styles.buttonText}>생활안전</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, styles.secondButton]}
+          onPress={() => navigation.navigate('SafetyCategory')}>
+          <Text style={styles.buttonText}>비상대피</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -19,13 +36,37 @@ function SafetyGuidelineMain({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    marginTop: 20,
     alignItems: 'center',
   },
-  text: {
-    fontSize: 20,
+  row: {
+    flexDirection: 'row',
+    marginBottom: 20,
+  },
+  spacing: {
+    marginBottom: 10,
+  },
+  button: {
+    borderRadius: 10,
+    width: 150,
+    height: 60,
+    // paddingVertical: 20, //버튼 세로 길이
+    // paddingHorizontal: 50, //버튼 가로 길이
+    marginHorizontal: 10, // 버튼과 버튼 사이 간격 (가로)
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  firstButton: {
+    backgroundColor: 'rgb(178, 201, 219)',
+  },
+  secondButton: {
+    backgroundColor: 'rgb(178, 201, 219)',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 25,
     fontWeight: 'bold',
-    color: 'black',
   },
 });
 
