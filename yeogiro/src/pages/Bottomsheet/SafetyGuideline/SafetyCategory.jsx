@@ -1,13 +1,17 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Button, StyleSheet} from 'react-native';
 
-const Map = () => {
+function SafetyCategory({navigation}) {
   return (
-    <View>
-      <Text style={styles.text}>category</Text>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      {/* <Text>category</Text> */}
+      <Button
+        title="SafetyGuidelineDetail"
+        onPress={() => navigation.navigate('SafetyGuidelineDetail')}
+      />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -22,4 +26,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Map;
+export default SafetyCategory;
