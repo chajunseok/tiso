@@ -1,17 +1,17 @@
 // OtherScreen.js
 import React from 'react';
-import {View, Button, Text} from 'react-native';
+import {View, Button} from 'react-native';
 
-function OtherScreen({navigation}) {
+function RegionalSetting({navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Other Screen</Text>
+      <Button title="Modal" onPress={() => navigation.navigate('Modal')} />
       <Button
-        title="Back to Settings Screen"
-        onPress={() => navigation.goBack()}
+        title="RegionalAdd"
+        onPress={() => navigation.navigate('RegionalAdd')}
       />
     </View>
   );
 }
 
-export default OtherScreen;
+export default RegionalSetting;

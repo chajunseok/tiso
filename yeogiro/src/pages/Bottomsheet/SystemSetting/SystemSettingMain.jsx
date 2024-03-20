@@ -1,13 +1,16 @@
 // SettingsScreen.js
 import React from 'react';
-import {View, Button, Text} from 'react-native';
+import {View, Button} from 'react-native';
 
 function SettingsScreen({navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Settings Screen</Text>
       <Button
-        title="Go to Other Screen"
+        title="MessageTypeSettings"
+        onPress={() => navigation.navigate('MessageTypeSettings')}
+      />
+      <Button
+        title="RegionalSettings"
         onPress={() => navigation.navigate('RegionalSettings')}
       />
     </View>

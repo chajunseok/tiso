@@ -1,13 +1,20 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Button, StyleSheet} from 'react-native';
 
-const SafetyGuidelineMain = () => {
+function SafetyGuidelineMain({navigation}) {
   return (
-    <View>
-      <Text style={styles.text}>SafetyGuidelineMain</Text>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Button
+        title="SafetyCategory"
+        onPress={() => navigation.navigate('SafetyCategory')}
+      />
+      <Button
+        title="SafetyGuidelineDetail"
+        onPress={() => navigation.navigate('SafetyGuidelineDetail')}
+      />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
