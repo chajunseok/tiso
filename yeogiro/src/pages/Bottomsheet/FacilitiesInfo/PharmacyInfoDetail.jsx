@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-const Map = () => {
+const PharmacyInfoDetail = () => {
   return (
     <View>
-      <Text style={styles.text}>category</Text>
+      <Text style={styles.text}>약국 정보</Text>
     </View>
   );
 };
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Map;
+export default PharmacyInfoDetail;

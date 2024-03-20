@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-const Map = () => {
+const HospitalInfoDetail = () => {
   return (
     <View>
-      <Text style={styles.text}>FacilitiesInfoDetail</Text>
+      <Text style={styles.text}>약국 정보</Text>
     </View>
   );
 };
@@ -12,8 +12,6 @@ const Map = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   text: {
     fontSize: 20,
@@ -22,4 +20,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Map;
+export default HospitalInfoDetail;
