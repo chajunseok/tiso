@@ -1,5 +1,5 @@
 import React, {useRef, useMemo, useCallback} from 'react';
-import {View, Button, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -29,19 +29,22 @@ const MyBottomSheet = () => {
 
   const SettingsScreen = ({navigation}) => {
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Button
-          title="SystemSettingMain"
-          onPress={() => navigation.navigate('SystemSettingMain')}
-        />
-        <Button
-          title="SafetyGuidelineMain"
-          onPress={() => navigation.navigate('SafetyGuidelineMain')}
-        />
-        <Button
-          title="FacilitiesInfoMain"
-          onPress={() => navigation.navigate('FacilitiesInfoMain')}
-        />
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={[styles.button, {backgroundColor: 'skyblue'}]}
+          onPress={() => navigation.navigate('SystemSettingMain')}>
+          <Text style={styles.buttonText}>SystemSettingMain</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, {backgroundColor: 'coral'}]}
+          onPress={() => navigation.navigate('SafetyGuidelineMain')}>
+          <Text style={styles.buttonText}>SafetyGuidelineMain</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, {backgroundColor: 'lightgreen'}]}
+          onPress={() => navigation.navigate('FacilitiesInfoMain')}>
+          <Text style={styles.buttonText}>FacilitiesInfoMain</Text>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -111,6 +114,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row', // Align items in a row
+    flexWrap: 'wrap', // Ensure wrapping if the screen is too narrow
+  },
+  button: {
+    margin: 10,
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: '#fff',
   },
 });
 
