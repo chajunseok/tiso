@@ -12,8 +12,9 @@ const PharmacyInfoDetail = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: 'white',
+    borderTopWidth: 1,
+    borderTopColor: '#CED4DA',
   },
   text: {
     fontSize: 20,

@@ -12,6 +12,9 @@ const HospitalInfoDetail = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
+    borderTopWidth: 1,
+    borderTopColor: '#CED4DA',
   },
   text: {
     fontSize: 20,

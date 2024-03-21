@@ -31,20 +31,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    borderTopWidth: 1,
+    borderTopColor: '#CED4DA',
   },
   categoryContainer: {
     flex: 1,
     flexWrap: 'wrap',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 10,
   },
   containerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
-    marginTop: 10,
-    marginLeft: 10,
+    marginHorizontal: 20,
+    marginVertical: 25,
   },
   button: {
     justifyContent: 'center',
