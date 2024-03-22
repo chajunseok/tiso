@@ -7,5 +7,4 @@ username = 'seobobabo'
 password = 'seobobabo'
 uri = f"mongodb://{username}:{password}@{host}:{port}/"
 
-dbname = ''
 client = MongoClient(uri)
