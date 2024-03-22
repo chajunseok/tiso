@@ -60,7 +60,9 @@ const MyBottomSheet = () => {
       snapPoints={snapPoints}
       onChange={handleSheetChanges}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="SettingsScreen">
+        <Stack.Navigator
+          initialRouteName="SettingsScreen"
+          screenOptions={{animationEnabled: false}}>
           <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
           {/* 시스템 설정 메인 화면 */}
           <Stack.Screen
