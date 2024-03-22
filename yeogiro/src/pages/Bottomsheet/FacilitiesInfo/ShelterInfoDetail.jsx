@@ -1,5 +1,6 @@
+import {TouchableOpacity} from '@gorhom/bottom-sheet';
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 
 const ShelterInfoDetail = () => {
@@ -81,13 +82,24 @@ const ShelterInfoDetail = () => {
   const renderItem = ({item}) => {
     return (
       <View style={styles.shelter}>
-        <Text style={{color: 'black', fontSize: 18, fontWeight: 600}}>
-          {item.title}
-        </Text>
-        <Text>{item.address}</Text>
-        <Text>
-          최대수용인원 : <Text style={{color: 'blue'}}>{item.capacity}명</Text>
-        </Text>
+        <View>
+          <Text style={{color: 'black', fontSize: 18, fontWeight: 600}}>
+            {item.title}
+          </Text>
+          <Text>{item.address}</Text>
+          <Text>
+            최대수용인원 :{' '}
+            <Text style={{color: 'blue'}}>{item.capacity}명</Text>
+          </Text>
+        </View>
+        <View style={styles.navigatorContainer}>
+          <TouchableOpacity>
+            <Image
+              source={require('../../../../assets/icons/Navigator.png')}
+              style={styles.navigatorImage}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   };
@@ -118,6 +130,9 @@ const styles = StyleSheet.create({
     borderBottomColor: '#CED4DA',
     paddingHorizontal: 20,
     paddingVertical: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   containerTitle: {
     fontSize: 20,
@@ -125,6 +140,14 @@ const styles = StyleSheet.create({
     color: 'black',
     marginHorizontal: 20,
     marginVertical: 25,
+  },
+  navigatorContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  navigatorImage: {
+    width: 40,
+    height: 40,
   },
 });
 
