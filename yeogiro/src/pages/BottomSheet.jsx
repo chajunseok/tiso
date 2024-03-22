@@ -12,7 +12,11 @@ import Modal from './Bottomsheet/SystemSetting/RegionalSettings/Modal';
 
 import SafetyGuidelineMain from './Bottomsheet/SafetyGuideline/SafetyGuidelineMain';
 import SafetyGuidelineDetail from './Bottomsheet/SafetyGuideline/SafetyGuidelineDetail';
-import SafetyCategory from './Bottomsheet/SafetyGuideline/SafetyCategory';
+// import SafetyCategory from './Bottomsheet/SafetyGuideline/SafetyCategory';
+import EmergencyEvacuation from './Bottomsheet/SafetyGuideline/SafetyCategory/EmergencyEvacuation';
+import LifeSafety from './Bottomsheet/SafetyGuideline/SafetyCategory/LifeSafety';
+import NaturalDisaster from './Bottomsheet/SafetyGuideline/SafetyCategory/NaturalDisaster';
+import SocialDisaster from './Bottomsheet/SafetyGuideline/SafetyCategory/SocialDisaster';
 
 import FacilitiesInfoMain from './Bottomsheet/FacilitiesInfo/FacilitiesInfoMain';
 import FacilitiesCategory from './Bottomsheet/FacilitiesInfo/FacilitiesCategory';
@@ -86,7 +90,14 @@ const MyBottomSheet = () => {
             component={SafetyGuidelineDetail}
           />
           {/* 행동 요령 카테고리 화면 */}
-          <Stack.Screen name="SafetyCategory" component={SafetyCategory} />
+          {/* <Stack.Screen name="SafetyCategory" component={SafetyCategory} /> */}
+          <Stack.Screen name="NaturalDisaster" component={NaturalDisaster} />
+          <Stack.Screen name="SocialDisaster" component={SocialDisaster} />
+          <Stack.Screen name="LifeSafety" component={LifeSafety} />
+          <Stack.Screen
+            name="EmergencyEvacuation"
+            component={EmergencyEvacuation}
+          />
 
           {/* 시설 정보 메인 화면 */}
           <Stack.Screen

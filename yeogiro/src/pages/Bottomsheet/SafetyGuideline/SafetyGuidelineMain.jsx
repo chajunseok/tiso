@@ -7,12 +7,12 @@ function SafetyGuidelineMain({navigation}) {
       <View style={styles.row}>
         <TouchableOpacity
           style={[styles.button, styles.firstButton]}
-          onPress={() => navigation.navigate('SafetyCategory')}>
+          onPress={() => navigation.navigate('NaturalDisaster')}>
           <Text style={styles.buttonText}>자연재난</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.secondButton]}
-          onPress={() => navigation.navigate('SafetyCategory')}>
+          onPress={() => navigation.navigate('SocialDisaster')}>
           <Text style={styles.buttonText}>사회재난</Text>
         </TouchableOpacity>
       </View>
@@ -20,12 +20,12 @@ function SafetyGuidelineMain({navigation}) {
       <View style={styles.row}>
         <TouchableOpacity
           style={[styles.button, styles.firstButton]}
-          onPress={() => navigation.navigate('SafetyCategory')}>
+          onPress={() => navigation.navigate('LifeSafety')}>
           <Text style={styles.buttonText}>생활안전</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, styles.secondButton]}
-          onPress={() => navigation.navigate('SafetyCategory')}>
+          onPress={() => navigation.navigate('EmergencyEvacuation')}>
           <Text style={styles.buttonText}>비상대피</Text>
         </TouchableOpacity>
       </View>
@@ -49,11 +49,11 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 10,
-    width: 150,
-    height: 60,
+    width: 130,
+    height: 55,
     // paddingVertical: 20, //버튼 세로 길이
     // paddingHorizontal: 50, //버튼 가로 길이
-    marginHorizontal: 10, // 버튼과 버튼 사이 간격 (가로)
+    marginHorizontal: 15, // 버튼과 버튼 사이 간격 (가로)
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
   },
 });
