@@ -19,8 +19,10 @@ import NaturalDisaster from './Bottomsheet/SafetyGuideline/SafetyCategory/Natura
 import SocialDisaster from './Bottomsheet/SafetyGuideline/SafetyCategory/SocialDisaster';
 
 import FacilitiesInfoMain from './Bottomsheet/FacilitiesInfo/FacilitiesInfoMain';
-import FacilitiesCategory from './Bottomsheet/FacilitiesInfo/FacilitiesCategory';
-import FacilitiesInfoDetail from './Bottomsheet/FacilitiesInfo/FacilitiesInfoDetail';
+import ShelterCategory from './Bottomsheet/FacilitiesInfo/ShelterCategory';
+import HospitalInfoDetail from './Bottomsheet/FacilitiesInfo/HospitalInfoDetail';
+import PharmacyInfoDetail from './Bottomsheet/FacilitiesInfo/PharmacyInfoDetail';
+import ShelterInfoDetail from './Bottomsheet/FacilitiesInfo/ShelterInfoDetail';
 
 const Stack = createStackNavigator();
 
@@ -107,14 +109,19 @@ const MyBottomSheet = () => {
             component={FacilitiesInfoMain}
           />
           {/* 시설 정보 카테고리 화면 */}
-          <Stack.Screen
-            name="FacilitiesCategory"
-            component={FacilitiesCategory}
-          />
+          <Stack.Screen name="ShelterCategory" component={ShelterCategory} />
           {/* 시설 정보 상세 화면 */}
           <Stack.Screen
-            name="FacilitiesInfoDetail"
-            component={FacilitiesInfoDetail}
+            name="HospitalInfoDetail"
+            component={HospitalInfoDetail}
+          />
+          <Stack.Screen
+            name="PharmacyInfoDetail"
+            component={PharmacyInfoDetail}
+          />
+          <Stack.Screen
+            name="ShelterInfoDetail"
+            component={ShelterInfoDetail}
           />
         </Stack.Navigator>
       </NavigationContainer>
