@@ -6,13 +6,12 @@ function SettingsScreen({navigation}) {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '환경 설정',
-      headerStyle: {
-        marginBottom: 10,
-      },
       headerTitleStyle: {
         fontSize: 20,
         fontWeight: 'bold',
+        marginBottom: 5,
       },
+      headerTitleAlign: 'center',
     });
   }, [navigation]);
 
@@ -23,8 +22,8 @@ function SettingsScreen({navigation}) {
     <View style={styles.container}>
       <View style={styles.content}>
         <View style={styles.contentbox}>
-          <Text style={styles.title}>수신 지역 설정</Text>
-          <Text style={styles.subtitle}>원하는 지역을 설정합니다.</Text>
+          <Text style={styles.title}>수신 유형 설정</Text>
+          <Text style={styles.subtitle}>수신 유형을 변경합니다</Text>
         </View>
         <TouchableOpacity
           onPress={() => navigation.navigate('MessageTypeSettings')}>
@@ -38,7 +37,7 @@ function SettingsScreen({navigation}) {
       <View style={styles.content}>
         <View style={styles.contentbox}>
           <Text style={styles.title}>수신 지역 설정</Text>
-          <Text style={styles.subtitle}>원하는 지역을 설정합니다.</Text>
+          <Text style={styles.subtitle}>원하는 지역을 추가합니다</Text>
         </View>
         <TouchableOpacity
           onPress={() => navigation.navigate('RegionalSettings')}>
