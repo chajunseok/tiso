@@ -6,7 +6,6 @@
 __pycache__/
 *.py[cod]
 *$py.class
-venv/
 
 # C extensions
 *.so
@@ -192,5 +191,8 @@ pyrightconfig.json
 # Ignore all local history of files
 .history
 .ionide
+
+# database info
+**/database.py
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode
