@@ -1,23 +1,38 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useLayoutEffect} from 'react';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 function FacilitiesInfoMain({navigation}) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: '시설 정보',
+      headerTitleStyle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
+      headerTitleAlign: 'center',
+    });
+  }, [navigation]);
+
+  const screenWidth = Dimensions.get('window').width;
+  const buttonWidth = screenWidth * 0.3;
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          style={styles.button}
+          style={[styles.button, {width: buttonWidth, height: buttonWidth}]}
           onPress={() => navigation.navigate('ShelterCategory')}>
           <Text style={styles.buttonTitle}>대피소</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.button}
+          style={[styles.button, {width: buttonWidth, height: buttonWidth}]}
           onPress={() => navigation.navigate('HospitalInfoDetail')}>
           <Text style={styles.buttonTitle}>병원</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.button}
+          style={[styles.button, {width: buttonWidth, height: buttonWidth}]}
           onPress={() => navigation.navigate('PharmacyInfoDetail')}>
           <Text style={styles.buttonTitle}>약국</Text>
         </TouchableOpacity>
@@ -42,8 +57,6 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 120,
-    height: 120,
     backgroundColor: 'rgb(178, 201, 219)',
     borderRadius: 8,
   },

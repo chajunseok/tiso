@@ -1,24 +1,50 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useState, useLayoutEffect} from 'react';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const ShelterCategory = ({navigation}) => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: '시설 정보',
+      headerTitleStyle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
+      headerTitleAlign: 'center',
+    });
+  }, [navigation]);
+
+  const screenWidth = Dimensions.get('window').width;
+  const buttonWidth = screenWidth * 0.45;
+  const buttonHeight = buttonWidth * 0.4;
+  const buttonMargin = (screenWidth - buttonWidth * 2 - 20) / 2;
+
   return (
     <View style={styles.container}>
       <Text style={styles.containerTitle}>대피소</Text>
       <View style={styles.categoryContainer}>
         <TouchableOpacity
-          style={styles.button}
+          style={[
+            styles.button,
+            {width: buttonWidth, height: buttonHeight, margin: buttonMargin},
+          ]}
           onPress={() => navigation.navigate('ShelterInfoDetail')}>
           <Text style={styles.buttonTitle}>민방위 대피소</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.button}
+          style={[
+            styles.button,
+            {width: buttonWidth, height: buttonHeight, margin: buttonMargin},
+          ]}
           onPress={() => navigation.navigate('ShelterInfoDetail')}>
           <Text style={styles.buttonTitle}>지진 옥외 대피소</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.button}
+          style={[
+            styles.button,
+            {width: buttonWidth, height: buttonHeight, margin: buttonMargin},
+          ]}
           onPress={() => navigation.navigate('ShelterInfoDetail')}>
           <Text style={styles.buttonTitle}>무더위 쉼터</Text>
         </TouchableOpacity>
@@ -54,7 +80,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     width: 175,
     height: 80,
-    margin: 10,
   },
   buttonTitle: {
     fontSize: 20,

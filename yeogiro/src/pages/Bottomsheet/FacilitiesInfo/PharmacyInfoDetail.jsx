@@ -1,9 +1,9 @@
 import {TouchableOpacity} from '@gorhom/bottom-sheet';
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 
-const HospitalInfoDetail = () => {
+const HospitalInfoDetail = ({navigation}) => {
   const DATA = [
     {
       id: '1',
@@ -78,6 +78,18 @@ const HospitalInfoDetail = () => {
       telephone: '042-123-4567',
     },
   ];
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: '시설 정보',
+      headerTitleStyle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
+      headerTitleAlign: 'center',
+    });
+  }, [navigation]);
 
   const renderItem = ({item}) => {
     return (
