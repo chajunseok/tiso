@@ -137,8 +137,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row', // Align items in a row
-    flexWrap: 'wrap', // Ensure wrapping if the screen is too narrow
+    flexDirection: 'row', 
+    flexWrap: 'wrap', 
   },
   button: {
     margin: 10,
