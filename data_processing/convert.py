@@ -28,3 +28,20 @@ def binary_search(numbers, key, index):
         elif right_abs < left_abs:
             return left
 
+def linear_search(coord_list,key,start=None,end=None):
+    min_distance=math.dist(coord_list[0][0],key)
+    min_distance_index=(0,0)
+    if start==None:
+        start=0
+    if end==None:
+        end=len(coord_list)
+    else:#end로 들어온 인자는 실제 인덱스이기 때문에 range연산에 넣어줄 땐 +1을 해야 그곳까지 본다
+        end+=1
+    for i in range(start,end):
+        for j in range(len(coord_list[0])):
+            cur_distance=math.dist(coord_list[i][j],key)
+            if min_distance>cur_distance:
+                min_distance=cur_distance
+                min_distance_index=(i,j)
+    return min_distance_index
+
