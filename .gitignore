@@ -6,7 +6,6 @@
 __pycache__/
 *.py[cod]
 *$py.class
-venv/
 
 /data_processing/binarys
 /data_processing/pathed_maps
