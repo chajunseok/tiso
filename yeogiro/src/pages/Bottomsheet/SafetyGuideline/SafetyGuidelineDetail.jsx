@@ -1,14 +1,11 @@
 import React, {useState, useCallback} from 'react';
-import {View, Button, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
 const SafetyGuidelineDetail = ({route}) => {
-  const [playing, setPlaying, isReadyForRender, setIsReadyForRender] =
-    useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [isReadyForRender, setIsReadyForRender] = useState(false); // 상태 분리
 
-  function onReady() {
-    setIsReadyForRender(true);
-  }
   const {title, videoId} = route.params || {};
 
   const onStateChange = useCallback(state => {
@@ -17,11 +14,14 @@ const SafetyGuidelineDetail = ({route}) => {
     }
   }, []);
 
+  function onReady() {
+    setIsReadyForRender(true); // 영상 준비 완료 시 상태 업데이트
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>
-        {title}
-        {videoId}
+        {title} {videoId}
       </Text>
       <YoutubePlayer
         height={300}
@@ -29,9 +29,9 @@ const SafetyGuidelineDetail = ({route}) => {
         play={playing}
         videoId={videoId}
         onChangeState={onStateChange}
+        onReady={onReady} // onReady 핸들러 추가
         webViewStyle={{
-          opacity: 0.99,
-          display: isReadyForRender ? 'flex' : 'flex',
+          opacity: isReadyForRender ? 1 : 0, // 준비 상태에 따라 투명도 조정
         }}
         webViewProps={{
           androidLayerType: isReadyForRender ? 'hardware' : 'software',
@@ -53,10 +53,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     marginBottom: 20,
-  },
-  youtube: {
-    width: 100,
-    height: 50,
   },
 });
 
