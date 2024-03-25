@@ -10,11 +10,13 @@ import PushNotification from 'react-native-push-notification';
 
 messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('Message handled in the background!', remoteMessage);
-  PushNotification.localNotification({
-    title: remoteMessage.notification.title,
-    message: remoteMessage.notification.body,
-    largeIconUrl: remoteMessage.notification.android.imageUrl,
-    bigPictureUrl: remoteMessage.notification.android.imageUrl,
-  });
+  if (remoteMessage.notification && remoteMessage.notification.android) {
+    PushNotification.localNotification({
+      title: remoteMessage.notification.title,
+      message: remoteMessage.notification.body,
+      largeIconUrl: remoteMessage.notification.android.imageUrl,
+      bigPictureUrl: remoteMessage.notification.android.imageUrl,
+    });
+  }
 });
 AppRegistry.registerComponent(appName, () => App);
