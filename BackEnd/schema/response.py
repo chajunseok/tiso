@@ -1,10 +1,5 @@
 from pydantic import BaseModel
-from typing import List
 
 class ShelterPathSchema(BaseModel):
-    """
-        path:[(38.555,127,33),(38.678,127.36)]
-        distance:35902.249
-    """
-    path: list[tuple[float,...]] 
-    distance: float
+    path: list[tuple[float,float]] = [(37.123,127.233),(37.55,127.6466)]
+    distance: float = 1001.53125
