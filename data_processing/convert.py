@@ -45,3 +45,13 @@ def linear_search(coord_list,key,start=None,end=None):
                 min_distance_index=(i,j)
     return min_distance_index
 
+def linear_search_1d(coord_list,key):
+    min_distance=math.dist(coord_list[0],key)
+    min_distance_index=0
+    for i in range(len(coord_list)):
+        cur_distance=math.dist(coord_list[i],key)
+        if min_distance>cur_distance:
+            min_distance=cur_distance
+            min_distance_index=i
+    return min_distance_index
+
