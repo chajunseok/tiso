@@ -146,4 +146,16 @@ if __name__ == "__main__":
     shelter_dict=get_shelter_index()
 
 
-    
+    batch_size = 4
+    tasks = [(binary_map, gps_mapping_list, walkable_spot_np_list, shelter_id, shelter_info["walkable_start"]) for shelter_id, shelter_info in shelter_dict.items()]
+    task_batches = list(chunks(tasks, batch_size))
+
+    for task_batch in task_batches:
+        with multiprocessing.Pool(processes=multiprocessing.cpu_count()) as pool:
+            pool.map(make_short_path_wrapper, task_batch)
+
+    # shelter_id="65fd1f64a1c2102da599d059"
+    # shelter_info=shelter_dict[shelter_id]
+    # print(shelter_info)
+
+    # make_short_path(binary_map,gps_mapping_list,walkable_spot_np_list,shelter_id,shelter_info["walkable_start"])
