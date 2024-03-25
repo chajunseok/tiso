@@ -3,7 +3,12 @@ import {View, Button, Text, StyleSheet} from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
 const SafetyGuidelineDetail = ({route}) => {
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying, isReadyForRender, setIsReadyForRender] =
+    useState(false);
+
+  function onReady() {
+    setIsReadyForRender(true);
+  }
   const {title, videoId} = route.params || {};
 
   const onStateChange = useCallback(state => {
@@ -24,6 +29,13 @@ const SafetyGuidelineDetail = ({route}) => {
         play={playing}
         videoId={videoId}
         onChangeState={onStateChange}
+        webViewStyle={{
+          opacity: 0.99,
+          display: isReadyForRender ? 'flex' : 'flex',
+        }}
+        webViewProps={{
+          androidLayerType: isReadyForRender ? 'hardware' : 'software',
+        }}
       />
     </View>
   );
