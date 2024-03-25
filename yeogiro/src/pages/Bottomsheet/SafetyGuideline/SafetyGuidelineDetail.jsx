@@ -1,6 +1,7 @@
 import React, {useState, useCallback, useRef} from 'react';
 import {View, Button, Text, StyleSheet} from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
+import {WebView} from 'react-native-webview';
 
 const SafetyGuidelineDetail = ({route}) => {
   const [playing, setPlaying] = useState(false);
@@ -22,12 +23,17 @@ const SafetyGuidelineDetail = ({route}) => {
         {title}
         {videoId}
       </Text>
-      <YoutubePlayer
+      <WebView
+        style={{height: 300}} // 높이를 원하는 대로 조절하세요
+        javaScriptEnabled={true}
+        source={{uri: `https://www.youtube.com/embed/${videoId}`}}
+      />
+      {/* <YoutubePlayer
         height={300}
-        play={playing}
+        play={playing}`
         videoId={videoId}
         onChangeState={onStateChange}
-      />
+      /> */}
       <Button title={playing ? 'pause' : 'play'} onPress={togglePlaying} />
     </View>
   );
