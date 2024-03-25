@@ -1,16 +1,34 @@
-// SafetyGuidelineDetail.jsx
-
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useState, useCallback, useRef} from 'react';
+import {View, Button, Text, StyleSheet} from 'react-native';
+import YoutubePlayer from 'react-native-youtube-iframe';
 
 const SafetyGuidelineDetail = ({route}) => {
-  // route.params에 전달된 title이 있을 경우 가져와서 사용합니다.
-  const {title} = route.params || {};
+  const [playing, setPlaying] = useState(false);
+  const {title, videoId} = route.params || {};
+
+  const onStateChange = useCallback(state => {
+    if (state === 'ended') {
+      setPlaying(false);
+    }
+  }, []);
+
+  const togglePlaying = useCallback(() => {
+    setPlaying(prev => !prev);
+  }, []);
 
   return (
     <View style={styles.container}>
-      {/* 가져온 title을 보여줍니다. */}
-      <Text style={styles.text}>{title}</Text>
+      <Text style={styles.text}>
+        {title}
+        {videoId}
+      </Text>
+      <YoutubePlayer
+        height={300}
+        play={playing}
+        videoId={videoId}
+        onChangeState={onStateChange}
+      />
+      <Button title={playing ? 'pause' : 'play'} onPress={togglePlaying} />
     </View>
   );
 };
@@ -20,11 +38,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 16,
   },
   text: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
+    marginBottom: 20,
   },
 });
 

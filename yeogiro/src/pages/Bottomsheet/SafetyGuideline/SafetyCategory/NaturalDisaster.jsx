@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const disasterList = [
-  {id: '1', title: '대설'},
+  {id: '1', title: '대설', videoId: 'Q4LePrtMeZ0'},
   {id: '2', title: '홍수'},
   {id: '3', title: '침수'},
   {id: '4', title: '해일'},
@@ -20,7 +20,10 @@ function NaturalDisaster({navigation}) {
     <TouchableOpacity
       style={styles.item}
       onPress={() =>
-        navigation.navigate('SafetyGuidelineDetail', {title: item.title})
+        navigation.navigate('SafetyGuidelineDetail', {
+          title: item.title,
+          videoId: item.videoId,
+        })
       }>
       <Text style={styles.title}>{item.title}</Text>
       <Image
