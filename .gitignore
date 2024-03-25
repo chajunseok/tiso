@@ -8,6 +8,16 @@ __pycache__/
 *$py.class
 venv/
 
+/data_processing/binarys
+/data_processing/pathed_maps
+/data_processing/path
+/data_processing/union_binary_map
+/data_processing/union_map
+/data_processing/walkable_spot
+/data_processing/batch_area_images
+/data_processing/__pycache__/
+/data_processing/test.py
+
 # C extensions
 *.so
 
