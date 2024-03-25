@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { PermissionsAndroid, Platform } from 'react-native';
+import {PermissionsAndroid, Platform} from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import NaverMapView, {
   Circle,
@@ -64,7 +64,7 @@ function MyMap() {
   return (
     <NaverMapView
       style={{width: '100%', height: '100%'}}
-      showsMyLocationButton={true}
+      showsMyLocationButton={false}
       center={
         currentLocation
           ? {...currentLocation, zoom: 16}
@@ -73,7 +73,10 @@ function MyMap() {
       onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
       onCameraChange={e => console.warn('onCameraChange', JSON.stringify(e))}
       onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}>
-      <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} />
+      {currentLocation && (
+        <Marker coordinate={currentLocation} pinColor="green" />
+      )}
+      {/* <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} />
       <Marker
         coordinate={P1}
         pinColor="blue"
@@ -103,7 +106,7 @@ function MyMap() {
         coordinates={[P0, P1, P2]}
         color={`rgba(0, 0, 0, 0.5)`}
         onClick={() => console.warn('onClick! polygon')}
-      />
+      /> */}
     </NaverMapView>
   );
 }

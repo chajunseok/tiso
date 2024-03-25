@@ -17,7 +17,7 @@ function App() {
     // </NavigationContainer>
     <GestureHandlerRootView>
       <Map />
-      <BottomSheet />
+      {/* <BottomSheet /> */}
     </GestureHandlerRootView>
   );
 }
