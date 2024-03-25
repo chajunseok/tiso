@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {Alert} from 'react-native';
 import Map from './src/pages/Map';
 import BottomSheet from './src/pages/BottomSheet';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -8,6 +9,14 @@ import {createStackNavigator} from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
 function App() {
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+
+    return unsubscribe;
+  }, []);
+
   return (
     // <NavigationContainer>
     //   <Stack.Navigator>

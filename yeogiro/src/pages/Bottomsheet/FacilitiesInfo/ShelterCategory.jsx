@@ -18,7 +18,7 @@ const ShelterCategory = ({navigation}) => {
   const screenWidth = Dimensions.get('window').width;
   const buttonWidth = screenWidth * 0.45;
   const buttonHeight = buttonWidth * 0.4;
-  const buttonMargin = (screenWidth - buttonWidth * 2 - 20) / 2;
+  const buttonMargin = (screenWidth - buttonWidth * 2) / 5;
 
   return (
     <View style={styles.container}>
