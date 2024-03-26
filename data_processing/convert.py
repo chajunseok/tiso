@@ -124,7 +124,7 @@ def lat_lon_array_binary_search(test_list,key):
         elif max_y<key[1]:
             #완탐 범위를 위로
             return linear_search(test_list,key,end=x_down)
-    elif x_up!=len(test_list[0]) and x_down!=-1:
+    elif x_up!=len(test_list) and x_down!=-1:
         #특정 위도가 잡히진 않았지만 사이위도일 경우
         min_y=min(test_list[x_up][0][1],test_list[x_down][0][1])
         max_y=max(test_list[x_up][last_column][1],test_list[x_down][last_column][1])
@@ -151,7 +151,7 @@ def lat_lon_array_binary_search(test_list,key):
             return linear_search(test_list,key) 
         elif max_y<key[1]:
             return (0,last_column)
-    elif x_up==len(test_list[0]):
+    elif x_up==len(test_list):
         min_y=test_list[last_row][0][1]
         max_y=test_list[last_row][last_column][1]
         if min_y<=key[1]<=max_y:
