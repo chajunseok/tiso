@@ -10,7 +10,6 @@ gps_mapping_zip_path = f"{resource_dir}/gps_mapping.zip"
 binary_map_path = f"{resource_dir}/binary_map.pkl"
 gps_mapping_path = f"{resource_dir}/gps_mapping.pkl"
 
-print(binary_map_zip_path)
 class mapDB:
     def __init__(self):
         self.binary_map=None
