@@ -32,9 +32,9 @@ const SafetyGuidelineDetail = ({route, navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{videoId}</Text>
+      {/* <Text style={styles.text}>{videoId}</Text> */}
       <YoutubePlayer
-        height={300}
+        height={250}
         width={400}
         play={playing}
         videoId={videoId}
@@ -47,6 +47,7 @@ const SafetyGuidelineDetail = ({route, navigation}) => {
           androidLayerType: isReadyForRender ? 'hardware' : 'software',
         }}
       />
+      <Text style={styles.title}>{title}</Text>
     </View>
   );
 };
@@ -54,15 +55,19 @@ const SafetyGuidelineDetail = ({route, navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
+    backgroundColor: 'white',
   },
   text: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
     marginBottom: 20,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'black',
   },
 });
 
