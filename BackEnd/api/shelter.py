@@ -18,3 +18,4 @@ async def get_path_handler(
     print({latitude})
     print({longitude})
     return ShelterPathSchema(path=[[1,2],[3,4]],distance=12)
+
