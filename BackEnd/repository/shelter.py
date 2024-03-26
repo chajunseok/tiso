@@ -1,8 +1,8 @@
 from fastapi import Depends
-from pymongo import MongoClient
-from database.mongo import get_client
+from database.mongo import get_mongo_client
+
 
 class ShelterRepository:
-    def __init__(self,client:MongoClient=Depends(get_client)):
-        self.client=client
+    def __init__(self,mongo_client=Depends(get_mongo_client)):
+        self.client=mongo_client
         print("ShelterRepository init")
