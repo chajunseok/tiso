@@ -204,6 +204,6 @@ pyrightconfig.json
 
 # database info
 **/database.py
-BackEnd/**/mongo.py
+# /**/mongo.py
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode
