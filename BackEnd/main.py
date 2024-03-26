@@ -4,7 +4,8 @@ from database.mapdb import mapdb
 from database.mongo import mongodb
 from schema.response import PingPongSchema
 from api import shelter
-import os
+from resource.logo import the_end_logo
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -13,6 +14,7 @@ async def lifespan(app: FastAPI):
     yield
     mapdb.close()
     mongodb.close()
+    print(the_end_logo)
     
 app = FastAPI(lifespan=lifespan)
 app.include_router(shelter.router)
