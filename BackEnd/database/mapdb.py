@@ -1,5 +1,7 @@
 import pickle
 import os
+import gc
+import psutil
 
 resource_dir=f"{os.getcwd()}/resource"
 binary_map_zip_path = f"{resource_dir}/binary_map.zip"
@@ -65,7 +67,15 @@ class mapDB:
         print("==========================mapDB=========================")
 
     def close(self):
-        pass
+        print("==========================mapDB=========================")
+        before_memory=psutil.virtual_memory().used/1000000
+        del self.binary_map
+        del self.gps_mapping
+        gc.collect()
+        after_memory=psutil.virtual_memory().used/1000000
+        print("로드된 mapDB이 해제되었습니다.")
+        print(f"{int(before_memory-after_memory)}MB was released")
+        print("==========================mapDB=========================")
 
 mapdb=mapDB()
 
