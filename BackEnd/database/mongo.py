@@ -1,6 +1,7 @@
 from pymongo.mongo_client import MongoClient
-import certifi
 from resource.logo import mongodb_logo
+from typing import Optional
+
 host = 'j10b308.p.ssafy.io'
 port = 27017
 username = 'seobobabo'
@@ -9,7 +10,7 @@ uri = f"mongodb://{username}:{password}@{host}:{port}/"
 
 class MongoDB:
     def __init__(self):
-        self.client = None
+        self.client : Optional[MongoClient] = None
 
     def connect(self):
         print("==========================MongoDB=========================")
