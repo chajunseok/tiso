@@ -24,7 +24,8 @@ class ShelterRepository:
             }
         }
         
-        # 쿼리 실행
         nearby_shelters = collection.find(query)
+    
+        print(nearby_shelters[0])
         
-        return list(nearby_shelters)
+        return nearby_shelters
