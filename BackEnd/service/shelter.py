@@ -7,5 +7,5 @@ class ShelterService:
         self.shelter_repository=shelter_repository
         print("ShelterService init")
         
-    async def get_near_service(self, user_location: List[float], max_distance: int = 3000) -> List[dict]:
-        return await self.shelter_repository.get_near_repository(user_location, max_distance)
+    async def get_near_service(self, user_location: List[float]) -> List[dict]:
+        return await self.shelter_repository.get_near_repository(user_location)
