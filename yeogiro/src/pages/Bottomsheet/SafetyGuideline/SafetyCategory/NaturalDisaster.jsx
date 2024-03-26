@@ -1,6 +1,16 @@
-import React from 'react';
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
+import React, {useLayoutEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  Dimensions,
+} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+
+const {width: screenWidth} = Dimensions.get('window');
+const buttonWidth = (screenWidth - 40) / 2; // 버튼의 가로 길이
 
 const disasterList = [
   {id: '1', title: '대설', videoId: 'Q4LePrtMeZ0'},
@@ -16,9 +26,21 @@ const disasterList = [
 ];
 
 function NaturalDisaster({navigation}) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: '자연 재난',
+      headerTitleStyle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
+      headerTitleAlign: 'center',
+    });
+  }, [navigation]);
+
   const renderItem = ({item}) => (
     <TouchableOpacity
-      style={styles.item}
+      style={[styles.item, {marginRight: 10}]}
       onPress={() =>
         navigation.navigate('SafetyGuidelineDetail', {
           title: item.title,
@@ -40,6 +62,8 @@ function NaturalDisaster({navigation}) {
         renderItem={renderItem}
         keyExtractor={item => item.id}
         style={styles.flatList}
+        numColumns={2}
+        contentContainerStyle={styles.flatListContent} // 가운데 정렬
       />
     </View>
   );
@@ -53,15 +77,20 @@ const styles = StyleSheet.create({
   flatList: {
     padding: 10,
   },
+  flatListContent: {
+    alignItems: 'center',
+  },
   item: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 10,
+    paddingVertical: 15,
     paddingHorizontal: 20,
     marginBottom: 10,
-    backgroundColor: '#f0f0f0',
+    borderColor: 'rgb(178, 201, 219)',
+    borderWidth: 2,
     borderRadius: 8,
+    width: buttonWidth,
   },
   title: {
     fontSize: 18,
@@ -69,8 +98,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   icon: {
-    width: 20,
-    height: 20,
+    width: 15,
+    height: 15,
     resizeMode: 'contain',
   },
 });

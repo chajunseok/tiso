@@ -1,8 +1,20 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useLayoutEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
-const SafetyGuidelineDetail = ({route}) => {
+const SafetyGuidelineDetail = ({route, navigation}) => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: title,
+      headerTitleStyle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
+      headerTitleAlign: 'center',
+    });
+  }, [navigation]);
+
   const [playing, setPlaying] = useState(false);
   const [isReadyForRender, setIsReadyForRender] = useState(false); // 상태 분리
 
@@ -20,9 +32,7 @@ const SafetyGuidelineDetail = ({route}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>
-        {title} {videoId}
-      </Text>
+      <Text style={styles.text}>{videoId}</Text>
       <YoutubePlayer
         height={300}
         width={400}
