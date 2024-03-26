@@ -22,6 +22,7 @@ class MongoDB:
 mongodb = MongoDB()
 
 def get_mongo_client():
+    print("mongo_client 로딩")
     return mongodb.client
 
     
