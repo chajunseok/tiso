@@ -3,6 +3,8 @@ import os
 import gc
 import psutil
 from resource.logo import mapdb_logo
+import numpy as np
+from typing import Optional
 
 resource_dir=f"{os.getcwd()}/resource"
 binary_map_zip_path = f"{resource_dir}/binary_map.zip"
@@ -12,8 +14,8 @@ gps_mapping_path = f"{resource_dir}/gps_mapping.pkl"
 
 class mapDB:
     def __init__(self):
-        self.binary_map=None
-        self.gps_mapping=None
+        self.binary_map : Optional[np.ndarray] = None
+        self.gps_mapping : Optional[list] = None
 
     def load(self):
         print("==========================mapDB=========================")
@@ -40,7 +42,7 @@ class mapDB:
 
         with open(gps_mapping_path, 'rb') as f:
             print("gps매핑을 로딩중입니다.......")
-            self.binary_map = pickle.load(f)
+            self.gps_mapping = pickle.load(f)
             print("gps매핑의 로딩이 완료되었습니다.")
         print("==========================mapDB=========================")
 
