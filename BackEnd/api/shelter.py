@@ -22,4 +22,5 @@ async def get_path_handler(
 @router.get("/now", status_code=200, response_model=List[ShelterInfoSchema])
 async def get_near_shelter(latitude:float, longitude:float, shelter_service: ShelterService = Depends()
                     )->ShelterPathSchema:
+        return await shelter_service.get_near_service()
 
