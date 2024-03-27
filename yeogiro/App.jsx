@@ -48,7 +48,7 @@ const App = () => {
     // </NavigationContainer>
     <GestureHandlerRootView>
       <Map />
-      <BottomSheet />
+      {/* <BottomSheet /> */}
     </GestureHandlerRootView>
   );
 };
