@@ -46,7 +46,7 @@ def linear_search(coord_list,key,start=None,end=None):
                 min_distance_index=(i,j)
     return min_distance_index
 
-def lat_lon_array_binary_search(map:np.ndarray,key:tuple):
+def lat_lon_array_binary_search(map:np.ndarray,key:tuple[float,float]) -> tuple[float,float]:
     # print("==========",key)
 
     #x=>행(위도)

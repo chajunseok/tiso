@@ -10,7 +10,7 @@ INF = 1e8
 
 
 #거리가 가장 가까운 walkable_spot 반환
-def get_nearest_walkable_spot(map :list[list[int]],start:tuple):
+def get_nearest_walkable_spot(map :list[list[int]],start:tuple) -> tuple[float,float]:
     print("========ready for variables==========")
     w=len(map[0])
     h=len(map)
