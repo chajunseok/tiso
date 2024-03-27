@@ -1,6 +1,4 @@
 from pydantic import BaseModel
-from typing import List
-
 from repository.orm import ShelterPath
 
 class PingPongSchema(BaseModel):
@@ -17,7 +15,6 @@ class ShelterPathSchema(BaseModel):
     @classmethod
     def from_orm_to_schema(cls,orm_shelter_path:ShelterPath):
         path=[{"latitude":latitude,"longitude":longitude} for [latitude,longitude] in orm_shelter_path.path]
-        print(path)
         distance=orm_shelter_path.distance
         return cls(path=path,distance=distance)
     
