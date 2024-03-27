@@ -5,7 +5,7 @@ from database.mongo import mongodb
 from schema.response import PingPongSchema
 from api import shelter,path
 from resource.logo import the_end_logo
-
+from fastapi.middleware.cors import CORSMiddleware
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -17,6 +17,14 @@ async def lifespan(app: FastAPI):
     print(the_end_logo)
     
 app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"] ,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(shelter.router)
 app.include_router(path.router)
