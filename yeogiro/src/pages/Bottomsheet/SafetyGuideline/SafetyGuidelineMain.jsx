@@ -1,7 +1,18 @@
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
 
 function SafetyGuidelineMain({navigation}) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: '행동 요령',
+      headerTitleStyle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
+      headerTitleAlign: 'center',
+    });
+  }, [navigation]);
   return (
     <View style={styles.container}>
       <View style={styles.row}>

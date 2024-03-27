@@ -1,16 +1,8 @@
 import React, {useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import FastImage from 'react-native-fast-image'; 
+import FastImage from 'react-native-fast-image';
 
-const Loading = ({setLoading }) => {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [setLoading ]);
-
+const Loading = () => {
   return (
     <View style={styles.container}>
       <FastImage

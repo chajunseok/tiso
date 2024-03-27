@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
@@ -15,7 +15,18 @@ const disasterList = [
   {id: '10', title: '태풍'},
 ];
 
-function NaturalDisaster({navigation}) {
+function NaturalDisaster({ navigation }) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: '행동 요령',
+      headerTitleStyle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
+      headerTitleAlign: 'center',
+    });
+  }, [navigation]);
   const renderItem = ({item}) => (
     <TouchableOpacity
       style={styles.item}

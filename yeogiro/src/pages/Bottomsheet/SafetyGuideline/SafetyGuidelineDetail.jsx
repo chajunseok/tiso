@@ -1,8 +1,19 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useLayoutEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
-const SafetyGuidelineDetail = ({route}) => {
+function SafetyGuidelineDetail({route, navigation}) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: '행동 요령',
+      headerTitleStyle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
+      headerTitleAlign: 'center',
+    });
+  }, [navigation]);
   const [playing, setPlaying] = useState(false);
   const [isReadyForRender, setIsReadyForRender] = useState(false); // 상태 분리
 
@@ -15,7 +26,7 @@ const SafetyGuidelineDetail = ({route}) => {
   }, []);
 
   function onReady() {
-    setIsReadyForRender(true); // 영상 준비 완료 시 상태 업데이트
+    setIsReadyForRender(true);
   }
 
   return (
@@ -39,7 +50,7 @@ const SafetyGuidelineDetail = ({route}) => {
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
