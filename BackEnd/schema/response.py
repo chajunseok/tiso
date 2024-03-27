@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 
 class PingPongSchema(BaseModel):
     message : str ="Hello World"
@@ -8,10 +9,14 @@ class ShelterPathSchema(BaseModel):
     distance: float = 1001.53125
     
 class ShelterInfoSchema(BaseModel):
-    id: str
+    shelterId: str
     name: str
     address: str
     capacity: int
     latitude: float
     longitude: float
-    code: str
+    type: str
+    
+class ShelterRespSchema(BaseModel):
+    status: str
+    shelterList: List[ShelterInfoSchema]

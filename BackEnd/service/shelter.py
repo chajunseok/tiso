@@ -12,13 +12,13 @@ class ShelterService:
         shelters_data = self.shelter_repository.get_near_repository(user_location)
         
         shelters = [ShelterInfoSchema(
-            id=shelter['properties']['_id'],  # MongoDB의 _id는 ObjectId 타입이므로 문자열로 변환
+            shelterId=shelter['properties']['_id'],  # MongoDB의 _id는 ObjectId 타입이므로 문자열로 변환
             name=shelter['properties']['name'],
             address=shelter['properties']['address'],
             capacity=shelter['properties']['capacity'],
             latitude=shelter['geometry']['coordinates'][1],
             longitude=shelter['geometry']['coordinates'][0],
-            code=shelter['properties']['code']
+            type=shelter['properties']['code']
         ) for shelter in shelters_data]
         
         return shelters
