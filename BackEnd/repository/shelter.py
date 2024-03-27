@@ -8,7 +8,7 @@ class ShelterRepository:
         self.client=mongo_client
         print("ShelterRepository init")
         
-    def get_near_repository(self, user_location: List[float], max_distance: int = 3000) -> List[dict]:
+    def get_near_repository(self, user_location: List[float]) -> List[dict]:
         db = self.client['admin']
         collection = db['shelter_geojson']
         
@@ -19,12 +19,13 @@ class ShelterRepository:
                         "type": "Point",
                         "coordinates": user_location
                     },
-                    "$maxDistance": max_distance  # 미터 단위로 최대 거리 설정
+                    "$maxDistance": 3000  # 미터 단위로 최대 거리 설정
                 }
             }
         }
         
-        # 쿼리 실행
         nearby_shelters = collection.find(query)
+    
+        print(nearby_shelters[0])
         
-        return list(nearby_shelters)
+        return nearby_shelters
