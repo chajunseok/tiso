@@ -1,7 +1,7 @@
 from fastapi import Depends
+from repository.orm import ShelterPath
 from database.mapdb import MapDB, get_mapdb
 from repository.shelter import ShelterRepository
-from schema.response import ShelterPathSchema
 from util.map import lat_lon_array_binary_search
 
 
@@ -11,9 +11,9 @@ class PathService:
         self.map_db=map_db
         print("Path init")
 
-    def get_path_from_gps_to_shelter(self,latitude:float,longitude:float,shelter_id:str)->ShelterPathSchema:
+    def get_path_from_gps_to_shelter(self,latitude:float,longitude:float,shelter_id:str)->ShelterPath:
         mapped_gps_index=lat_lon_array_binary_search(self.map_db.gps_mapping,(latitude,longitude))
         print(mapped_gps_index)
         print(type(self.map_db.binary_map))
         print(type(self.map_db.gps_mapping))
-        return ShelterPathSchema()
+        return ShelterPath()
