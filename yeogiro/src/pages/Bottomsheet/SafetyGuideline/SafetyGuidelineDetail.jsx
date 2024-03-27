@@ -1,8 +1,20 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useLayoutEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
-const SafetyGuidelineDetail = ({route}) => {
+const SafetyGuidelineDetail = ({route, navigation}) => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: title,
+      headerTitleStyle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
+      headerTitleAlign: 'center',
+    });
+  }, [navigation]);
+
   const [playing, setPlaying] = useState(false);
   const [isReadyForRender, setIsReadyForRender] = useState(false); // 상태 분리
 
@@ -20,11 +32,9 @@ const SafetyGuidelineDetail = ({route}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>
-        {title} {videoId}
-      </Text>
+      {/* <Text style={styles.text}>{videoId}</Text> */}
       <YoutubePlayer
-        height={300}
+        height={250}
         width={400}
         play={playing}
         videoId={videoId}
@@ -37,6 +47,7 @@ const SafetyGuidelineDetail = ({route}) => {
           androidLayerType: isReadyForRender ? 'hardware' : 'software',
         }}
       />
+      <Text style={styles.title}>{title}</Text>
     </View>
   );
 };
@@ -44,15 +55,19 @@ const SafetyGuidelineDetail = ({route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
+    backgroundColor: 'white',
   },
   text: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
     marginBottom: 20,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'black',
   },
 });
 
