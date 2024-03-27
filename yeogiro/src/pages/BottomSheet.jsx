@@ -24,6 +24,8 @@ import HospitalInfoDetail from './Bottomsheet/FacilitiesInfo/HospitalInfoDetail'
 import PharmacyInfoDetail from './Bottomsheet/FacilitiesInfo/PharmacyInfoDetail';
 import ShelterInfoDetail from './Bottomsheet/FacilitiesInfo/ShelterInfoDetail';
 
+import Loading from './Loading';
+
 const Stack = createStackNavigator();
 
 const MyBottomSheet = () => {
@@ -36,6 +38,11 @@ const MyBottomSheet = () => {
   const SettingsScreen = ({navigation}) => {
     return (
       <View style={styles.container}>
+        <TouchableOpacity
+          style={[styles.button, {backgroundColor: 'red'}]}
+          onPress={() => navigation.navigate('Loading')}>
+          <Text style={styles.buttonText}>최적의 길 찾기</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, {backgroundColor: 'skyblue'}]}
           onPress={() => navigation.navigate('SystemSettingMain')}>
@@ -71,6 +78,10 @@ const MyBottomSheet = () => {
             <Stack.Screen
               name="SystemSettingMain"
               component={SystemSettingMain}
+            />
+            <Stack.Screen
+              name="Loading"
+              component={Loading}
             />
             {/* 메시지 수신 유형 설정 화면 */}
             <Stack.Screen
@@ -137,8 +148,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row', 
-    flexWrap: 'wrap', 
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   button: {
     margin: 10,

@@ -5,6 +5,8 @@ import PushNotification from 'react-native-push-notification';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import BottomSheet from './src/pages/BottomSheet';
 import Map from './src/pages/Map';
+import Loading from './src/pages/Loading'
+
 
 const App = () => {
   useEffect(() => {

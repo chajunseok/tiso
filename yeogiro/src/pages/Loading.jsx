@@ -1,10 +1,23 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, Text, ActivityIndicator, StyleSheet, Image} from 'react-native';
 
-const Map = () => {
+const Loading = ({navigation}) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.navigate('SettingsScreen');
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [navigation]);
+
   return (
-    <View>
-      <Text style={styles.text}>loading</Text>
+    <View style={styles.container}>
+      <Image
+        source={require('../../assets/icons/main-loading2.gif')}
+        style={styles.run}
+      />
+      <Text style={styles.text}>로딩 중...</Text>
+      <ActivityIndicator size="large" color="#0000ff" />
     </View>
   );
 };
@@ -14,12 +27,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#f5fcff',
   },
   text: {
     fontSize: 20,
+    marginBottom: 20,
     fontWeight: 'bold',
     color: 'black',
   },
+  run: {
+    width: 100,
+    height: 100,
+  },
 });
 
-export default Map;
+export default Loading;
