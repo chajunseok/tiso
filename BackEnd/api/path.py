@@ -1,7 +1,6 @@
 from fastapi import APIRouter,Depends
 
-from BackEnd.service.path import PathService
-from service.shelter import ShelterService
+from service.path import PathService
 from schema.response import ShelterPathSchema
 
 

@@ -1,8 +1,8 @@
 from fastapi import Depends
-from BackEnd.database.mapdb import MapDB, get_mapdb
-from BackEnd.repository.shelter import ShelterRepository
-from BackEnd.schema.response import ShelterPathSchema
-from data_processing.convert import lat_lon_array_binary_search
+from database.mapdb import MapDB, get_mapdb
+from repository.shelter import ShelterRepository
+from schema.response import ShelterPathSchema
+from util.map import lat_lon_array_binary_search
 
 
 class PathService:
