@@ -1,19 +1,18 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 const Loading = () => {
   return (
     <View style={styles.container}>
       <FastImage
-        source={require('../../assets/icons/main-loading2.gif')}
+        source={require('../../assets/icons/logo.png')}
         style={styles.run}
         resizeMode={FastImage.resizeMode.contain}
       />
-      <Text style={styles.text}>로딩 중</Text>
       <FastImage
-        source={require('../../assets/icons/Ellipsis-1s-200px.gif')}
-        style={styles.load}
+        source={require('../../assets/icons/tiso.gif')}
+        style={styles.run}
         resizeMode={FastImage.resizeMode.contain}
       />
     </View>

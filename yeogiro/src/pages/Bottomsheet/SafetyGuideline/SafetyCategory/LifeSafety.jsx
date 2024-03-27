@@ -22,7 +22,7 @@ const disasterList = [
 function LifeSafety({navigation}) {
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: '생활 안전',
+      title: '행동 요령',
       headerTitleStyle: {
         fontSize: 20,
         fontWeight: 'bold',
@@ -31,7 +31,6 @@ function LifeSafety({navigation}) {
       headerTitleAlign: 'center',
     });
   }, [navigation]);
-
   const renderItem = ({item}) => (
     <TouchableOpacity
       style={[styles.item, {marginRight: 10}]}

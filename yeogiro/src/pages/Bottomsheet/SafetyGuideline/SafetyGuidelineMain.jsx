@@ -1,8 +1,24 @@
 import React, {useLayoutEffect} from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 
 function SafetyGuidelineMain({navigation}) {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: '행동 요령',
+      headerTitleStyle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
+      headerTitleAlign: 'center',
+    });
+  }, [navigation]);
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '행동 요령',

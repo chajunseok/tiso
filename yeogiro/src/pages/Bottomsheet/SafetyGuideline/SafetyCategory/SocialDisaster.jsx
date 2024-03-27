@@ -22,7 +22,7 @@ const disasterList = [
 function EmergencyEvacuation({navigation}) {
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: '사회 재난',
+      title: '행동 요령',
       headerTitleStyle: {
         fontSize: 20,
         fontWeight: 'bold',
@@ -31,7 +31,6 @@ function EmergencyEvacuation({navigation}) {
       headerTitleAlign: 'center',
     });
   }, [navigation]);
-
   const renderItem = ({item}) => (
     <TouchableOpacity
       style={[styles.item, {marginRight: 10}]}
