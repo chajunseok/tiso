@@ -55,7 +55,7 @@ def lat_lon_array_binary_search(map:np.ndarray,key:tuple[float,float]) -> tuple[
     last_row=len(map)-1
 
     x_up=0
-    x_down=len(map)-1
+    x_down=last_row
     y_left=0
     y_right=last_column
     # 찾는 key가 무조건 존재한다는 가정하에 조건을 분기
@@ -110,11 +110,11 @@ def lat_lon_array_binary_search(map:np.ndarray,key:tuple[float,float]) -> tuple[
         if min_y<=key[1]<=max_y:
             return (x_up,binary_search(map[x_up],key,1))
         elif key[1]<min_y:
-            #완탐 범위를 아래로
-            return linear_search(map,key,start=x_up) 
+            #대전 영역 밖이므로 아웃
+            return (-1,-1)
         elif max_y<key[1]:
-            #완탐 범위를 위로
-            return linear_search(map,key,end=x_down)
+            #대전 영역 밖이므로 아웃
+            return (-1,-1)
     elif x_up!=len(map) and x_down!=-1:
         #특정 위도가 잡히진 않았지만 사이위도일 경우
         min_y=min(map[x_up][0][1],map[x_down][0][1])
@@ -128,20 +128,22 @@ def lat_lon_array_binary_search(map:np.ndarray,key:tuple[float,float]) -> tuple[
             else:
                 return (x_down,x_down_y)
         elif key[1]<min_y:
-            #완탐 범위를 아래로
-            return linear_search(map,key,start=x_down) 
+            #대전 영역 밖이므로 아웃
+            return (-1,-1)
         elif max_y<key[1]:
-            #완탐 범위를 위로
-            return linear_search(map,key,end=x_up)
+            #대전 영역 밖이므로 아웃
+            return (-1,-1)
     elif x_down==-1:
         min_y=map[0][0][1]
         max_y=map[0][last_column][1]
         if min_y<=key[1]<=max_y:
             return (0,binary_search(map[0],key,1))
         elif key[1]<min_y:
-            return linear_search(map,key) 
+            #대전 영역 밖이므로 아웃
+            return (-1,-1)
         elif max_y<key[1]:
-            return (0,last_column)
+            #대전 영역 밖이므로 아웃
+            return (-1,-1)
     elif x_up==len(map):
         min_y=map[last_row][0][1]
         max_y=map[last_row][last_column][1]
@@ -150,5 +152,6 @@ def lat_lon_array_binary_search(map:np.ndarray,key:tuple[float,float]) -> tuple[
         elif key[1]<min_y:
             return (last_row,0)
         elif max_y<key[1]:
-            return linear_search(map,key)
+            #대전 영역 밖이므로 아웃
+            return (-1,-1)
     return (-1,-1)
