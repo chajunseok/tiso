@@ -41,7 +41,7 @@ async def http_exception_handler(request, exc: HTTPException):
     return JSONResponse(
         status_code=exc.status_code,
         content={
-            "status": "fail",
+            "status": 4000,
             "data": {
                 "msg": exc.detail,
                 "status_code": exc.status_code

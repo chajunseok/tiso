@@ -19,11 +19,12 @@ class ShelterInfoSchema(BaseModel):
 
 
 class ShelterRespSchema(BaseModel):
-    status: int = 200
+    #status 는 내부 코드입니다.
+    status: int = 2000
     data : dict[str,list[ShelterInfoSchema]] = {
         "shelterList":[ShelterInfoSchema(),ShelterInfoSchema(),ShelterInfoSchema()]
     }
 
 class PathRespSchema(BaseModel):
-    status: int = 200
+    status: int = 2000
     data : ShelterPathSchema = ShelterPathSchema()
