@@ -1,23 +1,29 @@
 import React, {useEffect} from 'react';
-import {View, Text, ActivityIndicator, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
+import FastImage from 'react-native-fast-image'; 
 
-const Loading = ({navigation}) => {
+const Loading = ({setLoading }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.navigate('SettingsScreen');
+      setLoading(false);
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, [navigation]);
+  }, [setLoading ]);
 
   return (
     <View style={styles.container}>
-      <Image
+      <FastImage
         source={require('../../assets/icons/main-loading2.gif')}
         style={styles.run}
+        resizeMode={FastImage.resizeMode.contain}
       />
-      <Text style={styles.text}>로딩 중...</Text>
-      <ActivityIndicator size="large" color="#0000ff" />
+      <Text style={styles.text}>로딩 중</Text>
+      <FastImage
+        source={require('../../assets/icons/Ellipsis-1s-200px.gif')}
+        style={styles.load}
+        resizeMode={FastImage.resizeMode.contain}
+      />
     </View>
   );
 };
@@ -30,13 +36,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5fcff',
   },
   text: {
-    fontSize: 20,
+    fontSize: 30,
     marginBottom: 20,
     fontWeight: 'bold',
     color: 'black',
   },
   run: {
-    width: 100,
+    width: 300,
+    height: 300,
+  },
+  load: {
+    width: 200,
     height: 100,
   },
 });
