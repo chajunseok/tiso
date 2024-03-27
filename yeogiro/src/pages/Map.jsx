@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {PermissionsAndroid, Platform} from 'react-native';
+import {
+  PermissionsAndroid,
+  Platform,
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import NaverMapView, {
   Circle,
@@ -11,6 +19,7 @@ import NaverMapView, {
 
 function MyMap() {
   const [currentLocation, setCurrentLocation] = useState(null);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   useEffect(() => {
     // 위치 권한 요청
@@ -29,13 +38,13 @@ function MyMap() {
           );
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
             // 위치 권한 허용됨
-            getCurrentLocation();
+            getMyLocation();
           } else {
             console.log('Location permission denied');
           }
         } else {
           // Android 이외의 플랫폼에서는 바로 위치를 가져옴
-          getCurrentLocation();
+          getMyLocation();
         }
       } catch (err) {
         console.warn(err);
@@ -45,11 +54,16 @@ function MyMap() {
     requestLocationPermission();
   }, []);
 
-  const getCurrentLocation = () => {
+  const getMyLocation = () => {
+    console.log(currentLocation);
     Geolocation.getCurrentPosition(
       position => {
         const {latitude, longitude} = position.coords;
         setCurrentLocation({latitude, longitude});
+        setButtonDisabled(true); // 버튼 비활성화
+        setTimeout(() => {
+          setButtonDisabled(false); // 10초 후 버튼 활성화
+        }, 10000);
       },
       error => {
         console.warn(error.message);
@@ -57,58 +71,65 @@ function MyMap() {
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
   };
-  const P0 = {latitude: 37.564362, longitude: 126.977011};
-  const P1 = {latitude: 37.565051, longitude: 126.978567};
-  const P2 = {latitude: 37.565383, longitude: 126.976292};
 
   return (
-    <NaverMapView
-      style={{width: '100%', height: '100%'}}
-      showsMyLocationButton={false}
-      center={
-        currentLocation
-          ? {...currentLocation, zoom: 16}
-          : {latitude: 37.564362, longitude: 126.977011, zoom: 16}
-      }
-      onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
-      onCameraChange={e => console.warn('onCameraChange', JSON.stringify(e))}
-      onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}>
-      {currentLocation && (
-        <Marker coordinate={currentLocation} pinColor="green" />
-      )}
-      {/* <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} />
-      <Marker
-        coordinate={P1}
-        pinColor="blue"
-        onClick={() => console.warn('onClick! p1')}
-      />
-      <Marker
-        coordinate={P2}
-        pinColor="red"
-        onClick={() => console.warn('onClick! p2')}
-      />
-      <Path
-        coordinates={[P0, P1]}
-        onClick={() => console.warn('onClick! path')}
-        width={10}
-      />
-      <Polyline
-        coordinates={[P1, P2]}
-        onClick={() => console.warn('onClick! polyline')}
-      />
-      <Circle
-        coordinate={P0}
-        color={'rgba(255,0,0,0.3)'}
-        radius={200}
-        onClick={() => console.warn('onClick! circle')}
-      />
-      <Polygon
-        coordinates={[P0, P1, P2]}
-        color={`rgba(0, 0, 0, 0.5)`}
-        onClick={() => console.warn('onClick! polygon')}
-      /> */}
-    </NaverMapView>
+    <View>
+      <NaverMapView
+        style={{width: '100%', height: '100%'}}
+        showsMyLocationButton={false}
+        center={
+          currentLocation
+            ? {...currentLocation, zoom: 16}
+            : {latitude: 37.564362, longitude: 126.977011, zoom: 16}
+        }
+        onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
+        onCameraChange={e => console.warn('onCameraChange', JSON.stringify(e))}
+        onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}>
+        {currentLocation && (
+          <Marker coordinate={currentLocation} pinColor="green" />
+        )}
+      </NaverMapView>
+      <TouchableWithoutFeedback
+        onPress={getMyLocation}
+        disabled={buttonDisabled}>
+        <View
+          style={[
+            styles.locationButton,
+            buttonDisabled && styles.disabledButton,
+          ]}>
+          <Image
+            style={styles.myLocationImage}
+            source={require('../../assets/icons/MyLocation.png')}
+          />
+        </View>
+      </TouchableWithoutFeedback>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  locationButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 455,
+    right: 13,
+    backgroundColor: 'white',
+    width: 40,
+    height: 40,
+    borderRadius: 2,
+    shadowColor: 'black',
+    shadowOpacity: 1,
+    shadowOffset: {width: 2, height: 2},
+    elevation: 2,
+  },
+  myLocationImage: {
+    width: 20,
+    height: 20,
+  },
+  disabledButton: {
+    backgroundColor: '#ccc', // 회색 배경색
+  },
+});
 
 export default MyMap;
