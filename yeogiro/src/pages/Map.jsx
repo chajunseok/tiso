@@ -16,10 +16,10 @@ import NaverMapView, {
   Polyline,
   Polygon,
 } from 'react-native-nmap';
-
 function MyMap() {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [pathLine, setPath] = useState([]);
 
   useEffect(() => {
     // 위치 권한 요청
@@ -72,6 +72,10 @@ function MyMap() {
     );
   };
 
+  const updatePath = () => {
+    setPath();
+  };
+
   return (
     <View>
       <NaverMapView
@@ -81,15 +85,15 @@ function MyMap() {
           currentLocation
             ? {...currentLocation, zoom: 16}
             : {latitude: 37.564362, longitude: 126.977011, zoom: 16}
-        }
-        onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
-        onCameraChange={e => console.warn('onCameraChange', JSON.stringify(e))}
-        onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}>
+        }>
         {currentLocation && (
           <Marker coordinate={currentLocation} pinColor="green" />
         )}
       </NaverMapView>
       <TouchableWithoutFeedback
+        style={{
+          borderRadius: 2,
+        }}
         onPress={getMyLocation}
         disabled={buttonDisabled}>
         <View
@@ -110,18 +114,16 @@ function MyMap() {
 const styles = StyleSheet.create({
   locationButton: {
     justifyContent: 'center',
-    alignItems: 'center',
     position: 'absolute',
-    bottom: 455,
-    right: 13,
-    backgroundColor: 'white',
+    alignItems: 'center',
+    backgroundColor: '#f8f9fa',
     width: 40,
     height: 40,
+    bottom: 455,
+    right: 13,
     borderRadius: 2,
-    shadowColor: 'black',
-    shadowOpacity: 1,
-    shadowOffset: {width: 2, height: 2},
-    elevation: 2,
+    borderWidth: 0.5,
+    borderColor: '#b5b2b3',
   },
   myLocationImage: {
     width: 20,
