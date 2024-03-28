@@ -88,7 +88,12 @@ function MyMap() {
             : {latitude: 37.564362, longitude: 126.977011, zoom: 16}
         }>
         {currentLocation && (
-          <Marker coordinate={currentLocation} pinColor="green" />
+          <Marker
+            coordinate={currentLocation}
+            image={require('../../assets/icons/SubIcon.png')}
+            width={30}
+            height={30}
+          />
         )}
       </NaverMapView>
       <TouchableWithoutFeedback
@@ -112,9 +117,6 @@ function MyMap() {
   );
 }
 
-const windowHeight = Dimensions.get('window').height;
-const bottomPosition = windowHeight * 0.55;
-
 const styles = StyleSheet.create({
   locationButton: {
     flex: 1,
@@ -124,7 +126,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f9fa',
     width: 41,
     height: 41,
-    bottom: bottomPosition,
+    top: 12.6,
     right: 12.6,
     borderRadius: 2,
     borderWidth: 0.5,
