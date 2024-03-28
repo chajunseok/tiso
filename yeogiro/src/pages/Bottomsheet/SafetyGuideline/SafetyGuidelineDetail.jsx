@@ -40,7 +40,8 @@ function SafetyGuidelineDetail({route, navigation}) {
         onChangeState={onStateChange}
         onReady={onReady} // onReady 핸들러 추가
         webViewStyle={{
-          opacity: isReadyForRender ? 1 : 0, // 준비 상태에 따라 투명도 조정
+          opacity: 0.99,
+          minHeight: 1,
         }}
         webViewProps={{
           androidLayerType: isReadyForRender ? 'hardware' : 'software',

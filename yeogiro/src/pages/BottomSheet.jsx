@@ -36,10 +36,19 @@ const Stack = createStackNavigator();
 
 const MyBottomSheet = ({onFindPath}) => {
   const bottomSheetRef = useRef(null);
+  const [bottomSheetIndex, setBottomSheetIndex] = useState(1);
   const snapPoints = useMemo(() => ['25%', '50%', '80%'], []);
   const handleSheetChanges = useCallback(index => {
     console.log('handleSheetChanges', index);
   }, []);
+
+  const handleFindPath = () => {
+    setBottomSheetIndex(prevIndex => (prevIndex === 0 ? 1 : 0));
+    setTimeout(() => setBottomSheetIndex(0), 0);
+    if (onFindPath) {
+      onFindPath();
+    }
+  };
 
   const SettingsScreen = ({navigation}) => {
     useLayoutEffect(() => {
@@ -58,7 +67,7 @@ const MyBottomSheet = ({onFindPath}) => {
       <View style={styles.container}>
         <TouchableOpacity
           style={[styles.button, {backgroundColor: 'red'}]}
-          onPress={onFindPath}>
+          onPress={handleFindPath}>
           <Text style={styles.buttonText}>최적의 길 찾기</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -84,7 +93,7 @@ const MyBottomSheet = ({onFindPath}) => {
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      index={1}
+      index={bottomSheetIndex}
       snapPoints={snapPoints}
       onChange={handleSheetChanges}>
       <CitiesProvider>

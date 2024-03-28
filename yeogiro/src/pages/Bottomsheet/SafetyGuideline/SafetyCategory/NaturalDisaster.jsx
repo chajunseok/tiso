@@ -26,7 +26,7 @@ const disasterList = [
   {id: '10', title: '태풍'},
 ];
 
-function NaturalDisaster({ navigation }) {
+function NaturalDisaster({navigation}) {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '행동 요령',
