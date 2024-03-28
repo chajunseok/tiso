@@ -26,7 +26,7 @@ function EmergencyEvacuation({navigation}) {
 
   const renderItem = ({item}) => (
     <TouchableOpacity
-      style={[styles.item, {marginRight: 10}]} // 오른쪽 마진 추가
+      style={[styles.item, {marginLeft: 5, marginRight: 5}]} // 오른쪽 마진 추가
       onPress={() =>
         navigation.navigate('SafetyGuidelineDetail', {title: item.title})
       }>
@@ -59,7 +59,7 @@ function EmergencyEvacuation({navigation}) {
         />
 
         <Image
-          source={require('../../../../../assets/images/SocialDisaster.jpg')}
+          source={require('../../../../../assets/images/EmergencyEvacuation2.jpg')}
           style={styles.headerImage}
         />
       </View>

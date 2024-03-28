@@ -28,7 +28,7 @@ function LifeSafety({navigation}) {
 
   const renderItem = ({item}) => (
     <TouchableOpacity
-      style={[styles.item, {marginRight: 10}]}
+      style={[styles.item, {marginLeft: 5, marginRight: 5}]}
       onPress={() =>
         navigation.navigate('SafetyGuidelineDetail', {title: item.title})
       }>

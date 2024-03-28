@@ -20,16 +20,14 @@ const disasterList = [
 ];
 
 function NaturalDisaster({navigation}) {
-  // 제목과 사진을 함께 보여주는 컴포넌트 반환
-  const renderHeaderTitle = () => (
-    <View style={styles.headerContainer}>
-      <Text style={styles.headerTitle}>재난 안전</Text>
-    </View>
-  );
-
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: renderHeaderTitle, // 제목과 사진을 함께 보여주는 컴포넌트를 헤더 타이틀로
+      title: '자연 재난',
+      headerTitleStyle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
       headerTitleAlign: 'center',
     });
   }, [navigation]);
