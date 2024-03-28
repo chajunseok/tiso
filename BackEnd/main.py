@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from database.pathdb import pathdb
 from database.mapdb import mapdb
 from database.mongo import mongodb
 from schema.response import PingPongSchema
@@ -14,9 +15,11 @@ from fastapi.responses import JSONResponse
 async def lifespan(app: FastAPI):
     mapdb.load()
     mongodb.connect()
+    pathdb.connect()
     yield
     mapdb.close()
     mongodb.close()
+    pathdb.close()
     print(the_end_logo)
     
 app = FastAPI(lifespan=lifespan)
