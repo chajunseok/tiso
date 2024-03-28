@@ -40,6 +40,7 @@ const MyBottomSheet = ({onFindPath}) => {
   const handleSheetChanges = useCallback(index => {
     console.log('handleSheetChanges', index);
   }, []);
+
   const SettingsScreen = ({navigation}) => {
     useLayoutEffect(() => {
       navigation.setOptions({

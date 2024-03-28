@@ -9,7 +9,7 @@ import MainLoading from './src/pages/MainLoading';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isMainLoading, setIsMainLoading] = useState(true); // New state for MainLoading
+  const [isMainLoading, setIsMainLoading] = useState(true);
 
   useEffect(() => {
     const requestUserPermission = async () => {
@@ -20,8 +20,19 @@ const App = () => {
 
       if (enabled) {
         console.log('Authorization status:', authStatus);
+        getFcmToken(); // 권한이 허용되면 FCM 토큰을 요청
       }
     };
+
+    // 유저 토큰값 얻기
+    async function getFcmToken() {
+      const fcmToken = await messaging().getToken();
+      if (fcmToken) {
+        console.log('Your Firebase Token is:', fcmToken);
+      } else {
+        console.log('Failed to get FCM token');
+      }
+    }
 
     requestUserPermission();
 
@@ -38,14 +49,13 @@ const App = () => {
       });
     });
 
-    // Timer for MainLoading screen
     const timer = setTimeout(() => {
-      setIsMainLoading(false); // Hide MainLoading after 5 seconds
+      setIsMainLoading(false);
     }, 3000);
 
     return () => {
       unsubscribe();
-      clearTimeout(timer); // Clear the timer when the component unmounts
+      clearTimeout(timer);
     };
   }, []);
 
@@ -57,7 +67,6 @@ const App = () => {
     }, 5000);
   };
 
-  // Show MainLoading for 5 seconds, then the main content
   if (isMainLoading) {
     return <MainLoading />;
   }
