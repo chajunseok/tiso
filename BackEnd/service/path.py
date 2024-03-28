@@ -7,9 +7,6 @@ from repository.shelter import ShelterRepository
 from util.map import lat_lon_array_binary_search
 from fastapi import HTTPException
 
-import math
-import time
-
 
 class PathService:
     def __init__(self,path_repository:PathRepository = Depends(),map_db : MapDB = Depends(get_mapdb)):
