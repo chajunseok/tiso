@@ -152,6 +152,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    backgroundColor: 'white',
   },
   button: {
     margin: 10,
