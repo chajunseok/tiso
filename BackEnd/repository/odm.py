@@ -4,10 +4,21 @@ class Document:
     def __new__(cls,*args ,**kwargs):
         obj = super().__new__(cls)
         document=kwargs["data"]
-        class_varible_list=[i for i in dir(cls) if not callable(i) if not i.startswith("__") ]
-        for class_varible in class_varible_list: 
-            setattr(obj,class_varible,document[class_varible]) 
+        class_varible_list=[i for i in dir(cls)]
+        for insert_key in document:
+            if insert_key not in class_varible_list:
+                raise Exception(f"{insert_key}는 스키마에 없는 필드입니다.")
+        for attr in dir(cls): 
+            if attr in document:
+                setattr(obj,attr,document[attr]) 
+        if document != None and len(document) != 0:
+            setattr(obj,"inserted",True) 
+        else:
+            setattr(obj,"inserted",False) 
         return obj
+
+    def isEmpty(self):
+        return self.inserted
     
 class PathDocument(Document):
     id : Optional[str] = "powqjdpqwd213"
