@@ -2,7 +2,7 @@ from fastapi import Depends
 from repository.odm import ShelterInfoDocument
 from database.mongo import get_mongo_client
 from typing import List
-
+import time
 
 class ShelterRepository:
     def __init__(self,mongo_client=Depends(get_mongo_client)):
@@ -27,8 +27,28 @@ class ShelterRepository:
         
         nearby_shelters_result = collection.find(query)
         mapping_list=[]
+        #아래부분은 수동매핑에서 자동매핑으로 바꿔야한다.
         for shelter_query_result in nearby_shelters_result:
             temp_dict=shelter_query_result["properties"]
             temp_dict.update(shelter_query_result["geometry"])
             mapping_list.append(ShelterInfoDocument(data=temp_dict))
         return mapping_list
+    
+    def get_shelter_by_shelter_id(self,shelter_id:str) -> ShelterInfoDocument:
+        db = self.client['admin']
+        collection = db['shelter_geojson']
+        query = {
+            "properties._id": shelter_id
+        }
+        print(query)
+        start = time.time()
+        query_result = collection.find_one(query)
+        end = time.time()
+        print(f"shelter find one: {end - start:.5f} sec")
+        print("result : ",query_result)
+
+        if query_result != None:
+            temp_dict=query_result["properties"]
+            temp_dict.update(query_result["geometry"])
+            return ShelterInfoDocument(data=temp_dict)
+        return ShelterInfoDocument(data={})

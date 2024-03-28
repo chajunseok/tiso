@@ -11,14 +11,15 @@ class ShelterPathSchema(BaseModel):
                                     {"latitude":37.678,"longitude":127.789}
                                 ]
     distance: float = 1001.53125
+    shelterId: str = "65fd1f64a1c2102da599cf7e"
 
     @classmethod
     def from_odm_to_schema(cls,orm_shelter_path:PathDocument):
-        path=[{"latitude":latitude,"longitude":longitude} for [latitude,longitude] in orm_shelter_path.path]
+        path=[{"latitude":latitude,"longitude":longitude} for [longitude,latitude] in orm_shelter_path.coordinates]
         distance=orm_shelter_path.distance
-        return cls(path=path,distance=distance)
+        sheterId=orm_shelter_path.shelter_id
+        return cls(path=path,distance=distance,sheterId=sheterId)
     
-
 class ShelterInfoSchema(BaseModel):
     shelterId: str = "65fd1f64a1c2102da599cf79"
     name: str = "구암역 대전1호선 지하역사(지하1층)"

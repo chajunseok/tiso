@@ -18,12 +18,13 @@ class Document:
         return obj
 
     def isEmpty(self):
-        return self.inserted
+        return not self.inserted
     
 class PathDocument(Document):
-    id : Optional[str] = "powqjdpqwd213"
-    path : Optional[list] = [[127.123,37.123123],[128.1651364312,38.121509135],[129.165136,135.214]]
+    shelter_id : Optional[str] = "powqjdpqwd213"
+    coordinates :  Optional[list[list[float,float]]] = [[127.123,37.123123],[128.1651364312,38.121509135],[129.165136,135.214]]
     distance : Optional[float] = "18.981347"
+    type : Optional[str] = "LineString"
 
 class ShelterInfoDocument(Document):
     _id : Optional[str] = "65fd1f64a1c2102da599cf79"
