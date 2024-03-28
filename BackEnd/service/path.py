@@ -5,6 +5,8 @@ from repository.odm import PathDocument
 from database.mapdb import MapDB, get_mapdb
 from util.map import lat_lon_array_binary_search
 from fastapi import HTTPException
+import math
+import time
 
 
 class PathService:
@@ -19,13 +21,15 @@ class PathService:
         if mapped_gps_index==(-1,-1):
             raise HTTPException(status_code=404, detail="대전에 위치하지 않은 사용자입니다.")
 
+        start = time.time()
         #gps매핑배열은 지도배열을 5배 축소한것입니다.
         mapped_gps_index=(mapped_gps_index[0]*5,mapped_gps_index[1]*5)
 
         standard=500    
 
         nearest_walkable_spot=get_nearest_walkable_spot(self.map_db.binary_map,standard,mapped_gps_index)
-
+        end = time.time()
+        print(f"gps mapping and find nearest walkable spot: {end - start:.5f} sec")
         if nearest_walkable_spot==(-1,-1):
             raise HTTPException(status_code=404, detail="도보로부터 너무 멀리 떨어져 있습니다.")
         
