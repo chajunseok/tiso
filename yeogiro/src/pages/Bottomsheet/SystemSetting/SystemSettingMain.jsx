@@ -1,6 +1,7 @@
-import React, {useState, useLayoutEffect} from 'react';
+import React, {useState, useLayoutEffect, useEffect} from 'react';
 import {Switch} from 'react-native';
 import {View, TouchableOpacity, Text, StyleSheet, Image} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function SettingsScreen({navigation}) {
   useLayoutEffect(() => {
@@ -16,7 +17,30 @@ function SettingsScreen({navigation}) {
   }, [navigation]);
 
   const [isPushEnabled, setIsPushEnabled] = useState(false);
-  const toggleSwitch = () => setIsPushEnabled(previousState => !previousState);
+  const toggleSwitch = async () => {
+    setIsPushEnabled(previousState => !previousState);
+    try {
+      await AsyncStorage.setItem('isPushEnabled', (!isPushEnabled).toString());
+      console.log(isPushEnabled);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const loadPushSettings = async () => {
+      try {
+        const value = await AsyncStorage.getItem('isPushEnabled');
+        if (value !== null) {
+          setIsPushEnabled(value === 'true');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    loadPushSettings();
+  }, []);
 
   return (
     <View style={styles.container}>

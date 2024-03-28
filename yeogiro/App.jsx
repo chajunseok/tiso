@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import BottomSheet from './src/pages/BottomSheet';
 import Map from './src/pages/Map';
@@ -11,56 +12,49 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isMainLoading, setIsMainLoading] = useState(true);
 
+  // 사용자 푸시 알림 권한 요청 및 FCM 토큰 처리
   useEffect(() => {
     const requestUserPermission = async () => {
-      const authStatus = await messaging().requestPermission();
-      const enabled =
-        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+      const isPushEnabledStr = await AsyncStorage.getItem('isPushEnabled');
+      const isPushEnabled =
+        isPushEnabledStr !== null ? JSON.parse(isPushEnabledStr) : true;
 
-      if (enabled) {
+      if (isPushEnabled) {
+        const authStatus = await messaging().requestPermission();
         console.log('Authorization status:', authStatus);
-        getFcmToken(); // 권한이 허용되면 FCM 토큰을 요청
       }
     };
 
-    // 유저 토큰값 얻기
-    async function getFcmToken() {
-      const fcmToken = await messaging().getToken();
-      if (fcmToken) {
-        console.log('Your Firebase Token is:', fcmToken);
-      } else {
-        console.log('Failed to get FCM token');
-      }
-    }
-
     requestUserPermission();
+  }, []);
 
+  // 로컬 알림 처리
+  useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       const {title, body} = remoteMessage.notification;
-      const imageUrl = remoteMessage.data.imageUrl;
-
       PushNotification.localNotification({
         title: title,
         message: body,
-        largeIconUrl: imageUrl,
-        smallIcon: 'ic_notification',
-        bigPictureUrl: imageUrl,
       });
     });
 
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  // 앱 로딩 상태 관리
+  useEffect(() => {
     const timer = setTimeout(() => {
       setIsMainLoading(false);
     }, 3000);
 
     return () => {
-      unsubscribe();
       clearTimeout(timer);
     };
   }, []);
 
   const handleFindPath = () => {
-    console.log('로딩중');
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
