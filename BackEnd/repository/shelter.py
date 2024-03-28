@@ -9,6 +9,35 @@ class ShelterRepository:
         self.client=mongo_client
         print("ShelterRepository init")
         
+    def get_shelter(self, user_location: List[float], code: str) -> List[dict]:
+        db = self.client['admin']
+        collection = db['shelter_geojson']
+        
+        query = {
+            "$and": [
+                {
+                    "geometry": {
+                        "$near": {
+                            "$geometry": {
+                                "type": "Point",
+                                "coordinates": user_location  # 사용자 위치 [경도, 위도]
+                            },
+                            "$maxDistance": 3000  # 3km 이내의 거리
+                        }
+                    }
+                },
+                {
+                    "properties.code": code  # 'properties.code'가 'S2'인 조건 추가
+                }
+            ]
+        }
+        
+        shelters = collection.find(query)
+        print(shelters[0])
+        
+        return shelters
+        
+        
     def get_near_repository(self, user_location: List[float]) -> List[ShelterInfoDocument]:
         db = self.client['admin']
         collection = db['shelter_geojson']
