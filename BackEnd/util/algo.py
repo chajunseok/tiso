@@ -10,7 +10,7 @@ INF = 1e8
 
 
 #거리가 가장 가까운 walkable_spot 반환
-def test_get_nearest_walkable_spot(map :np.ndarray,standard:int,start:tuple[int,int]) -> tuple[float,float]:
+def get_nearest_walkable_spot(map :np.ndarray,standard:int,start:tuple[int,int]) -> tuple[float,float]:
     print("========ready for variables==========")
     print(map.shape)
     #partial area의 영역 정하기
