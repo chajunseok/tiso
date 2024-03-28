@@ -10,7 +10,7 @@
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:requestLegacyExternalStorage="true"
-      android:roundIcon="@mipmap/ic_launcher_round"
+      android:roundIcon="@mipmap/tisoMain"
       android:allowBackup="false"
       android:hardwareAccelerated="false"
       android:theme="@style/AppTheme">
