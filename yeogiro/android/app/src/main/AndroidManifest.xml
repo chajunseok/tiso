@@ -8,9 +8,9 @@
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
-      android:icon="@mipmap/ic_launcher"
+      android:icon="@mipmap/logomain"
       android:requestLegacyExternalStorage="true"
-      android:roundIcon="@mipmap/tisoMain"
+      android:roundIcon="@mipmap/logomain_round"
       android:allowBackup="false"
       android:hardwareAccelerated="false"
       android:theme="@style/AppTheme">
