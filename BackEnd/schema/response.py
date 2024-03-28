@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from repository.odm import PathDocument
+from repository.odm import PathDocument, ShelterInfoDocument
 
 class PingPongSchema(BaseModel):
     message : str ="Hello World"
@@ -13,7 +13,7 @@ class ShelterPathSchema(BaseModel):
     distance: float = 1001.53125
 
     @classmethod
-    def from_orm_to_schema(cls,orm_shelter_path:PathDocument):
+    def from_odm_to_schema(cls,orm_shelter_path:PathDocument):
         path=[{"latitude":latitude,"longitude":longitude} for [latitude,longitude] in orm_shelter_path.path]
         distance=orm_shelter_path.distance
         return cls(path=path,distance=distance)
@@ -27,8 +27,24 @@ class ShelterInfoSchema(BaseModel):
     latitude: float = 36.35652933
     longitude: float = 127.3310839
     type: str = "S2"
-
-
+    @classmethod
+    def from_odm_to_schema(cls,orm_shelter_info:ShelterInfoDocument):
+        shelterId=orm_shelter_info._id
+        name=orm_shelter_info.address
+        address=orm_shelter_info.address
+        capacity=orm_shelter_info.capacity
+        [latitude,longitude]=orm_shelter_info.coordinates
+        shelter_type=orm_shelter_info.code
+        return cls(
+            shelterId=shelterId,
+            name=name,
+            address=address,
+            capacity=capacity,
+            latitude=latitude,
+            longitude=longitude,
+            type=shelter_type
+        )   
+    
 class ShelterRespSchema(BaseModel):
     #status 는 내부 코드입니다.
     status: int = 2000

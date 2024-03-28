@@ -1,4 +1,5 @@
 from fastapi import Depends
+from repository.odm import ShelterInfoDocument
 from database.mongo import get_mongo_client
 from typing import List
 
@@ -8,7 +9,7 @@ class ShelterRepository:
         self.client=mongo_client
         print("ShelterRepository init")
         
-    def get_near_repository(self, user_location: List[float]) -> List[dict]:
+    def get_near_repository(self, user_location: List[float]) -> List[ShelterInfoDocument]:
         db = self.client['admin']
         collection = db['shelter_geojson']
         
@@ -24,8 +25,10 @@ class ShelterRepository:
             }
         }
         
-        nearby_shelters = collection.find(query)
-    
-        print(nearby_shelters[0])
-        
-        return nearby_shelters
+        nearby_shelters_result = collection.find(query)
+        mapping_list=[]
+        for shelter_query_result in nearby_shelters_result:
+            temp_dict=shelter_query_result["properties"]
+            temp_dict.update(shelter_query_result["geometry"])
+            mapping_list.append(ShelterInfoDocument(data=temp_dict))
+        return mapping_list
