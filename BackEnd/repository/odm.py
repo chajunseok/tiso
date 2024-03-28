@@ -24,3 +24,12 @@ class PathDocument(Document):
     id : Optional[str] = "powqjdpqwd213"
     path : Optional[list] = [[127.123,37.123123],[128.1651364312,38.121509135],[129.165136,135.214]]
     distance : Optional[float] = "18.981347"
+
+class ShelterInfoDocument(Document):
+    _id : Optional[str] = "65fd1f64a1c2102da599cf79"
+    name : Optional[str] = "구암역 대전1호선 지하역사(지하1층)"
+    address : Optional[str] = "대전광역시 유성구 유성대로 703 (구암동)"
+    capacity : Optional[int] = 1989
+    coordinates : Optional[list[float,float]] = [36.35652933,127.3310839]
+    type : Optional[str] = "S2"
+    code : Optional[str] = "point"
