@@ -4,9 +4,6 @@ from schema.response import ShelterPathSchema
 from repository.shelter import ShelterRepository
 from schema.response import ShelterInfoSchema
 from typing import List
-from util.map import lat_lon_array_binary_search
-from util.algo import get_nearest_walkable_spot
-
 
 class ShelterService:
     def __init__(self,shelter_repository:ShelterRepository = Depends(),map_db : MapDB = Depends(get_mapdb)):
