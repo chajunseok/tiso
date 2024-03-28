@@ -3,10 +3,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from bs4 import BeautifulSoup
 import time
-import gpt_location
-import naver_geocoding
-import fcm_push
+from util import naver_geocoding
+from util import gpt_location
 
+from util import fcm_push
 # WebDriver 설정
 driver = webdriver.Chrome()  # ChromeDriver 경로 지정 필요
 

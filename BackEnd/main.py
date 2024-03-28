@@ -10,7 +10,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     mapdb.load()

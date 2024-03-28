@@ -1,9 +1,9 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import messaging
-
+import os
 # 프로젝트에서 발급받은 토큰
-cred_path = "./BackEnd/util/tiso-d135c-firebase-adminsdk-util1-47189378e4.json"
+cred_path = f"{os.getcwd()}/util/tiso-d135c-firebase-adminsdk-util1-47189378e4.json"
 cred = credentials.Certificate(cred_path)
 firebase_admin.initialize_app(cred)
 
