@@ -113,8 +113,7 @@ function MyMap() {
 }
 
 const windowHeight = Dimensions.get('window').height;
-const centerY = windowHeight / 2;
-const bottomPosition = centerY + 38;
+const bottomPosition = windowHeight * 0.55;
 
 const styles = StyleSheet.create({
   locationButton: {
