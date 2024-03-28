@@ -1,13 +1,6 @@
 import React, {useLayoutEffect} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  FlatList,
-  Dimensions,
-} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
+import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 
 const {width: screenWidth} = Dimensions.get('window');
@@ -29,7 +22,7 @@ const disasterList = [
 function NaturalDisaster({navigation}) {
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: '행동 요령',
+      title: '자연 재난',
       headerTitleStyle: {
         fontSize: 20,
         fontWeight: 'bold',
@@ -38,6 +31,7 @@ function NaturalDisaster({navigation}) {
       headerTitleAlign: 'center',
     });
   }, [navigation]);
+
   const renderItem = ({item}) => (
     <TouchableOpacity
       style={[styles.item, {marginLeft: 5, marginRight: 5}]}
@@ -57,38 +51,40 @@ function NaturalDisaster({navigation}) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <View style={styles.imageContainer}>
-          <Image
-            source={require('../../../../../assets/images/NaturalDisaster.jpg')}
-            style={styles.headerImage}
-          />
-          <LinearGradient
-            colors={[
-              // 위로 밝아지기
-              // 'rgba(255,255,255,1)',
-              // 'rgba(255,255,255,0.6)',
-              // 'rgba(255,255,255,0.3)',
-              // 'rgba(0,0,0,0.5)',
-              // 'rgba(0,0,0,0.6)',
+      {/* <View style={styles.headerContainer}> */}
+      <View style={styles.imageContainer}>
+        <LinearGradient
+          colors={[
+            // 위로 밝아지기
+            // 'rgba(255,255,255,1)',
+            // 'rgba(255,255,255,0.6)',
+            // 'rgba(255,255,255,0.3)',
+            // 'rgba(0,0,0,0.5)',
+            // 'rgba(0,0,0,0.6)',
 
-              //아래로 밝아지기
-              // 'rgba(0,0,0,0.3)',
-              'rgba(255,255,255, 0.01)',
-              'rgba(255,255,255,1)',
-            ]} // 그라데이션
-            style={styles.gradient}
-          />
-        </View>
-        <FlatList
-          data={disasterList}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          style={styles.flatList}
-          numColumns={2}
-          contentContainerStyle={styles.flatListContent} // 가운데 정렬
+            //아래로 밝아지기
+            // 'rgba(0,0,0,0.3)',
+            'rgba(255,255,255, 0.01)',
+            'rgba(255,255,255,1)',
+          ]} // 그라데이션
+          style={styles.gradient}
+        />
+
+        <Image
+          source={require('../../../../../assets/images/NaturalDisaster.jpg')}
+          style={styles.headerImage}
         />
       </View>
+
+      <FlatList
+        data={disasterList}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+        style={styles.flatList}
+        numColumns={2}
+        contentContainerStyle={styles.flatListContent} // 가운데 정렬
+      />
+      {/* </View> */}
     </View>
   );
 }
@@ -97,6 +93,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
+    alignItems: 'center',
   },
   flatList: {
     padding: 10,
@@ -118,9 +115,10 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: 'center',
+    // zIndex: 0,
   },
   headerImage: {
-    height: 350,
+    height: 300,
     resizeMode: 'contain',
     zIndex: -1, // 뒤로 가도록 설정
   },
@@ -140,6 +138,7 @@ const styles = StyleSheet.create({
   },
   gradient: {
     ...StyleSheet.absoluteFillObject, // 사진과 같은 크기로 전체를 채우기
+    height: 310,
   },
   imageContainer: {
     marginBottom: 10, //사진이랑 아래 버튼 간격

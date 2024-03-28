@@ -1,13 +1,7 @@
 import React, {useLayoutEffect} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  FlatList,
-  Dimensions,
-} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
+import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
+import LinearGradient from 'react-native-linear-gradient';
 
 const {width: screenWidth} = Dimensions.get('window');
 const buttonWidth = (screenWidth - 40) / 2; // 버튼의 가로 길이
@@ -20,7 +14,7 @@ const disasterList = [
 function EmergencyEvacuation({navigation}) {
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: '행동 요령',
+      title: '비상 대피',
       headerTitleStyle: {
         fontSize: 20,
         fontWeight: 'bold',
@@ -29,9 +23,10 @@ function EmergencyEvacuation({navigation}) {
       headerTitleAlign: 'center',
     });
   }, [navigation]);
+
   const renderItem = ({item}) => (
     <TouchableOpacity
-      style={[styles.item, {marginRight: 10}]} // 오른쪽 마진 추가
+      style={[styles.item, {marginLeft: 5, marginRight: 5}]} // 오른쪽 마진 추가
       onPress={() =>
         navigation.navigate('SafetyGuidelineDetail', {title: item.title})
       }>
@@ -45,6 +40,30 @@ function EmergencyEvacuation({navigation}) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.imageContainer}>
+        <LinearGradient
+          colors={[
+            // 위로 밝아지기
+            // 'rgba(255,255,255,1)',
+            // 'rgba(255,255,255,0.6)',
+            // 'rgba(255,255,255,0.3)',
+            // 'rgba(0,0,0,0.5)',
+            // 'rgba(0,0,0,0.6)',
+
+            //아래로 밝아지기
+            // 'rgba(0,0,0,0.3)',
+            'rgba(255,255,255, 0.01)',
+            'rgba(255,255,255,1)',
+          ]} // 그라데이션
+          style={styles.gradient}
+        />
+
+        <Image
+          source={require('../../../../../assets/images/EmergencyEvacuation2.jpg')}
+          style={styles.headerImage}
+        />
+      </View>
+
       <FlatList
         data={disasterList}
         renderItem={renderItem}
@@ -61,6 +80,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
+    alignItems: 'center',
   },
   flatList: {
     padding: 10,
@@ -89,6 +109,19 @@ const styles = StyleSheet.create({
     width: 15,
     height: 15,
     resizeMode: 'contain',
+  },
+  gradient: {
+    ...StyleSheet.absoluteFillObject, // 사진과 같은 크기로 전체를 채우기
+    height: 290,
+  },
+  imageContainer: {
+    marginBottom: 10, //사진이랑 아래 버튼 간격
+    // position: 'relative', // 그라데이션과 겹치게
+  },
+  headerImage: {
+    height: 280,
+    resizeMode: 'contain',
+    zIndex: -1, // 뒤로 가도록 설정
   },
 });
 
