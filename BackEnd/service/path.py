@@ -1,6 +1,6 @@
 from fastapi import Depends
 from repository.path import PathRepository
-from util.algo import get_nearest_walkable_spot, test_get_nearest_walkable_spot
+from util.algo import get_nearest_walkable_spot
 from repository.orm import ShelterPath
 from database.mapdb import MapDB, get_mapdb
 from repository.shelter import ShelterRepository
