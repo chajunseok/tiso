@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
   TouchableWithoutFeedback,
+  Dimensions,
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import NaverMapView, {
@@ -111,16 +112,21 @@ function MyMap() {
   );
 }
 
+const windowHeight = Dimensions.get('window').height;
+const centerY = windowHeight / 2;
+const bottomPosition = centerY + 38;
+
 const styles = StyleSheet.create({
   locationButton: {
+    flex: 1,
     justifyContent: 'center',
     position: 'absolute',
     alignItems: 'center',
     backgroundColor: '#f8f9fa',
-    width: 40,
-    height: 40,
-    bottom: 455,
-    right: 13,
+    width: 41,
+    height: 41,
+    bottom: bottomPosition,
+    right: 12.6,
     borderRadius: 2,
     borderWidth: 0.5,
     borderColor: '#b5b2b3',
