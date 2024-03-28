@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from repository.orm import ShelterPath
+from repository.odm import PathDocument
 
 class PingPongSchema(BaseModel):
     message : str ="Hello World"
@@ -13,7 +13,7 @@ class ShelterPathSchema(BaseModel):
     distance: float = 1001.53125
 
     @classmethod
-    def from_orm_to_schema(cls,orm_shelter_path:ShelterPath):
+    def from_orm_to_schema(cls,orm_shelter_path:PathDocument):
         path=[{"latitude":latitude,"longitude":longitude} for [latitude,longitude] in orm_shelter_path.path]
         distance=orm_shelter_path.distance
         return cls(path=path,distance=distance)
