@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   PermissionsAndroid,
   Platform,
@@ -20,8 +20,10 @@ import NaverMapView, {
 
 function MyMap() {
   const [currentLocation, setCurrentLocation] = useState(null);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [pathLine, setPath] = useState([]);
+  const [initLocation, setInitLocation] = useState(null);
+  const mapViewRef = useRef(null);
+  // const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [pathLine, setPathline] = useState([]);
 
   useEffect(() => {
     // 위치 권한 요청
@@ -40,12 +42,14 @@ function MyMap() {
           );
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
             // 위치 권한 허용됨
+            getInitLocation();
             getMyLocation();
           } else {
             console.log('Location permission denied');
           }
         } else {
           // Android 이외의 플랫폼에서는 바로 위치를 가져옴
+          getInitLocation();
           getMyLocation();
         }
       } catch (err) {
@@ -56,21 +60,42 @@ function MyMap() {
     requestLocationPermission();
   }, []);
 
-  const getMyLocation = () => {
-    console.log(currentLocation);
+  const getPath = () => {
+    setPathline()
+  }
+
+  const moveToLocation = () => {
+    mapViewRef.current.animateToCoordinate(currentLocation); // animateToCoordinate 메서드 호출
+  };
+
+  const getInitLocation = () => {
     Geolocation.getCurrentPosition(
       position => {
         const {latitude, longitude} = position.coords;
-        setCurrentLocation({latitude, longitude});
-        setButtonDisabled(true); // 버튼 비활성화
-        setTimeout(() => {
-          setButtonDisabled(false); // 10초 후 버튼 활성화
-        }, 10000);
+        setInitLocation({latitude, longitude});
       },
       error => {
         console.warn(error.message);
       },
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+      {enableHighAccuracy: true, distanceFilter: 1},
+    );
+  };
+
+  const getMyLocation = () => {
+    console.log(currentLocation);
+    Geolocation.watchPosition(
+      position => {
+        const {latitude, longitude} = position.coords;
+        setCurrentLocation({latitude, longitude});
+        // setButtonDisabled(true); // 버튼 비활성화
+        // setTimeout(() => {
+        //   setButtonDisabled(false); // 10초 후 버튼 활성화
+        // }, 10000);
+      },
+      error => {
+        console.warn(error.message);
+      },
+      {enableHighAccuracy: true, distanceFilter: 1},
     );
   };
 
@@ -81,11 +106,12 @@ function MyMap() {
   return (
     <View>
       <NaverMapView
+        ref={mapViewRef}
         style={{width: '100%', height: '100%'}}
         showsMyLocationButton={false}
         center={
-          currentLocation
-            ? {...currentLocation, zoom: 16}
+          initLocation
+            ? {...initLocation, zoom: 16}
             : {latitude: 37.564362, longitude: 126.977011, zoom: 16}
         }>
         {currentLocation && (
@@ -101,12 +127,13 @@ function MyMap() {
         style={{
           borderRadius: 2,
         }}
-        onPress={getMyLocation}
-        disabled={buttonDisabled}>
+        onPress={moveToLocation}
+        // disabled={buttonDisabled}
+      >
         <View
           style={[
             styles.locationButton,
-            buttonDisabled && styles.disabledButton,
+            // buttonDisabled && styles.disabledButton,
           ]}>
           <Image
             style={styles.myLocationImage}
