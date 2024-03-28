@@ -8,9 +8,9 @@ const buttonWidth = (screenWidth - 40) / 2; // 버튼의 가로 길이
 
 const disasterList = [
   {id: '1', title: '전기사고', videoId: 'Q4LePrtMeZ0'},
-  {id: '2', title: '가스사고'},
-  {id: '3', title: '산불'},
-  {id: '4', title: '건축물 붕괴'},
+  {id: '2', title: '가스사고', videoId: 'rZpRUVnXRW0'},
+  {id: '3', title: '산불', videoId: '3eK54e_IIs8'},
+  {id: '4', title: '건축물 붕괴', videoId: '8wjZ1l_a43M'},
 ];
 
 function EmergencyEvacuation({navigation}) {

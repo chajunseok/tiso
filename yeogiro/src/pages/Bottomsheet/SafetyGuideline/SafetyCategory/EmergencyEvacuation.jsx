@@ -7,8 +7,8 @@ const {width: screenWidth} = Dimensions.get('window');
 const buttonWidth = (screenWidth - 40) / 2; // 버튼의 가로 길이
 
 const disasterList = [
-  {id: '1', title: '민방공 경보'},
-  {id: '2', title: '테러'},
+  {id: '1', title: '민방공 경보', videoId: 'K3AaQkTmbzQ'},
+  {id: '2', title: '테러', videoId: 'VEPVzKh2ALo'},
 ];
 
 function EmergencyEvacuation({navigation}) {

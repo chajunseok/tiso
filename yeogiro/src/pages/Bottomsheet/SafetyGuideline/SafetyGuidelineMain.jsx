@@ -2,7 +2,7 @@ import React, {useLayoutEffect} from 'react';
 import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-function SafetyGuidelineMain({navigation}) {
+function SafetyGuidelineMain({navigation, handleAll}) {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '행동 요령',
@@ -23,7 +23,10 @@ function SafetyGuidelineMain({navigation}) {
       <View style={styles.buttonGroup}>
         <TouchableOpacity
           style={[styles.button, {width: buttonWidth, height: buttonWidth}]}
-          onPress={() => navigation.navigate('NaturalDisaster')}>
+          onPress={() => {
+            handleAll();
+            navigation.navigate('NaturalDisaster');
+          }}>
           <View style={styles.buttonContent}>
             <Image
               source={require('../../../../assets/icons/NaturalIcon.png')}
@@ -38,7 +41,10 @@ function SafetyGuidelineMain({navigation}) {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, {width: buttonWidth, height: buttonWidth}]}
-          onPress={() => navigation.navigate('SocialDisaster')}>
+          onPress={() => {
+            handleAll();
+            navigation.navigate('SocialDisaster');
+          }}>
           <View style={styles.buttonContent}>
             <Image
               source={require('../../../../assets/icons/SocialDisaster1.png')}
@@ -55,7 +61,10 @@ function SafetyGuidelineMain({navigation}) {
       <View style={styles.buttonGroup}>
         <TouchableOpacity
           style={[styles.button, {width: buttonWidth, height: buttonWidth}]}
-          onPress={() => navigation.navigate('LifeSafety')}>
+          onPress={() => {
+            handleAll();
+            navigation.navigate('LifeSafety');
+          }}>
           <View style={styles.buttonContent}>
             <Image
               source={require('../../../../assets/icons/LifeSafety.png')}
@@ -70,7 +79,10 @@ function SafetyGuidelineMain({navigation}) {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, {width: buttonWidth, height: buttonWidth}]}
-          onPress={() => navigation.navigate('EmergencyEvacuation')}>
+          onPress={() => {
+            handleAll();
+            navigation.navigate('EmergencyEvacuation');
+          }}>
           <View style={styles.buttonContent}>
             <Image
               source={require('../../../../assets/icons/EmergencyEvacuation.png')}

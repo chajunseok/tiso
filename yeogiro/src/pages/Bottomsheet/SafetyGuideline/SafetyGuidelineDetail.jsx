@@ -1,6 +1,7 @@
 import React, {useState, useCallback, useLayoutEffect, useEffect} from 'react';
 import {View, Text, StyleSheet, Dimensions, ScrollView} from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
+import {WebView} from 'react-native-webview';
 
 const SafetyGuidelineDetail = ({route, navigation}) => {
   useLayoutEffect(() => {
@@ -17,7 +18,15 @@ const SafetyGuidelineDetail = ({route, navigation}) => {
 
   const [playing, setPlaying] = useState(false);
   const [isReadyForRender, setIsReadyForRender] = useState(false); // 상태 분리
-  const [details, setDetails] = useState(null); //api용
+  // const [details, setDetails] = useState(null); //바꿔서 써 더미데이터 넣을게
+  const [details, setDetails] = useState({
+    title: '겨울철 안전 운전 요령',
+    contents:
+      '<p>겨울철 눈과 얼음길에서의 안전 운전을 위해 다음의 조치들을 취하시기 바랍니다:</p><ul><li>차량용 겨울 타이어 사용</li><li>속도 줄이기</li><li>안전거리 유지하기</li><li>제동 거리가 길어질 수 있으니 서행하기</li></ul><p>이 외에도 갑작스러운 날씨 변화에 대비하여 차량 내 비상 키트를 구비하는 것이 좋습니다.</p>',
+  });
+
+  // 사용 예시
+  // details.contents를 사용하여 HTML 형식의 내용을 렌더링할 수 있습니다.
 
   const {title, videoId} = route.params || {};
 
@@ -27,15 +36,6 @@ const SafetyGuidelineDetail = ({route, navigation}) => {
     }
   }, []);
 
-  // const data = [
-  //   {
-  //     tip: {
-  //       minorCode: 'S1',
-  //       codeName: '대설',
-  //       contents: '대설에 관한 내용이 들어갑니다.',
-  //     },
-  //   },
-  // ];
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -61,9 +61,8 @@ const SafetyGuidelineDetail = ({route, navigation}) => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        {/* <View style={styles.container}> */}
-        {/* <Text style={styles.text}>{videoId}</Text> */}
         <YoutubePlayer
+          style={styles.video}
           height={(screenWidth * 9) / 16} // 16:9 비율로 조절
           width={screenWidth}
           play={playing}
@@ -78,22 +77,17 @@ const SafetyGuidelineDetail = ({route, navigation}) => {
             androidLayerType: isReadyForRender ? 'hardware' : 'software',
           }}
         />
-        <Text style={styles.title}>{title}</Text>
-        {details ? (
-          <View style={styles.detailsContainer}>
-            <Text style={styles.detailsTitle}>상세 내용</Text>
-            <Text
-              style={styles.detailsText}
-              dangerouslySetInnerHTML={{__html: details.contents}}></Text>
+        <View style={styles.detailsContainer}>
+          <Text style={styles.detailsTitle}>{details.title}</Text>
+          <View style={styles.webViewContainer}>
+            <WebView
+              originWhitelist={['*']}
+              source={{
+                html: `<div style="font-size: 30px; color: black;">${details.contents}</div>`,
+              }}
+            />
           </View>
-        ) : (
-          <Text>
-            핵심 행동요령 대설은 짧은 시간에 급격히 눈이 쌓이게 되므로 눈사태,
-            교통 혼잡, 쌓인 눈으로 인한 시설물 붕괴 등의 피해가 발생될 수
-            있습니다.
-          </Text>
-        )}
-        {/* </View> */}
+        </View>
       </ScrollView>
     </View>
   );
@@ -104,6 +98,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: 'white',
+  },
+  video: {
+    flex: 1,
+    marginBottom: 20,
   },
   scrollContainer: {
     flexGrow: 1,
@@ -126,17 +124,15 @@ const styles = StyleSheet.create({
   detailsContainer: {
     paddingHorizontal: 20,
     marginTop: 20,
-    borderTopWidth: 1,
-    borderTopColor: '#ccc',
   },
   detailsTitle: {
-    fontSize: 18,
+    fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 10,
   },
-  detailsText: {
-    fontSize: 16,
-    color: 'black',
+  webViewContainer: {
+    height: 200,
+    width: '100%',
   },
 });
 

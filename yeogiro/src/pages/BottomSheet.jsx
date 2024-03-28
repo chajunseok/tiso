@@ -37,7 +37,7 @@ const Stack = createStackNavigator();
 const MyBottomSheet = ({onFindPath}) => {
   const bottomSheetRef = useRef(null);
   const [bottomSheetIndex, setBottomSheetIndex] = useState(1);
-  const snapPoints = useMemo(() => ['25%', '50%', '80%'], []);
+  const snapPoints = useMemo(() => ['25%', '50%', '90%'], []);
   const handleSheetChanges = useCallback(index => {
     console.log('handleSheetChanges', index);
   }, []);
@@ -48,6 +48,16 @@ const MyBottomSheet = ({onFindPath}) => {
     if (onFindPath) {
       onFindPath();
     }
+  };
+
+  const handleHalf = () => {
+    setBottomSheetIndex(prevIndex => (prevIndex === 0 ? 1 : 0));
+    setTimeout(() => setBottomSheetIndex(1), 0);
+  };
+
+  const handleAll = () => {
+    setBottomSheetIndex(prevIndex => (prevIndex === 0 ? 1 : 0));
+    setTimeout(() => setBottomSheetIndex(2), 0);
   };
 
   const SettingsScreen = ({navigation}) => {
@@ -72,18 +82,27 @@ const MyBottomSheet = ({onFindPath}) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, {backgroundColor: 'lightgreen'}]}
-          onPress={() => navigation.navigate('FacilitiesInfoMain')}>
+          onPress={() => {
+            handleHalf();
+            navigation.navigate('FacilitiesInfoMain');
+          }}>
           <Text style={styles.buttonText}>시설 정보</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, {backgroundColor: 'coral'}]}
-          onPress={() => navigation.navigate('SafetyGuidelineMain')}>
+          onPress={() => {
+            handleHalf();
+            navigation.navigate('SafetyGuidelineMain');
+          }}>
           <Text style={styles.buttonText}>행동 요령</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.button, {backgroundColor: 'skyblue'}]}
-          onPress={() => navigation.navigate('SystemSettingMain')}>
+          onPress={() => {
+            handleHalf();
+            navigation.navigate('SystemSettingMain');
+          }}>
           <Text style={styles.buttonText}>환경 설정</Text>
         </TouchableOpacity>
       </View>
@@ -116,10 +135,11 @@ const MyBottomSheet = ({onFindPath}) => {
               component={RegionalSettings}
             />
             <Stack.Screen name="RegionalAdd" component={RegionalAdd} />
-            <Stack.Screen
-              name="SafetyGuidelineMain"
-              component={SafetyGuidelineMain}
-            />
+            <Stack.Screen name="SafetyGuidelineMain">
+              {props => (
+                <SafetyGuidelineMain {...props} handleAll={handleAll} />
+              )}
+            </Stack.Screen>
             <Stack.Screen
               name="SafetyGuidelineDetail"
               component={SafetyGuidelineDetail}

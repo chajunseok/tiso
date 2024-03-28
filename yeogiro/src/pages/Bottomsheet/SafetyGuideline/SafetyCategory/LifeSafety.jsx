@@ -7,10 +7,10 @@ const {width: screenWidth} = Dimensions.get('window');
 const buttonWidth = (screenWidth - 40) / 2; // 버튼의 가로 길이
 
 const disasterList = [
-  {id: '1', title: '심폐소생술'},
-  {id: '2', title: '식중독'},
-  {id: '3', title: '산행 안전사고'},
-  {id: '4', title: '승강기 안전사고'},
+  {id: '1', title: '심폐소생술', videoId: 'poJdxwE6qlc'},
+  {id: '2', title: '식중독', videoId: '745JF_jUEfo'},
+  {id: '3', title: '산행 안전사고', videoId: '6ANv2UtAQRk'},
+  {id: '4', title: '승강기 안전사고', videoId: '2mbWvX7n89g'},
 ];
 
 function LifeSafety({navigation}) {

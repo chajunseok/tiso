@@ -8,15 +8,15 @@ const buttonWidth = (screenWidth - 40) / 2; // 버튼 가로 길이
 
 const disasterList = [
   {id: '1', title: '대설', videoId: 'Q4LePrtMeZ0'},
-  {id: '2', title: '홍수'},
-  {id: '3', title: '침수'},
-  {id: '4', title: '해일'},
-  {id: '5', title: '폭염'},
-  {id: '6', title: '지진'},
-  {id: '7', title: '한파'},
-  {id: '8', title: '건조'},
-  {id: '9', title: '호우'},
-  {id: '10', title: '태풍'},
+  {id: '2', title: '홍수', videoId: 'HLFBESVTaJs'},
+  {id: '3', title: '침수', videoId: 'midmGS9Kqjo'},
+  {id: '4', title: '해일', videoId: 'Pg4NcdCIxvo'},
+  {id: '5', title: '폭염', videoId: 'XtwfBT4uFzs'},
+  {id: '6', title: '지진', videoId: 'kdkcKESgRaU'},
+  {id: '7', title: '한파', videoId: 'e02QQR0y5HE'},
+  {id: '8', title: '건조', videoId: '8G5F7KyT6sg'},
+  {id: '9', title: '호우', videoId: 'KBjuOdms98g'},
+  {id: '10', title: '태풍', videoId: 'oWu95ZitpTI'},
 ];
 
 function NaturalDisaster({navigation}) {
