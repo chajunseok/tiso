@@ -7,8 +7,6 @@ import BottomSheet from './src/pages/BottomSheet';
 import Map from './src/pages/Map';
 import Loading from './src/pages/Loading';
 import MainLoading from './src/pages/MainLoading';
-import {Provider} from 'react-redux';
-import store from './src/redux/store';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -67,13 +65,20 @@ const App = () => {
   }
 
   return (
-    <Provider store={store}>
-      <GestureHandlerRootView style={{flex: 1}}>
-        {isLoading ? <Loading /> : <Map />}
-        <BottomSheet onFindPath={handleFindPath} />
-      </GestureHandlerRootView>
-    </Provider>
+    <GestureHandlerRootView style={{flex: 1}}>
+      {isLoading ? <Loading /> : <Map />}
+      <BottomSheet onFindPath={handleFindPath} />
+    </GestureHandlerRootView>
   );
 };
+
+const styles = StyleSheet.create({
+  loadingOverlay: {
+    ...StyleSheet.absoluteFill,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)', // Optional: Loading 컴포넌트 배경을 어둡게 하여 화면에 더 잘 드러나게 함
+  },
+});
 
 export default App;
