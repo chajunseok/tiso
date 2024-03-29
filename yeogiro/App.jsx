@@ -7,6 +7,7 @@ import BottomSheet from './src/pages/BottomSheet';
 import Map from './src/pages/Map';
 import Loading from './src/pages/Loading';
 import MainLoading from './src/pages/MainLoading';
+import {View, StyleSheet} from 'react-native';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -67,10 +68,26 @@ const App = () => {
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      {isLoading ? <Loading /> : <Map />}
-      <BottomSheet onFindPath={handleFindPath} />
+      <View style={{flex: 1}}>
+        <Map />
+        <BottomSheet onFindPath={handleFindPath} />
+        {isLoading && (
+          <View style={styles.loadingOverlay}>
+            <Loading />
+          </View>
+        )}
+      </View>
     </GestureHandlerRootView>
   );
 };
+
+const styles = StyleSheet.create({
+  loadingOverlay: {
+    ...StyleSheet.absoluteFill,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)', // Optional: Loading 컴포넌트 배경을 어둡게 하여 화면에 더 잘 드러나게 함
+  },
+});
 
 export default App;
