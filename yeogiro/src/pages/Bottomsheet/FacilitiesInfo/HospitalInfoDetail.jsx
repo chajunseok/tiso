@@ -7,7 +7,14 @@ import {
   StyleSheet,
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
-import {nmId, nmSecret} from '../../../util/http-commons';
+import Config from 'react-native-config';
+import axios from 'axios';
+
+const KAKAO_API_KEY = Config.KAKAO_MAP_API_KEY;
+
+const headers = {
+  Authorization: `KakaoAK ${KAKAO_API_KEY}`,
+};
 
 async function requestPermissions() {
   await PermissionsAndroid.request(
@@ -18,25 +25,14 @@ async function requestPermissions() {
 
 async function fetchHospitals(latitude, longitude) {
   console.log('fetch함수실행');
-  const clientId = nmId();
-  const clientSecret = nmSecret();
-  console.log(clientId);
-  console.log(clientSecret);
   try {
-    const response = await fetch(
-      `https://openapi.naver.com/v1/search/local.xml?query=병원&display=10&start=1&sort=random"&latitude=${latitude}&longitude=${longitude}`,
-      {
-        method: 'GET',
-        headers: {
-          'X-Naver-Client-Id': clientId,
-          'X-Naver-Client-Secret': clientSecret,
-        },
-      },
+    const response = await axios.get(
+      `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=HP8&x=${longitude}&y=${latitude}`,
+      {headers},
     );
     console.log('API 요청보냄');
-    console.log(response);
-    const json = await response.json();
-    return json.items;
+    console.log(response.data);
+    return response.data.documents;
   } catch (error) {
     console.error(error);
     return [];
@@ -84,9 +80,9 @@ const HospitalInfoDetail = ({navigation}) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => (
           <View style={styles.listItem}>
-            <Text style={styles.title}>{item.title}</Text>
-            <Text>{item.address}</Text>
-            <Text>{item.telephone}</Text>
+            <Text style={styles.title}>{item.place_name}</Text>
+            <Text>{item.road_address_name || item.address_name}</Text>
+            <Text>{item.phone}</Text>
           </View>
         )}
       />
@@ -103,9 +99,22 @@ const styles = StyleSheet.create({
     padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: '#cccccc',
+    backgroundColor: '#fff',
+    marginBottom: 10,
   },
   title: {
     fontWeight: 'bold',
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  address: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 5,
+  },
+  phone: {
+    fontSize: 14,
+    color: '#007bff',
   },
 });
 
