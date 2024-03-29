@@ -4,6 +4,9 @@ from repository.odm import PathDocument, ShelterInfoDocument
 class PingPongSchema(BaseModel):
     message : str ="Hello World"
 
+class EmergencySchema(BaseModel):
+    message : str ="emergency updated"
+
 class ShelterPathSchema(BaseModel):
     path: list[dict[str,float]] = [
                                     {"latitude":37.123,"longitude":127.233},
