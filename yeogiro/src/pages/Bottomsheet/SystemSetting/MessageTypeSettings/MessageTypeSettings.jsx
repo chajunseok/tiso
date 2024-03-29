@@ -93,8 +93,6 @@ const styles = StyleSheet.create({
   },
   contentbox: {
     marginBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eaeaea',
   },
 });
 

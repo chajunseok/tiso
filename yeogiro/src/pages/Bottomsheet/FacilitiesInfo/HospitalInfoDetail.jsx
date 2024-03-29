@@ -1,83 +1,46 @@
-import {TouchableOpacity} from '@gorhom/bottom-sheet';
-import React, {useLayoutEffect} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
+import React, {useEffect, useState, useLayoutEffect} from 'react';
+import {
+  View,
+  Text,
+  PermissionsAndroid,
+  FlatList,
+  StyleSheet,
+} from 'react-native';
+import Geolocation from 'react-native-geolocation-service';
+import Config from 'react-native-config';
+import axios from 'axios';
+
+const KAKAO_API_KEY = Config.KAKAO_MAP_API_KEY;
+
+const headers = {
+  Authorization: `KakaoAK ${KAKAO_API_KEY}`,
+};
+
+async function requestPermissions() {
+  await PermissionsAndroid.request(
+    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+  );
+  console.log('내 위치');
+}
+
+async function fetchHospitals(latitude, longitude) {
+  console.log('fetch함수실행');
+  try {
+    const response = await axios.get(
+      `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=HP8&x=${longitude}&y=${latitude}`,
+      {headers},
+    );
+    console.log('API 요청보냄');
+    console.log(response.data);
+    return response.data.documents;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
 
 const HospitalInfoDetail = ({navigation}) => {
-  const DATA = [
-    {
-      id: '1',
-      title: '병원 1',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      telephone: '042-123-4567',
-    },
-    {
-      id: '2',
-      title: '병원 2',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      telephone: '042-123-4567',
-    },
-    {
-      id: '3',
-      title: '병원 3',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      telephone: '042-123-4567',
-    },
-    {
-      id: '4',
-      title: '병원 4',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      telephone: '042-123-4567',
-    },
-    {
-      id: '5',
-      title: '병원 5',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      telephone: '042-123-4567',
-    },
-    {
-      id: '6',
-      title: '병원 6',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      telephone: '042-123-4567',
-    },
-    {
-      id: '7',
-      title: '병원 7',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      telephone: '042-123-4567',
-    },
-    {
-      id: '8',
-      title: '병원 8',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      telephone: '042-123-4567',
-    },
-    {
-      id: '9',
-      title: '병원 9',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      telephone: '042-123-4567',
-    },
-    {
-      id: '10',
-      title: '병원 10',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      telephone: '042-123-4567',
-    },
-    {
-      id: '11',
-      title: '병원 11',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      telephone: '042-123-4567',
-    },
-    {
-      id: '12',
-      title: '병원 12',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      telephone: '042-123-4567',
-    },
-  ];
+  const [hospitals, setHospitals] = useState([]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -91,37 +54,37 @@ const HospitalInfoDetail = ({navigation}) => {
     });
   }, [navigation]);
 
-  const renderItem = ({item}) => {
-    return (
-      <View style={styles.hospital}>
-        <View>
-          <Text style={{color: 'black', fontSize: 18, fontWeight: 600}}>
-            {item.title}
-          </Text>
-          <Text>{item.address}</Text>
-          <Text style={{color: 'blue'}}>{item.telephone}</Text>
-        </View>
-        <View style={styles.navigatorContainer}>
-          <TouchableOpacity>
-            <Image
-              source={require('../../../../assets/icons/Navigator.png')}
-              style={styles.navigatorImage}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  };
+  useEffect(() => {
+    requestPermissions().then(() => {
+      Geolocation.getCurrentPosition(
+        async position => {
+          console.log('위도 경도 저장');
+          const {latitude, longitude} = position.coords;
+          console.log(latitude, longitude);
+          const hospitalsData = await fetchHospitals(latitude, longitude);
+          console.log(hospitalsData);
+          setHospitals(hospitalsData);
+        },
+        error => {
+          console.log(error.code, error.message);
+        },
+        {enableHighAccuracy: true, timeout: 15000},
+      );
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
-      <View style={{borderBottomWidth: 1, borderBottomColor: '#CED4DA'}}>
-        <Text style={styles.containerTitle}>병원 정보</Text>
-      </View>
       <FlatList
-        data={DATA}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
+        data={hospitals}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({item}) => (
+          <View style={styles.listItem}>
+            <Text style={styles.title}>{item.place_name}</Text>
+            <Text>{item.road_address_name || item.address_name}</Text>
+            <Text>{item.phone}</Text>
+          </View>
+        )}
       />
     </View>
   );
@@ -130,33 +93,28 @@ const HospitalInfoDetail = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    borderTopWidth: 1,
-    borderTopColor: '#CED4DA',
+    marginTop: 50,
   },
-  hospital: {
+  listItem: {
+    padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#CED4DA',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    borderBottomColor: '#cccccc',
+    backgroundColor: '#fff',
+    marginBottom: 10,
   },
-  containerTitle: {
-    fontSize: 20,
+  title: {
     fontWeight: 'bold',
-    color: 'black',
-    marginHorizontal: 20,
-    marginVertical: 25,
+    fontSize: 16,
+    marginBottom: 5,
   },
-  navigatorContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+  address: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 5,
   },
-  navigatorImage: {
-    width: 40,
-    height: 40,
+  phone: {
+    fontSize: 14,
+    color: '#007bff',
   },
 });
 
