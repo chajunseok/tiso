@@ -36,21 +36,21 @@ const SafetyGuidelineDetail = ({route, navigation}) => {
     }
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          'http://localhost:8080/tips/minor/tips_02',
-        );
-        const data = await response.json();
-        setDetails(data.data.tip);
-      } catch (error) {
-        console.error('Error fetching data: ', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         'http://localhost:8080/tips/minor/tips_02',
+  //       );
+  //       const data = await response.json();
+  //       setDetails(data.data.tip);
+  //     } catch (error) {
+  //       console.error('Error fetching data: ', error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   function onReady() {
     setIsReadyForRender(true); // 영상 준비 완료 시 상태 업데이트
@@ -74,7 +74,7 @@ const SafetyGuidelineDetail = ({route, navigation}) => {
             minHeight: 1,
           }}
           webViewProps={{
-            androidLayerType: isReadyForRender ? 'hardware' : 'software',
+            androidLayerType: 'hardware',
           }}
         />
         <View style={styles.detailsContainer}>
