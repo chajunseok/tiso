@@ -1,4 +1,4 @@
-import React, {useState, useLayoutEffect} from 'react';
+import React, {useLayoutEffect} from 'react';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
@@ -29,7 +29,9 @@ const ShelterCategory = ({navigation}) => {
             styles.button,
             {width: buttonWidth, height: buttonHeight, margin: buttonMargin},
           ]}
-          onPress={() => navigation.navigate('ShelterInfoDetail')}>
+          onPress={() =>
+            navigation.navigate('ShelterInfoDetail', {categoryId: 'S1'})
+          }>
           <Text style={styles.buttonTitle}>민방위 대피소</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -37,7 +39,9 @@ const ShelterCategory = ({navigation}) => {
             styles.button,
             {width: buttonWidth, height: buttonHeight, margin: buttonMargin},
           ]}
-          onPress={() => navigation.navigate('ShelterInfoDetail')}>
+          onPress={() =>
+            navigation.navigate('ShelterInfoDetail', {categoryId: 'S2'})
+          }>
           <Text style={styles.buttonTitle}>지진 옥외 대피소</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -45,7 +49,9 @@ const ShelterCategory = ({navigation}) => {
             styles.button,
             {width: buttonWidth, height: buttonHeight, margin: buttonMargin},
           ]}
-          onPress={() => navigation.navigate('ShelterInfoDetail')}>
+          onPress={() =>
+            navigation.navigate('ShelterInfoDetail', {categoryId: 'S3'})
+          }>
           <Text style={styles.buttonTitle}>무더위 쉼터</Text>
         </TouchableOpacity>
       </View>

@@ -1,84 +1,35 @@
 import {TouchableOpacity} from '@gorhom/bottom-sheet';
-import React, {useLayoutEffect} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import React, {useLayoutEffect, useEffect, useState} from 'react';
+import {View, Text, StyleSheet, Image, PermissionsAndroid} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
+import Geolocation from 'react-native-geolocation-service';
+import axios from 'axios';
 
-const ShelterInfoDetail = ({navigation}) => {
-  const DATA = [
-    {
-      id: '1',
-      title: '대피소 1',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      capacity: 1000,
-    },
-    {
-      id: '2',
-      title: '대피소 2',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      capacity: 1000,
-    },
-    {
-      id: '3',
-      title: '대피소 3',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      capacity: 1000,
-    },
-    {
-      id: '4',
-      title: '대피소 4',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      capacity: 1000,
-    },
-    {
-      id: '5',
-      title: '대피소 5',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      capacity: 1000,
-    },
-    {
-      id: '6',
-      title: '대피소 6',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      capacity: 1000,
-    },
-    {
-      id: '7',
-      title: '대피소 7',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      capacity: 1000,
-    },
-    {
-      id: '8',
-      title: '대피소 8',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      capacity: 1000,
-    },
-    {
-      id: '9',
-      title: '대피소 9',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      capacity: 1000,
-    },
-    {
-      id: '10',
-      title: '대피소 10',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      capacity: 1000,
-    },
-    {
-      id: '11',
-      title: '대피소 11',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      capacity: 1000,
-    },
-    {
-      id: '12',
-      title: '대피소 12',
-      address: '대전 서구 청사로 128 칼릭스 빌딩 5-8층 (월평동)',
-      capacity: 1000,
-    },
-  ];
+async function requestPermissions() {
+  await PermissionsAndroid.request(
+    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+  );
+  console.log('내 위치');
+}
 
+async function fetchShelters(latitude, longitude, shelter) {
+  console.log('fetch함수실행');
+  try {
+    const response = await axios.get(
+      `http://tiso.run:8000/shelters/type?lat=${latitude}&lng=${longitude}&type=${shelter}`,
+    );
+    console.log('API 요청보냄');
+    console.log(response.data.data.shelterList);
+    return response.data.data.shelterList;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+const ShelterInfoDetail = ({route, navigation}) => {
+  const {categoryId} = route.params;
+  const [shelters, setShelters] = useState([]);
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '시설 정보',
@@ -91,18 +42,36 @@ const ShelterInfoDetail = ({navigation}) => {
     });
   }, [navigation]);
 
+  useEffect(() => {
+    requestPermissions().then(() => {
+      Geolocation.getCurrentPosition(
+        async position => {
+          console.log('위도 경도 저장');
+          const {latitude, longitude} = position.coords;
+          console.log(latitude, longitude);
+          const sheltersData = await fetchShelters(
+            latitude,
+            longitude,
+            categoryId,
+          );
+          setShelters(sheltersData);
+          console.log(shelters);
+        },
+        error => {
+          console.log(error.code, error.message);
+        },
+        {enableHighAccuracy: true, timeout: 15000},
+      );
+    });
+  }, []);
+
   const renderItem = ({item}) => {
     return (
-      <View style={styles.shelter}>
+      <View style={styles.listItem}>
         <View>
-          <Text style={{color: 'black', fontSize: 18, fontWeight: 600}}>
-            {item.title}
-          </Text>
-          <Text>{item.address}</Text>
-          <Text>
-            최대수용인원 :{' '}
-            <Text style={{color: 'blue'}}>{item.capacity}명</Text>
-          </Text>
+          <Text style={styles.title}>{item.name}</Text>
+          <Text style={styles.address}>{item.address}</Text>
+          <Text style={styles.capacity}>수용 인원: {item.capacity}</Text>
         </View>
         <View style={styles.navigatorContainer}>
           <TouchableOpacity>
@@ -118,13 +87,10 @@ const ShelterInfoDetail = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View style={{borderBottomWidth: 1, borderBottomColor: '#CED4DA'}}>
-        <Text style={styles.containerTitle}>대피소 정보</Text>
-      </View>
       <FlatList
-        data={DATA}
+        data={shelters}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={(item, index) => index.toString()}
       />
     </View>
   );
@@ -133,25 +99,33 @@ const ShelterInfoDetail = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    borderTopWidth: 1,
-    borderTopColor: '#CED4DA',
+    marginTop: 10,
   },
-  shelter: {
+  listItem: {
+    padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#CED4DA',
+    borderBottomColor: '#cccccc',
+    backgroundColor: '#fff',
+    marginBottom: 10,
     paddingHorizontal: 20,
     paddingVertical: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  containerTitle: {
-    fontSize: 20,
+  title: {
     fontWeight: 'bold',
-    color: 'black',
-    marginHorizontal: 20,
-    marginVertical: 25,
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  address: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 5,
+  },
+  capacity: {
+    fontSize: 14,
+    color: '#007bff',
   },
   navigatorContainer: {
     justifyContent: 'center',

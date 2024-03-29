@@ -13,7 +13,6 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isMainLoading, setIsMainLoading] = useState(true);
 
-  // 사용자 푸시 알림 권한 요청 및 FCM 토큰 처리
   useEffect(() => {
     const requestUserPermission = async () => {
       const isPushEnabledStr = await AsyncStorage.getItem('isPushEnabled');
@@ -29,7 +28,6 @@ const App = () => {
     requestUserPermission();
   }, []);
 
-  // 로컬 알림 처리
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       const {title, body} = remoteMessage.notification;
@@ -44,7 +42,6 @@ const App = () => {
     };
   }, []);
 
-  // 앱 로딩 상태 관리
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsMainLoading(false);
@@ -84,9 +81,7 @@ const App = () => {
 const styles = StyleSheet.create({
   loadingOverlay: {
     ...StyleSheet.absoluteFill,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)', // Optional: Loading 컴포넌트 배경을 어둡게 하여 화면에 더 잘 드러나게 함
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
 });
 

@@ -1,13 +1,14 @@
-import {localAxios} from '@/util/http-commons';
+import {localAxios} from '../util/http-commons';
 
-const local = localAxios();
-
-const shelterCategory = async (success, fail) => {
-  local.get(`/map/shelter`).then(success).catch(fail);
+const shelterCategory = async (lat, lng, shelterType, success, fail) => {
+  localAxios
+    .get(`/shelters/type?lat=${lat}&lng=${lng}&type=${shelterType}`)
+    .then(success)
+    .catch(fail);
 };
 
 const shelterList = async (type, success, fail) => {
-  local.get(`/map/shelter/${type}`).then(success).catch(fail);
+  localAxios.get(`/map/shelter/${type}`).then(success).catch(fail);
 };
 
 export {shelterCategory, shelterList};
