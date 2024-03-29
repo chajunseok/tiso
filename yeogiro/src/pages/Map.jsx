@@ -15,7 +15,7 @@ function MyMap() {
   const [initLocation, setInitLocation] = useState(null);
   const mapViewRef = useRef(null);
   const [isCenteredOnCurrentLocation, setIsCenteredOnCurrentLocation] =
-    useState(false);
+    useState(false); // 현재 위치 중심 토글 상태
 
   useEffect(() => {
     const requestLocationPermission = async () => {
