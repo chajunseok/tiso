@@ -3,15 +3,17 @@ import {
   View,
   Text,
   PermissionsAndroid,
-  FlatList,
   StyleSheet,
+  TouchableOpacity,
+  Image,
 } from 'react-native';
+import {FlatList} from 'react-native-gesture-handler';
 import Geolocation from 'react-native-geolocation-service';
 import Config from 'react-native-config';
 import axios from 'axios';
+import {Linking} from 'react-native';
 
 const KAKAO_API_KEY = Config.KAKAO_MAP_API_KEY;
-
 const headers = {
   Authorization: `KakaoAK ${KAKAO_API_KEY}`,
 };
@@ -31,7 +33,6 @@ async function fetchHospitals(latitude, longitude) {
       {headers},
     );
     console.log('API 요청보냄');
-    console.log(response.data);
     return response.data.documents;
   } catch (error) {
     console.error(error);
@@ -62,7 +63,6 @@ const HospitalInfoDetail = ({navigation}) => {
           const {latitude, longitude} = position.coords;
           console.log(latitude, longitude);
           const hospitalsData = await fetchHospitals(latitude, longitude);
-          console.log(hospitalsData);
           setHospitals(hospitalsData);
         },
         error => {
@@ -73,18 +73,34 @@ const HospitalInfoDetail = ({navigation}) => {
     });
   }, []);
 
+  const renderHospital = ({item}) => (
+    <View style={styles.listItem}>
+      <View>
+        <Text style={styles.title}>{item.place_name}</Text>
+        <Text style={styles.address}>
+          {item.road_address_name || item.address_name}
+        </Text>
+        <TouchableOpacity onPress={() => Linking.openURL(`tel:${item.phone}`)}>
+          <Text style={styles.phone}>{item.phone}</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.navigatorContainer}>
+        <TouchableOpacity>
+          <Image
+            source={require('../../../../assets/icons/Navigator.png')}
+            style={styles.navigatorImage}
+          />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <FlatList
         data={hospitals}
+        renderItem={renderHospital}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({item}) => (
-          <View style={styles.listItem}>
-            <Text style={styles.title}>{item.place_name}</Text>
-            <Text>{item.road_address_name || item.address_name}</Text>
-            <Text>{item.phone}</Text>
-          </View>
-        )}
       />
     </View>
   );
@@ -93,7 +109,7 @@ const HospitalInfoDetail = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 50,
+    marginTop: 10,
   },
   listItem: {
     padding: 20,
@@ -101,6 +117,11 @@ const styles = StyleSheet.create({
     borderBottomColor: '#cccccc',
     backgroundColor: '#fff',
     marginBottom: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   title: {
     fontWeight: 'bold',
@@ -115,6 +136,14 @@ const styles = StyleSheet.create({
   phone: {
     fontSize: 14,
     color: '#007bff',
+  },
+  navigatorContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  navigatorImage: {
+    width: 40,
+    height: 40,
   },
 });
 

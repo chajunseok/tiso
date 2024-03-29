@@ -7,12 +7,13 @@ import BottomSheet from './src/pages/BottomSheet';
 import Map from './src/pages/Map';
 import Loading from './src/pages/Loading';
 import MainLoading from './src/pages/MainLoading';
+import {Provider} from 'react-redux';
+import store from './src/redux/store';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isMainLoading, setIsMainLoading] = useState(true);
 
-  // 사용자 푸시 알림 권한 요청 및 FCM 토큰 처리
   useEffect(() => {
     const requestUserPermission = async () => {
       const isPushEnabledStr = await AsyncStorage.getItem('isPushEnabled');
@@ -66,10 +67,12 @@ const App = () => {
   }
 
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      {isLoading ? <Loading /> : <Map />}
-      <BottomSheet onFindPath={handleFindPath} />
-    </GestureHandlerRootView>
+    <Provider store={store}>
+      <GestureHandlerRootView style={{flex: 1}}>
+        {isLoading ? <Loading /> : <Map />}
+        <BottomSheet onFindPath={handleFindPath} />
+      </GestureHandlerRootView>
+    </Provider>
   );
 };
 
