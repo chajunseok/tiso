@@ -78,6 +78,9 @@ function MyMap() {
   };
 
   const toggleLocationCenter = () => {
+    if (isCenteredOnCurrentLocation) {
+      setInitLocation(currentLocation);
+    }
     setIsCenteredOnCurrentLocation(prevState => !prevState);
   };
 
@@ -97,7 +100,7 @@ function MyMap() {
         }
         onTouch={() => {
           setIsCenteredOnCurrentLocation(false);
-      }}>
+        }}>
         {currentLocation && (
           <Marker
             coordinate={currentLocation}
