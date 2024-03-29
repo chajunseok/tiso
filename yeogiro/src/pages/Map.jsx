@@ -2,31 +2,22 @@ import React, {useEffect, useState, useRef} from 'react';
 import {
   PermissionsAndroid,
   Platform,
-  Text,
   View,
   StyleSheet,
   Image,
   TouchableWithoutFeedback,
-  Dimensions,
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
-import NaverMapView, {
-  Circle,
-  Marker,
-  Path,
-  Polyline,
-  Polygon,
-} from 'react-native-nmap';
+import NaverMapView, {Marker} from 'react-native-nmap';
 
 function MyMap() {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [initLocation, setInitLocation] = useState(null);
   const mapViewRef = useRef(null);
-  // const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [pathLine, setPathline] = useState([]);
+  const [isCenteredOnCurrentLocation, setIsCenteredOnCurrentLocation] =
+    useState(false); // 현재 위치 중심 토글 상태
 
   useEffect(() => {
-    // 위치 권한 요청
     const requestLocationPermission = async () => {
       try {
         if (Platform.OS === 'android') {
@@ -41,14 +32,12 @@ function MyMap() {
             },
           );
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            // 위치 권한 허용됨
             getInitLocation();
             getMyLocation();
           } else {
             console.log('Location permission denied');
           }
         } else {
-          // Android 이외의 플랫폼에서는 바로 위치를 가져옴
           getInitLocation();
           getMyLocation();
         }
@@ -60,15 +49,8 @@ function MyMap() {
     requestLocationPermission();
   }, []);
 
-  const getPath = () => {
-    setPathline()
-  }
-
-  const moveToLocation = () => {
-    mapViewRef.current.animateToCoordinate(currentLocation); // animateToCoordinate 메서드 호출
-  };
-
   const getInitLocation = () => {
+    console.log('초기 위치');
     Geolocation.getCurrentPosition(
       position => {
         const {latitude, longitude} = position.coords;
@@ -82,15 +64,11 @@ function MyMap() {
   };
 
   const getMyLocation = () => {
-    console.log(currentLocation);
+    console.log('실시간 감시');
     Geolocation.watchPosition(
       position => {
         const {latitude, longitude} = position.coords;
         setCurrentLocation({latitude, longitude});
-        // setButtonDisabled(true); // 버튼 비활성화
-        // setTimeout(() => {
-        //   setButtonDisabled(false); // 10초 후 버튼 활성화
-        // }, 10000);
       },
       error => {
         console.warn(error.message);
@@ -99,8 +77,8 @@ function MyMap() {
     );
   };
 
-  const updatePath = () => {
-    setPath();
+  const toggleLocationCenter = () => {
+    setIsCenteredOnCurrentLocation(prevState => !prevState);
   };
 
   return (
@@ -110,10 +88,16 @@ function MyMap() {
         style={{width: '100%', height: '100%'}}
         showsMyLocationButton={false}
         center={
-          initLocation
-            ? {...initLocation, zoom: 16}
-            : {latitude: 37.564362, longitude: 126.977011, zoom: 16}
-        }>
+          isCenteredOnCurrentLocation
+            ? (currentLocation || initLocation) && {
+                ...currentLocation,
+                zoom: 16,
+              }
+            : (initLocation || currentLocation) && {...initLocation, zoom: 16}
+        }
+        onTouch={() => {
+          setIsCenteredOnCurrentLocation(false);
+      }}>
         {currentLocation && (
           <Marker
             coordinate={currentLocation}
@@ -123,17 +107,11 @@ function MyMap() {
           />
         )}
       </NaverMapView>
-      <TouchableWithoutFeedback
-        style={{
-          borderRadius: 2,
-        }}
-        onPress={moveToLocation}
-        // disabled={buttonDisabled}
-      >
+      <TouchableWithoutFeedback onPress={toggleLocationCenter}>
         <View
           style={[
             styles.locationButton,
-            // buttonDisabled && styles.disabledButton,
+            isCenteredOnCurrentLocation ? styles.locationButtonActive : null,
           ]}>
           <Image
             style={styles.myLocationImage}
@@ -164,8 +142,8 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
   },
-  disabledButton: {
-    backgroundColor: '#ccc', // 회색 배경색
+  locationButtonActive: {
+    backgroundColor: '#6495ED',
   },
 });
 
