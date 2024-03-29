@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useLayoutEffect} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,10 @@ import Geolocation from 'react-native-geolocation-service';
 import Config from 'react-native-config';
 import axios from 'axios';
 import {Linking} from 'react-native';
+import {useRecoilState} from 'recoil';
+import {pharmacyState} from '../../../state/atoms'; 
+import {selectedPharmacyIdState} from '../../../state/selectedAtom'; 
+import {useFocusEffect} from '@react-navigation/native';
 
 const KAKAO_API_KEY = Config.KAKAO_MAP_API_KEY;
 
@@ -26,7 +30,7 @@ async function requestPermissions() {
   console.log('내 위치');
 }
 
-async function fetchPaharmcys(latitude, longitude) {
+async function fetchPharmacies(latitude, longitude) {
   console.log('fetch함수실행');
   try {
     const response = await axios.get(
@@ -41,12 +45,15 @@ async function fetchPaharmcys(latitude, longitude) {
   }
 }
 
-const PaharmcyInfoDetail = ({navigation}) => {
-  const [paharmcys, setPaharmcys] = useState([]);
+const PharmacyInfoDetail = ({navigation}) => {
+  const [selectedPharmacyId, setSelectedPharmacyId] = useRecoilState(
+    selectedPharmacyIdState,
+  );
+  const [pharmacies, setPharmacies] = useRecoilState(pharmacyState);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: '시설 정보',
+      title: '약국 정보',
       headerTitleStyle: {
         fontSize: 20,
         fontWeight: 'bold',
@@ -56,6 +63,14 @@ const PaharmcyInfoDetail = ({navigation}) => {
     });
   }, [navigation]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        setPharmacies([]);
+      };
+    }, [setPharmacies]),
+  );
+
   useEffect(() => {
     requestPermissions().then(() => {
       Geolocation.getCurrentPosition(
@@ -63,8 +78,8 @@ const PaharmcyInfoDetail = ({navigation}) => {
           console.log('위도 경도 저장');
           const {latitude, longitude} = position.coords;
           console.log(latitude, longitude);
-          const paharmcysData = await fetchPaharmcys(latitude, longitude);
-          setPaharmcys(paharmcysData);
+          const pharmaciesData = await fetchPharmacies(latitude, longitude);
+          setPharmacies(pharmaciesData);
         },
         error => {
           console.log(error.code, error.message);
@@ -74,8 +89,10 @@ const PaharmcyInfoDetail = ({navigation}) => {
     });
   }, []);
 
-  const renderPaharmcy = ({item}) => (
-    <View style={styles.listItem}>
+  const renderPharmacy = ({item}) => (
+    <TouchableOpacity
+      style={styles.listItem}
+      onPress={() => setSelectedPharmacyId(item.id)}>
       <View>
         <Text style={styles.title}>{item.place_name}</Text>
         <Text style={styles.address}>
@@ -93,14 +110,14 @@ const PaharmcyInfoDetail = ({navigation}) => {
           />
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={paharmcys}
-        renderItem={renderPaharmcy}
+        data={pharmacies}
+        renderItem={renderPharmacy}
         keyExtractor={(item, index) => index.toString()}
       />
     </View>
@@ -148,4 +165,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PaharmcyInfoDetail;
+export default PharmacyInfoDetail;

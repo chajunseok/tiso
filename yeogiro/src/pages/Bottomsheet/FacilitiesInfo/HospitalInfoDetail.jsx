@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useLayoutEffect} from 'react';
+import React, {useEffect, useLayoutEffect, useCallback} from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,10 @@ import Geolocation from 'react-native-geolocation-service';
 import Config from 'react-native-config';
 import axios from 'axios';
 import {Linking} from 'react-native';
+import {useRecoilState} from 'recoil';
+import {hospitalState} from '../../../state/atoms';
+import {selectedHospitalIdState} from '../../../state/selectedAtom';
+import {useFocusEffect} from '@react-navigation/native';
 
 const KAKAO_API_KEY = Config.KAKAO_MAP_API_KEY;
 const headers = {
@@ -33,6 +37,7 @@ async function fetchHospitals(latitude, longitude) {
       {headers},
     );
     console.log('API 요청보냄');
+    console.log(response.data.documents[0]);
     return response.data.documents;
   } catch (error) {
     console.error(error);
@@ -41,8 +46,13 @@ async function fetchHospitals(latitude, longitude) {
 }
 
 const HospitalInfoDetail = ({navigation}) => {
-  const [hospitals, setHospitals] = useState([]);
+  const [selectedHospitalId, setSelectedHospitalId] = useRecoilState(
+    selectedHospitalIdState,
+  );
 
+  const onHospitalPress = hospitalId => {
+    setSelectedHospitalId(hospitalId);
+  };
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '시설 정보',
@@ -54,6 +64,16 @@ const HospitalInfoDetail = ({navigation}) => {
       headerTitleAlign: 'center',
     });
   }, [navigation]);
+
+  const [hospitals, setHospitals] = useRecoilState(hospitalState);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setHospitals([]);
+      };
+    }, [setHospitals]),
+  );
 
   useEffect(() => {
     requestPermissions().then(() => {
@@ -74,7 +94,9 @@ const HospitalInfoDetail = ({navigation}) => {
   }, []);
 
   const renderHospital = ({item}) => (
-    <View style={styles.listItem}>
+    <TouchableOpacity
+      style={styles.listItem}
+      onPress={() => onHospitalPress(item.id)}>
       <View>
         <Text style={styles.title}>{item.place_name}</Text>
         <Text style={styles.address}>
@@ -92,7 +114,7 @@ const HospitalInfoDetail = ({navigation}) => {
           />
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (

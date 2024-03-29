@@ -8,6 +8,7 @@ import Map from './src/pages/Map';
 import Loading from './src/pages/Loading';
 import MainLoading from './src/pages/MainLoading';
 import {View, StyleSheet} from 'react-native';
+import {RecoilRoot} from 'recoil';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -64,17 +65,19 @@ const App = () => {
   }
 
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <View style={{flex: 1}}>
-        <Map />
-        <BottomSheet onFindPath={handleFindPath} />
-        {isLoading && (
-          <View style={styles.loadingOverlay}>
-            <Loading />
-          </View>
-        )}
-      </View>
-    </GestureHandlerRootView>
+    <RecoilRoot>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <View style={{flex: 1}}>
+          <Map />
+          <BottomSheet onFindPath={handleFindPath} />
+          {isLoading && (
+            <View style={styles.loadingOverlay}>
+              <Loading />
+            </View>
+          )}
+        </View>
+      </GestureHandlerRootView>
+    </RecoilRoot>
   );
 };
 

@@ -9,13 +9,34 @@ import {
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import NaverMapView, {Marker} from 'react-native-nmap';
+import {useRecoilValue} from 'recoil';
+import {hospitalState, pharmacyState} from '../state/atoms';
+import HospitalInfoModal from './HospitalInfoModal';
+import PharmacyinfoModal from './PharmacyInfoModal';
+import {
+  selectedHospitalIdState,
+  selectedPharmacyIdState,
+} from '../state/selectedAtom';
 
 function MyMap() {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [initLocation, setInitLocation] = useState(null);
   const mapViewRef = useRef(null);
   const [isCenteredOnCurrentLocation, setIsCenteredOnCurrentLocation] =
-    useState(false); // 현재 위치 중심 토글 상태
+    useState(false);
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const [selectedHospital, setSelectedHospital] = useState(null);
+  const [selectedHospitalId, setSelectedHospitalId] = useState(null);
+  const selectedHospitalId_1 = useRecoilValue(selectedHospitalIdState);
+
+  const [selectedPharmacy, setselectedPharmacy] = useState(null);
+  const [selectedPharmacyId, setselectedPharmacyId] = useState(null);
+  const selectedPharmacyId_1 = useRecoilValue(selectedPharmacyIdState);
+
+  const hospitals = useRecoilValue(hospitalState);
+  const pharmacys = useRecoilValue(pharmacyState);
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -48,6 +69,18 @@ function MyMap() {
 
     requestLocationPermission();
   }, []);
+
+  useEffect(() => {
+    if (hospitals && hospitals.length > 0 && currentLocation) {
+      setIsCenteredOnCurrentLocation(true);
+    }
+  }, [hospitals]);
+
+  useEffect(() => {
+    if (pharmacys && pharmacys.length > 0 && currentLocation) {
+      setIsCenteredOnCurrentLocation(true);
+    }
+  }, [pharmacys]);
 
   const getInitLocation = () => {
     console.log('초기 위치');
@@ -84,6 +117,18 @@ function MyMap() {
     setIsCenteredOnCurrentLocation(prevState => !prevState);
   };
 
+  const onMarkerPress = hospital => {
+    setSelectedHospitalId(hospital.id);
+    setSelectedHospital(hospital);
+    setModalVisible(true);
+  };
+
+  const onMarkerPress_1 = pharmacy => {
+    setselectedPharmacyId(pharmacy.id);
+    setselectedPharmacy(pharmacy);
+    setModalVisible(true);
+  };
+
   return (
     <View>
       <NaverMapView
@@ -101,6 +146,40 @@ function MyMap() {
         onTouch={() => {
           setIsCenteredOnCurrentLocation(false);
         }}>
+        {pharmacys?.map((pharmacy, index) => (
+          <Marker
+            key={index}
+            coordinate={{
+              latitude: parseFloat(pharmacy.y),
+              longitude: parseFloat(pharmacy.x),
+            }}
+            width={25}
+            height={35}
+            image={
+              selectedPharmacyId_1 === pharmacy.id
+                ? require('../../assets/icons/pharmacy_select.png')
+                : require('../../assets/icons/pharmacy.png')
+            }
+            onClick={() => onMarkerPress_1(pharmacy)}
+          />
+        ))}
+        {hospitals?.map((hospital, index) => (
+          <Marker
+            key={index}
+            coordinate={{
+              latitude: parseFloat(hospital.y),
+              longitude: parseFloat(hospital.x),
+            }}
+            width={30}
+            height={35}
+            image={
+              selectedHospitalId_1 === hospital.id
+                ? require('../../assets/icons/hospital_select.png')
+                : require('../../assets/icons/hospital.png')
+            }
+            onClick={() => onMarkerPress(hospital)}
+          />
+        ))}
         {currentLocation && (
           <Marker
             coordinate={currentLocation}
@@ -110,6 +189,16 @@ function MyMap() {
           />
         )}
       </NaverMapView>
+      <HospitalInfoModal
+        hospital={selectedHospital}
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      />
+      <HospitalInfoModal
+        hospital={selectedPharmacy}
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      />
       <TouchableWithoutFeedback onPress={toggleLocationCenter}>
         <View
           style={[
