@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from database.emergencydb import emergencydb
 from database.pathdb import pathdb
 from database.mapdb import mapdb
 from database.mongo import mongodb
@@ -15,10 +16,12 @@ async def lifespan(app: FastAPI):
     mapdb.load()
     mongodb.connect()
     pathdb.connect()
+    emergencydb.load()
     yield
     mapdb.close()
     mongodb.close()
     pathdb.close()
+    emergencydb.close()
     print(the_end_logo)
     
 app = FastAPI(lifespan=lifespan)
