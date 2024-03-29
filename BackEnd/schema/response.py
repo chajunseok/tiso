@@ -45,6 +45,12 @@ class ShelterInfoSchema(BaseModel):
             longitude=longitude,
             type=shelter_type
         )   
+        
+class TipsInfoSchema(BaseModel):
+    code: str
+    title : str
+    contents: str
+    
     
 class ShelterRespSchema(BaseModel):
     #status 는 내부 코드입니다.
@@ -57,3 +63,8 @@ class ShelterRespSchema(BaseModel):
 class PathRespSchema(BaseModel):
     status: int = 2000
     data : ShelterPathSchema = ShelterPathSchema()
+    
+    
+class TipsRespSchema(BaseModel):
+    status: int = 2000
+    data : dict[str, list[TipsInfoSchema]]
