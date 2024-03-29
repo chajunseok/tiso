@@ -10,7 +10,7 @@ const Loading = () => {
         style={styles.run}
         resizeMode={FastImage.resizeMode.contain}
       />
-      <Text style={styles.text}>로딩 중</Text>
+      <Text style={styles.text}>최적 경로 계산 중</Text>
       <FastImage
         source={require('../../assets/icons/Ellipsis-1s-200px.gif')}
         style={styles.load}
