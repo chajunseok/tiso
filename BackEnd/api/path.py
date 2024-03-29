@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from repository.odm import PathDocument
 from service.path import PathService
-from schema.response import PathRespSchema, ShelterPathSchema, OnlyPathSchema
+from schema.response import PathRespSchema, ShelterPathSchema, NaverPathResp, OnlyPathSchema
 from schema.request import UrlPattern
 import httpx
 import os
@@ -30,9 +30,8 @@ async def get_path_handler(
 
 
 @router.post("/find", status_code=200)
-async def get_naver_path(url_req: UrlPattern):  #-> OnlyPathSchema:
+async def get_naver_path(url_req: UrlPattern) -> NaverPathResp:
         url_path = url_req.url.replace(",", "%2C").replace("|", "%7C")
-        print(url_req.url)
         
         async with httpx.AsyncClient() as client:
                 headers = {
@@ -42,8 +41,10 @@ async def get_naver_path(url_req: UrlPattern):  #-> OnlyPathSchema:
                 try:
                         response = await client.get(url_path, headers=headers)
                         response.raise_for_status()
-                        # return response.text
-                        print(response.json())
+                        resp_data = response.json()
+                        result = resp_data['route']['traoptimal'][0]['path']
+                        return NaverPathResp(data=OnlyPathSchema.from_odm_to_schema(result))
+                
                 except httpx.HTTPStatusError as exc:
                 # 서버에서 4XX나 5XX 응답을 반환했을 때 예외 처리
                         raise HTTPException(status_code=exc.response.status_code, detail=str(exc))
