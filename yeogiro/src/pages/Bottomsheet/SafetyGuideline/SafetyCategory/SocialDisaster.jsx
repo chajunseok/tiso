@@ -7,10 +7,10 @@ const {width: screenWidth} = Dimensions.get('window');
 const buttonWidth = (screenWidth - 40) / 2; // 버튼의 가로 길이
 
 const disasterList = [
-  {id: '1', title: '전기사고', videoId: 'Q4LePrtMeZ0'},
-  {id: '2', title: '가스사고', videoId: 'rZpRUVnXRW0'},
-  {id: '3', title: '산불', videoId: '3eK54e_IIs8'},
-  {id: '4', title: '건축물 붕괴', videoId: '8wjZ1l_a43M'},
+  {id: '1', title: '전기사고', api: 'D11', videoId: 'Q4LePrtMeZ0'},
+  {id: '2', title: '가스사고', api: 'D12', videoId: 'rZpRUVnXRW0'},
+  {id: '3', title: '산불', api: 'D13', videoId: '3eK54e_IIs8'},
+  {id: '4', title: '건축물 붕괴', api: 'D14', videoId: '8wjZ1l_a43M'},
 ];
 
 function EmergencyEvacuation({navigation}) {
@@ -32,6 +32,7 @@ function EmergencyEvacuation({navigation}) {
       onPress={() =>
         navigation.navigate('SafetyGuidelineDetail', {
           title: item.title,
+          api: item.api,
           videoId: item.videoId,
         })
       }>

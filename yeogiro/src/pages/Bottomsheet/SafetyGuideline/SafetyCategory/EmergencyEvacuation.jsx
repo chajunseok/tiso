@@ -7,8 +7,8 @@ const {width: screenWidth} = Dimensions.get('window');
 const buttonWidth = (screenWidth - 40) / 2; // 버튼의 가로 길이
 
 const disasterList = [
-  {id: '1', title: '민방공 경보', videoId: 'K3AaQkTmbzQ'},
-  {id: '2', title: '테러', videoId: 'VEPVzKh2ALo'},
+  {id: '1', title: '민방공 경보', api: 'D19', videoId: 'K3AaQkTmbzQ'},
+  {id: '2', title: '테러', api: 'D20', videoId: 'VEPVzKh2ALo'},
 ];
 
 function EmergencyEvacuation({navigation}) {
@@ -28,7 +28,11 @@ function EmergencyEvacuation({navigation}) {
     <TouchableOpacity
       style={[styles.item, {marginLeft: 5, marginRight: 5}]} // 오른쪽 마진 추가
       onPress={() =>
-        navigation.navigate('SafetyGuidelineDetail', {title: item.title})
+        navigation.navigate('SafetyGuidelineDetail', {
+          title: item.title,
+          api: item.api,
+          videoId: item.videoId,
+        })
       }>
       <Text style={styles.title}>{item.title}</Text>
       <Image
