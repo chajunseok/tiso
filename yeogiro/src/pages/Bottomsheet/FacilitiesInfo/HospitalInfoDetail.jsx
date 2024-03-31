@@ -68,7 +68,6 @@ const HospitalInfoDetail = ({navigation}) => {
       });
       console.log('길찾기 API 요청보냄');
       console.log(startLng, startLat, endLng, endLat);
-      console.log(response.data.data.path);
       setPathData(response.data.data.path);
     } catch (error) {
       console.log(error);
@@ -93,9 +92,10 @@ const HospitalInfoDetail = ({navigation}) => {
   useFocusEffect(
     useCallback(() => {
       return () => {
+        setPathData(null);
         setHospitals([]);
       };
-    }, [setHospitals]),
+    }, [setHospitals, setPathData]),
   );
 
   useEffect(() => {
@@ -120,7 +120,15 @@ const HospitalInfoDetail = ({navigation}) => {
   const renderHospital = ({item}) => (
     <TouchableOpacity
       style={styles.listItem}
-      onPress={() => onHospitalPress(item.id)}>
+      onPress={() => {
+        onHospitalPress(item.id),
+          findHospital(
+            currentLocation.longitude,
+            currentLocation.latitude,
+            item.x,
+            item.y,
+          );
+      }}>
       <View>
         <Text style={styles.title}>{item.place_name}</Text>
         <Text style={styles.address}>
@@ -131,15 +139,7 @@ const HospitalInfoDetail = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={styles.navigatorContainer}>
-        <TouchableOpacity
-          onPress={() =>
-            findHospital(
-              currentLocation.longitude,
-              currentLocation.latitude,
-              item.x,
-              item.y,
-            )
-          }>
+        <TouchableOpacity>
           <Image
             source={require('../../../../assets/icons/Navigator.png')}
             style={styles.navigatorImage}

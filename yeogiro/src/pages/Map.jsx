@@ -212,13 +212,14 @@ function MyMap() {
             onClick={() => onMarkerPress(hospital)}
           />
         ))}
-        {pathData && (
+        {pathData && polylineCoordinates.length > 0 && (
           <Polyline
             coordinates={polylineCoordinates}
             strokeColor="green"
             strokeWidth={5}
           />
         )}
+
         {currentLocation && (
           <Marker
             coordinate={currentLocation}

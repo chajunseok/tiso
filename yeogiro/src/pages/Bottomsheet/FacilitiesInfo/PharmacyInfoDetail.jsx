@@ -69,7 +69,6 @@ const PharmacyInfoDetail = ({navigation}) => {
       });
       console.log('길찾기 API 요청보냄');
       console.log(startLng, startLat, endLng, endLat);
-      console.log(response.data.data.path);
       setPathData(response.data.data.path);
     } catch (error) {
       console.log(error);
@@ -94,9 +93,10 @@ const PharmacyInfoDetail = ({navigation}) => {
   useFocusEffect(
     useCallback(() => {
       return () => {
+        setPathData(null);
         setPharmacys([]);
       };
-    }, [setPharmacys]),
+    }, [setPharmacys, setPathData]),
   );
 
   useEffect(() => {
@@ -121,7 +121,15 @@ const PharmacyInfoDetail = ({navigation}) => {
   const renderPharmacy = ({item}) => (
     <TouchableOpacity
       style={styles.listItem}
-      onPress={() => onPharmacyPress(item.id)}>
+      onPress={() => {
+        onPharmacyPress(item.id),
+          findPharmacy(
+            currentLocation.longitude,
+            currentLocation.latitude,
+            item.x,
+            item.y,
+          );
+      }}>
       <View>
         <Text style={styles.title}>{item.place_name}</Text>
         <Text style={styles.address}>
@@ -132,15 +140,7 @@ const PharmacyInfoDetail = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={styles.navigatorContainer}>
-        <TouchableOpacity
-          onPress={() =>
-            findPharmacy(
-              currentLocation.longitude,
-              currentLocation.latitude,
-              item.x,
-              item.y,
-            )
-          }>
+        <TouchableOpacity>
           <Image
             source={require('../../../../assets/icons/Navigator.png')}
             style={styles.navigatorImage}

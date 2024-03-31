@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, Dimensions, Text} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Text,
+  useWindowDimensions,
+} from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import {FlatList} from 'react-native-gesture-handler';
 import HTML from 'react-native-render-html';
@@ -8,6 +14,8 @@ const SafetyGuidelineDetail = ({route, navigation}) => {
   const [playing, setPlaying] = useState(false);
   const [details, setDetails] = useState([]);
   const {title, videoId} = route.params || {};
+
+  const {width} = useWindowDimensions();
 
   useEffect(() => {
     navigation.setOptions({
@@ -51,9 +59,9 @@ const SafetyGuidelineDetail = ({route, navigation}) => {
       {typeof item.title === 'string' ? (
         <Text style={styles.detailsTitle}>{item.title}</Text>
       ) : (
-        <HTML source={{html: item.title}} />
+        <HTML contentWidth={width} source={{html: item.title}} />
       )}
-      <HTML source={{html: item.contents}} />
+      <HTML contentWidth={width} source={{html: item.contents}} />
     </View>
   );
 
