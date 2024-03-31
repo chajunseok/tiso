@@ -26,14 +26,14 @@ class PathService:
         #gps매핑배열은 지도배열을 5배 축소한것입니다.
         mapped_gps_index=(mapped_gps_index[0]*5,mapped_gps_index[1]*5)
 
-        standard=500    
+        standard=100    
 
         nearest_walkable_spot=get_nearest_walkable_spot(self.map_db.binary_map,standard,mapped_gps_index)
         end = time.time()
         print(f"gps mapping and find nearest walkable spot: {end - start:.5f} sec")
 
         if nearest_walkable_spot==(-1,-1):
-            raise HTTPException(status_code=404, detail="도보로부터 너무 멀리 떨어져 있습니다.")
+            raise HTTPException(status_code=404, detail=f"도보로부터 너무 멀리 떨어져 있습니다.도보로부터 {standard}m 이내로 이동해주세요.")
         
         shelter_info : ShelterInfoDocument =self.shelter_repository.get_shelter_by_shelter_id(shelter_id=shelter_id)
 
