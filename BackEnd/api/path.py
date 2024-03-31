@@ -7,7 +7,7 @@ import httpx
 import os
 from dotenv import load_dotenv
 
-load_dotenv('../.env')
+load_dotenv()
 
 CLIENT_KEY = os.getenv('NAVER_CLIENT_KEY')
 SECRET_KEY = os.getenv('NAVER_SECRET_KEY')
