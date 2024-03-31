@@ -6,7 +6,7 @@ const selectedHospitalIdState = atom({
 });
 
 const selectedPharmacyIdState = atom({
-  key: 'selectedHospitalIdState',
+  key: 'selectedPharmacyIdState',
   default: null,
 });
 

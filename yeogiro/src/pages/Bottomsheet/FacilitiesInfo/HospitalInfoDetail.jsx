@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useCallback} from 'react';
+import React, {useEffect, useLayoutEffect, useCallback, useState} from 'react';
 import {
   View,
   Text,
@@ -12,8 +12,12 @@ import Geolocation from 'react-native-geolocation-service';
 import Config from 'react-native-config';
 import axios from 'axios';
 import {Linking} from 'react-native';
-import {useRecoilState} from 'recoil';
-import {hospitalState} from '../../../state/atoms';
+import {useRecoilState, useSetRecoilState} from 'recoil';
+import {
+  hospitalState,
+  bottomSheetState,
+  pathDataState,
+} from '../../../state/atoms';
 import {selectedHospitalIdState} from '../../../state/selectedAtom';
 import {useFocusEffect} from '@react-navigation/native';
 
@@ -37,7 +41,6 @@ async function fetchHospitals(latitude, longitude) {
       {headers},
     );
     console.log('API 요청보냄');
-    console.log(response.data.documents[0]);
     return response.data.documents;
   } catch (error) {
     console.error(error);
@@ -49,13 +52,33 @@ const HospitalInfoDetail = ({navigation}) => {
   const [selectedHospitalId, setSelectedHospitalId] = useRecoilState(
     selectedHospitalIdState,
   );
-
+  const setBottomSheet = useSetRecoilState(bottomSheetState);
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const setPathData = useSetRecoilState(pathDataState);
   const onHospitalPress = hospitalId => {
     setSelectedHospitalId(hospitalId);
+    setBottomSheet({isOpen: true, index: 0});
   };
+
+  async function findHospital(startLng, startLat, endLng, endLat) {
+    console.log('길찾기 함수 실행');
+    try {
+      const response = await axios.post('http://tiso.run:8000/paths/find', {
+        url: `https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start=${startLng + ',' + startLat}&goal=${endLng + ',' + endLat}`,
+      });
+      console.log('길찾기 API 요청보냄');
+      console.log(startLng, startLat, endLng, endLat);
+      console.log(response.data.data.path);
+      setPathData(response.data.data.path);
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+  }
+
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: '시설 정보',
+      title: '병원 정보',
       headerTitleStyle: {
         fontSize: 20,
         fontWeight: 'bold',
@@ -82,6 +105,7 @@ const HospitalInfoDetail = ({navigation}) => {
           console.log('위도 경도 저장');
           const {latitude, longitude} = position.coords;
           console.log(latitude, longitude);
+          setCurrentLocation({latitude, longitude});
           const hospitalsData = await fetchHospitals(latitude, longitude);
           setHospitals(hospitalsData);
         },
@@ -107,7 +131,15 @@ const HospitalInfoDetail = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={styles.navigatorContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            findHospital(
+              currentLocation.longitude,
+              currentLocation.latitude,
+              item.x,
+              item.y,
+            )
+          }>
           <Image
             source={require('../../../../assets/icons/Navigator.png')}
             style={styles.navigatorImage}

@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useCallback, useState} from 'react';
 import {
   View,
   Text,
@@ -12,9 +12,13 @@ import Geolocation from 'react-native-geolocation-service';
 import Config from 'react-native-config';
 import axios from 'axios';
 import {Linking} from 'react-native';
-import {useRecoilState} from 'recoil';
-import {pharmacyState} from '../../../state/atoms'; 
-import {selectedPharmacyIdState} from '../../../state/selectedAtom'; 
+import {useRecoilState, useSetRecoilState} from 'recoil';
+import {
+  pharmacyState,
+  bottomSheetState,
+  pathDataState,
+} from '../../../state/atoms';
+import {selectedPharmacyIdState} from '../../../state/selectedAtom';
 import {useFocusEffect} from '@react-navigation/native';
 
 const KAKAO_API_KEY = Config.KAKAO_MAP_API_KEY;
@@ -49,7 +53,29 @@ const PharmacyInfoDetail = ({navigation}) => {
   const [selectedPharmacyId, setSelectedPharmacyId] = useRecoilState(
     selectedPharmacyIdState,
   );
-  const [pharmacies, setPharmacies] = useRecoilState(pharmacyState);
+  const setBottomSheet = useSetRecoilState(bottomSheetState);
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const setPathData = useSetRecoilState(pathDataState);
+  const onPharmacyPress = pharmacyId => {
+    setSelectedPharmacyId(pharmacyId);
+    setBottomSheet({isOpen: true, index: 0});
+  };
+
+  async function findPharmacy(startLng, startLat, endLng, endLat) {
+    console.log('길찾기 함수 실행');
+    try {
+      const response = await axios.post('http://tiso.run:8000/paths/find', {
+        url: `https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start=${startLng + ',' + startLat}&goal=${endLng + ',' + endLat}`,
+      });
+      console.log('길찾기 API 요청보냄');
+      console.log(startLng, startLat, endLng, endLat);
+      console.log(response.data.data.path);
+      setPathData(response.data.data.path);
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -63,12 +89,14 @@ const PharmacyInfoDetail = ({navigation}) => {
     });
   }, [navigation]);
 
+  const [pharmacys, setPharmacys] = useRecoilState(pharmacyState);
+
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       return () => {
-        setPharmacies([]);
+        setPharmacys([]);
       };
-    }, [setPharmacies]),
+    }, [setPharmacys]),
   );
 
   useEffect(() => {
@@ -78,8 +106,9 @@ const PharmacyInfoDetail = ({navigation}) => {
           console.log('위도 경도 저장');
           const {latitude, longitude} = position.coords;
           console.log(latitude, longitude);
+          setCurrentLocation({latitude, longitude});
           const pharmaciesData = await fetchPharmacies(latitude, longitude);
-          setPharmacies(pharmaciesData);
+          setPharmacys(pharmaciesData);
         },
         error => {
           console.log(error.code, error.message);
@@ -92,7 +121,7 @@ const PharmacyInfoDetail = ({navigation}) => {
   const renderPharmacy = ({item}) => (
     <TouchableOpacity
       style={styles.listItem}
-      onPress={() => setSelectedPharmacyId(item.id)}>
+      onPress={() => onPharmacyPress(item.id)}>
       <View>
         <Text style={styles.title}>{item.place_name}</Text>
         <Text style={styles.address}>
@@ -103,7 +132,15 @@ const PharmacyInfoDetail = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={styles.navigatorContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            findPharmacy(
+              currentLocation.longitude,
+              currentLocation.latitude,
+              item.x,
+              item.y,
+            )
+          }>
           <Image
             source={require('../../../../assets/icons/Navigator.png')}
             style={styles.navigatorImage}
@@ -116,7 +153,7 @@ const PharmacyInfoDetail = ({navigation}) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={pharmacies}
+        data={pharmacys}
         renderItem={renderPharmacy}
         keyExtractor={(item, index) => index.toString()}
       />

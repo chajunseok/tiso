@@ -1,9 +1,10 @@
 import React, {
   useRef,
   useMemo,
-  useCallback,
   useLayoutEffect,
   useState,
+  useEffect,
+  useCallback,
 } from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
@@ -32,15 +33,16 @@ import ShelterInfoDetail from './Bottomsheet/FacilitiesInfo/ShelterInfoDetail';
 
 import Loading from './Loading';
 
+import {useRecoilState} from 'recoil';
+import {bottomSheetState} from '../state/atoms';
+
 const Stack = createStackNavigator();
 
 const MyBottomSheet = ({onFindPath}) => {
+  const [bottomSheet, setBottomSheet] = useRecoilState(bottomSheetState);
   const bottomSheetRef = useRef(null);
   const [bottomSheetIndex, setBottomSheetIndex] = useState(1);
   const snapPoints = useMemo(() => ['25%', '50%', '90%'], []);
-  const handleSheetChanges = useCallback(index => {
-    console.log('handleSheetChanges', index);
-  }, []);
 
   const handleFindPath = () => {
     setBottomSheetIndex(prevIndex => (prevIndex === 0 ? 1 : 0));
@@ -51,14 +53,27 @@ const MyBottomSheet = ({onFindPath}) => {
   };
 
   const handleHalf = () => {
-    setBottomSheetIndex(prevIndex => (prevIndex === 0 ? 1 : 0));
-    setTimeout(() => setBottomSheetIndex(1), 0);
+    setBottomSheet({isOpen: true, index: 1});
   };
 
   const handleAll = () => {
-    setBottomSheetIndex(prevIndex => (prevIndex === 0 ? 1 : 0));
-    setTimeout(() => setBottomSheetIndex(2), 0);
+    setBottomSheet({isOpen: true, index: 2});
   };
+
+  useEffect(() => {
+    if (bottomSheet.isOpen) {
+      bottomSheetRef.current?.snapToIndex(bottomSheet.index);
+    } else {
+      bottomSheetRef.current?.close();
+    }
+  }, [bottomSheet]);
+
+  const handleSheetChanges = useCallback(
+    index => {
+      setBottomSheet(current => ({...current, isOpen: index !== -1, index}));
+    },
+    [setBottomSheet],
+  );
 
   const SettingsScreen = ({navigation}) => {
     useLayoutEffect(() => {
@@ -112,7 +127,7 @@ const MyBottomSheet = ({onFindPath}) => {
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      index={bottomSheetIndex}
+      index={bottomSheetIndex.index}
       snapPoints={snapPoints}
       onChange={handleSheetChanges}>
       <CitiesProvider>

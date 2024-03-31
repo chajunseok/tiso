@@ -13,7 +13,19 @@ import {RecoilRoot} from 'recoil';
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isMainLoading, setIsMainLoading] = useState(true);
+  useEffect(() => {
+    const getToken = async () => {
+      const authStatus = await messaging().requestPermission();
+      console.log('Authorization status:', authStatus);
 
+      const token = await messaging().getToken();
+      console.log('Device token:', token);
+
+      await AsyncStorage.setItem('pushToken', token);
+    };
+
+    getToken();
+  }, []);
   useEffect(() => {
     const requestUserPermission = async () => {
       const isPushEnabledStr = await AsyncStorage.getItem('isPushEnabled');

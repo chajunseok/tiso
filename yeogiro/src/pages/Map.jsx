@@ -8,9 +8,14 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
-import NaverMapView, {Marker} from 'react-native-nmap';
-import {useRecoilValue} from 'recoil';
-import {hospitalState, pharmacyState} from '../state/atoms';
+import NaverMapView, {Marker, Polyline} from 'react-native-nmap';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {
+  bottomSheetState,
+  pathDataState,
+  hospitalState,
+  pharmacyState,
+} from '../state/atoms';
 import HospitalInfoModal from './HospitalInfoModal';
 import PharmacyinfoModal from './PharmacyInfoModal';
 import {
@@ -24,8 +29,10 @@ function MyMap() {
   const mapViewRef = useRef(null);
   const [isCenteredOnCurrentLocation, setIsCenteredOnCurrentLocation] =
     useState(false);
+  const setBottomSheet = useSetRecoilState(bottomSheetState);
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const [hospitalModalVisible, setHospitalModalVisible] = useState(false);
+  const [pharmacyModalVisible, setPharmacyModalVisible] = useState(false);
 
   const [selectedHospital, setSelectedHospital] = useState(null);
   const [selectedHospitalId, setSelectedHospitalId] = useState(null);
@@ -37,6 +44,14 @@ function MyMap() {
 
   const hospitals = useRecoilValue(hospitalState);
   const pharmacys = useRecoilValue(pharmacyState);
+
+  const pathData = useRecoilValue(pathDataState);
+  const polylineCoordinates = pathData
+    ? pathData.map(point => ({
+        latitude: point.latitude,
+        longitude: point.longitude,
+      }))
+    : [];
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -69,6 +84,17 @@ function MyMap() {
 
     requestLocationPermission();
   }, []);
+
+  const [blink, setBlink] = useState(false);
+
+  useEffect(() => {
+    if (selectedHospitalId || selectedPharmacyId) {
+      const interval = setInterval(() => {
+        setBlink(prev => !prev);
+      }, 500);
+      return () => clearInterval(interval);
+    }
+  }, [selectedHospitalId, selectedPharmacyId]);
 
   useEffect(() => {
     if (hospitals && hospitals.length > 0 && currentLocation) {
@@ -120,13 +146,15 @@ function MyMap() {
   const onMarkerPress = hospital => {
     setSelectedHospitalId(hospital.id);
     setSelectedHospital(hospital);
-    setModalVisible(true);
+    setHospitalModalVisible(true);
+    setBottomSheet({isOpen: true, index: 0});
   };
 
   const onMarkerPress_1 = pharmacy => {
     setselectedPharmacyId(pharmacy.id);
     setselectedPharmacy(pharmacy);
-    setModalVisible(true);
+    setPharmacyModalVisible(true);
+    setBottomSheet({isOpen: true, index: 0});
   };
 
   return (
@@ -157,7 +185,9 @@ function MyMap() {
             height={35}
             image={
               selectedPharmacyId_1 === pharmacy.id
-                ? require('../../assets/icons/pharmacy_select.png')
+                ? blink
+                  ? require('../../assets/icons/pharmacy_select.png')
+                  : require('../../assets/icons/pharmacy.png')
                 : require('../../assets/icons/pharmacy.png')
             }
             onClick={() => onMarkerPress_1(pharmacy)}
@@ -174,12 +204,21 @@ function MyMap() {
             height={35}
             image={
               selectedHospitalId_1 === hospital.id
-                ? require('../../assets/icons/hospital_select.png')
+                ? blink
+                  ? require('../../assets/icons/hospital_select.png')
+                  : require('../../assets/icons/hospital.png')
                 : require('../../assets/icons/hospital.png')
             }
             onClick={() => onMarkerPress(hospital)}
           />
         ))}
+        {pathData && (
+          <Polyline
+            coordinates={polylineCoordinates}
+            strokeColor="green"
+            strokeWidth={5}
+          />
+        )}
         {currentLocation && (
           <Marker
             coordinate={currentLocation}
@@ -191,13 +230,13 @@ function MyMap() {
       </NaverMapView>
       <HospitalInfoModal
         hospital={selectedHospital}
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
+        visible={hospitalModalVisible}
+        onClose={() => setHospitalModalVisible(false)}
       />
-      <HospitalInfoModal
+      <PharmacyinfoModal
         hospital={selectedPharmacy}
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
+        visible={pharmacyModalVisible}
+        onClose={() => setPharmacyModalVisible(false)}
       />
       <TouchableWithoutFeedback onPress={toggleLocationCenter}>
         <View
