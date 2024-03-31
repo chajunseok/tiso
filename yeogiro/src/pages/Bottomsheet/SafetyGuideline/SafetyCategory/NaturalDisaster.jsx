@@ -7,16 +7,16 @@ const {width: screenWidth} = Dimensions.get('window');
 const buttonWidth = (screenWidth - 40) / 2; // 버튼 가로 길이
 
 const disasterList = [
-  {id: '1', title: '대설', videoId: 'Q4LePrtMeZ0'},
-  {id: '2', title: '홍수', videoId: 'HLFBESVTaJs'},
-  {id: '3', title: '침수', videoId: 'midmGS9Kqjo'},
-  {id: '4', title: '해일', videoId: 'Pg4NcdCIxvo'},
-  {id: '5', title: '폭염', videoId: 'XtwfBT4uFzs'},
-  {id: '6', title: '지진', videoId: 'kdkcKESgRaU'},
-  {id: '7', title: '한파', videoId: 'e02QQR0y5HE'},
-  {id: '8', title: '건조', videoId: '8G5F7KyT6sg'},
-  {id: '9', title: '호우', videoId: 'KBjuOdms98g'},
-  {id: '10', title: '태풍', videoId: 'oWu95ZitpTI'},
+  {id: '1', title: '대설', api: 'D1', videoId: 'Q4LePrtMeZ0'},
+  {id: '2', title: '홍수', api: 'D2', videoId: 'HLFBESVTaJs'},
+  {id: '3', title: '침수', api: 'D3', videoId: 'midmGS9Kqjo'},
+  {id: '4', title: '해일', api: 'D4', videoId: 'Pg4NcdCIxvo'},
+  {id: '5', title: '폭염', api: 'D5', videoId: 'XtwfBT4uFzs'},
+  {id: '6', title: '지진', api: 'D6', videoId: 'kdkcKESgRaU'},
+  {id: '7', title: '한파', api: 'D7', videoId: 'e02QQR0y5HE'},
+  {id: '8', title: '건조', api: 'D8', videoId: '8G5F7KyT6sg'},
+  {id: '9', title: '호우', api: 'D9', videoId: 'KBjuOdms98g'},
+  {id: '10', title: '태풍', api: 'D10', videoId: 'oWu95ZitpTI'},
 ];
 
 function NaturalDisaster({navigation}) {
@@ -38,6 +38,7 @@ function NaturalDisaster({navigation}) {
       onPress={() =>
         navigation.navigate('SafetyGuidelineDetail', {
           title: item.title,
+          api: item.api,
           videoId: item.videoId,
         })
       }>
