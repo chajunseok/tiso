@@ -4,7 +4,9 @@ from typing import Optional
 
 host = 'j10b308a.p.ssafy.io'
 port = 60000
-uri = f"mongodb://{host}:{port}/"
+username = 'tiso'
+password = 'tiso'
+uri = f"mongodb://{username}:{password}@{host}:{port}/"
 
 class PathDB:
     def __init__(self):
