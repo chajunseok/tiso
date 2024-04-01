@@ -1,12 +1,14 @@
 import requests
 from dotenv import load_dotenv
 import os
+import json
 
 load_dotenv()
 
 client_id = os.environ.get('client_id')
 client_secret = os.environ.get('client_secret')
 
+url = "http://tiso.run:8000/emergency"
 
 def get_lat_lon(query):
     url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode"
@@ -22,9 +24,6 @@ def get_lat_lon(query):
             address = result['addresses'][0]
             lat, lon = address['y'], address['x']
             return lat, lon
+        
+    response = requests.post(url, json=json.dumps(result))
     return None, None
-
-##### 테스트용 ######
-region = "장안면 독정리 677 공장"
-result = get_lat_lon(region)
-print(result)
