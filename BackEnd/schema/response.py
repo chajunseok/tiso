@@ -23,6 +23,19 @@ class ShelterPathSchema(BaseModel):
         sheterId=orm_shelter_path.shelter_id
         return cls(path=path,distance=distance,sheterId=sheterId)
     
+# Refactoring 필요
+class OnlyPathSchema(BaseModel):
+    path: list[dict[str,float]] = [
+                                    {"latitude":37.123,"longitude":127.233},
+                                    {"latitude":37.345,"longitude":127.567},
+                                    {"latitude":37.678,"longitude":127.789}
+                                ]
+    
+    @classmethod
+    def from_odm_to_schema(cls,orm_path:list[tuple[float, float]]):
+        path=[{"latitude":latitude,"longitude":longitude} for [longitude,latitude] in orm_path]
+        return cls(path=path)
+    
 class ShelterInfoSchema(BaseModel):
     shelterId: str = "65fd1f64a1c2102da599cf79"
     name: str = "구암역 대전1호선 지하역사(지하1층)"
@@ -62,11 +75,9 @@ class ShelterRespSchema(BaseModel):
         "shelterList":[ShelterInfoSchema(),ShelterInfoSchema(),ShelterInfoSchema()]
     }
 
-
 class PathRespSchema(BaseModel):
     status: int = 2000
     data : ShelterPathSchema = ShelterPathSchema()
-    
 
 class EmergencyPathRespSchema(BaseModel):
     status: int = 2000
@@ -81,6 +92,11 @@ class EmergencyPathRespSchema(BaseModel):
         }
     }
 
+
+class NaverPathResp(BaseModel):
+    status: int = 2000
+    data : OnlyPathSchema    
+    
 class TipsRespSchema(BaseModel):
     status: int = 2000
     data : dict[str, list[TipsInfoSchema]]

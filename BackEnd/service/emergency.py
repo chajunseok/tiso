@@ -83,14 +83,14 @@ class EmergencyService:
             nearest_shelter_walkable_spot=get_nearest_walkable_spot_with_danger_area(self.map_db.binary_map,
                                                                              standard,shelter_mapped_gps_spot,
                                                                              danger_mapped_gps_index,
-                                                                             danger_area_standard)
+                                                                             self.emergency_db.radius)
     
             short_index_path,distance=get_short_path_by_astar_with_danger_area(self.map_db.binary_map,
                                                                         nearest_walkable_spot,              
                                                                         nearest_shelter_walkable_spot,
                                                                         standard,
                                                                         danger_mapped_gps_index,
-                                                                        danger_area_standard
+                                                                        self.emergency_db.radius
                                                                         )                                     
             #만약 short_index가 빈배열이라면 갈 수 없는 곳이므로 다음 대피소에 대하여 다시 돌려야하는 로직 추가해야한다.
             short_gps_path=list(map(lambda point:tuple(reversed(self.map_db.gps_mapping[point[0]//5][point[1]//5])),short_index_path))
