@@ -1,6 +1,5 @@
 buildscript {
     ext {
-        buildToolsVersion = "34.0.0"
         minSdkVersion = 21
         compileSdkVersion = 34
         targetSdkVersion = 34
@@ -10,7 +9,6 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        // jcenter() -> mavenCentral()보다 뒤에 나온거라 더 좋다고해요
     }
     dependencies {
         classpath("com.android.tools.build:gradle")

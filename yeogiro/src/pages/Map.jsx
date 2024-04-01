@@ -15,12 +15,15 @@ import {
   pathDataState,
   hospitalState,
   pharmacyState,
+  shelterState,
 } from '../state/atoms';
 import HospitalInfoModal from './HospitalInfoModal';
 import PharmacyinfoModal from './PharmacyInfoModal';
+import ShelterinfoModal from './ShelterInfoModal';
 import {
   selectedHospitalIdState,
   selectedPharmacyIdState,
+  selectedFacilityIdState,
 } from '../state/selectedAtom';
 
 function MyMap() {
@@ -33,6 +36,7 @@ function MyMap() {
 
   const [hospitalModalVisible, setHospitalModalVisible] = useState(false);
   const [pharmacyModalVisible, setPharmacyModalVisible] = useState(false);
+  const [shelterModalVisible, setShelterModalVisible] = useState(false);
 
   const [selectedHospital, setSelectedHospital] = useState(null);
   const [selectedHospitalId, setSelectedHospitalId] = useState(null);
@@ -42,8 +46,13 @@ function MyMap() {
   const [selectedPharmacyId, setselectedPharmacyId] = useState(null);
   const selectedPharmacyId_1 = useRecoilValue(selectedPharmacyIdState);
 
+  const [selectedShelter, setSelectedShelter] = useState(null);
+  const [selectedShelterId, setSelectedShelterId] = useState(null);
+  const selectedShelterId_1 = useRecoilValue(selectedFacilityIdState);
+
   const hospitals = useRecoilValue(hospitalState);
   const pharmacys = useRecoilValue(pharmacyState);
+  const shelters = useRecoilValue(shelterState);
 
   const pathData = useRecoilValue(pathDataState);
   const polylineCoordinates = pathData
@@ -88,13 +97,13 @@ function MyMap() {
   const [blink, setBlink] = useState(false);
 
   useEffect(() => {
-    if (selectedHospitalId || selectedPharmacyId) {
+    if (selectedHospitalId || selectedPharmacyId || selectedShelterId) {
       const interval = setInterval(() => {
         setBlink(prev => !prev);
       }, 500);
       return () => clearInterval(interval);
     }
-  }, [selectedHospitalId, selectedPharmacyId]);
+  }, [selectedHospitalId, selectedPharmacyId, selectedShelterId]);
 
   useEffect(() => {
     if (hospitals && hospitals.length > 0 && currentLocation) {
@@ -107,6 +116,12 @@ function MyMap() {
       setIsCenteredOnCurrentLocation(true);
     }
   }, [pharmacys]);
+
+  useEffect(() => {
+    if (shelters && shelters.length > 0 && currentLocation) {
+      setIsCenteredOnCurrentLocation(true);
+    }
+  }, [shelters]);
 
   const getInitLocation = () => {
     console.log('초기 위치');
@@ -154,6 +169,13 @@ function MyMap() {
     setselectedPharmacyId(pharmacy.id);
     setselectedPharmacy(pharmacy);
     setPharmacyModalVisible(true);
+    setBottomSheet({isOpen: true, index: 0});
+  };
+
+  const onMarkerPress_2 = shelter => {
+    setSelectedShelterId(shelter.id);
+    setSelectedShelter(shelter);
+    setShelterModalVisible(true);
     setBottomSheet({isOpen: true, index: 0});
   };
 
@@ -212,12 +234,37 @@ function MyMap() {
             onClick={() => onMarkerPress(hospital)}
           />
         ))}
-        {pathData && polylineCoordinates.length > 0 && (
-          <Polyline
-            coordinates={polylineCoordinates}
-            strokeColor="green"
-            strokeWidth={5}
+        {shelters?.map((shelter, index) => (
+          <Marker
+            key={index}
+            coordinate={{
+              latitude: parseFloat(shelter.latitude),
+              longitude: parseFloat(shelter.longitude),
+            }}
+            width={25}
+            height={35}
+            image={
+              selectedShelterId_1 === shelter.id
+                ? blink
+                  ? require('../../assets/icons/shelter_select.png')
+                  : require('../../assets/icons/shelter.png')
+                : require('../../assets/icons/shelter.png')
+            }
+            onClick={() => onMarkerPress_2(shelter)}
           />
+        ))}
+        {pathData && polylineCoordinates.length > 0 && (
+          <>
+            {console.log(
+              'Rendering Polyline with coordinates:',
+              polylineCoordinates,
+            )}
+            <Polyline
+              coordinates={polylineCoordinates}
+              strokeColor="green"
+              strokeWidth={5}
+            />
+          </>
         )}
 
         {currentLocation && (
@@ -238,6 +285,11 @@ function MyMap() {
         hospital={selectedPharmacy}
         visible={pharmacyModalVisible}
         onClose={() => setPharmacyModalVisible(false)}
+      />
+      <ShelterinfoModal
+        shelter={selectedShelter}
+        visible={shelterModalVisible}
+        onClose={() => setShelterModalVisible(false)}
       />
       <TouchableWithoutFeedback onPress={toggleLocationCenter}>
         <View

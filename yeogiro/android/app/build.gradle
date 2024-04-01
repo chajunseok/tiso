@@ -71,7 +71,6 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
     ndkVersion rootProject.ext.ndkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
     namespace "com.yeogiro"
@@ -79,8 +78,9 @@ android {
         applicationId "com.yeogiro"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        multiDexEnabled true
+        versionCode 5
+        versionName "1.2.2"
     }
     signingConfigs {
         debug {

@@ -10,4 +10,13 @@ const selectedPharmacyIdState = atom({
   default: null,
 });
 
-export {selectedHospitalIdState, selectedPharmacyIdState};
+const selectedFacilityIdState = atom({
+  key: 'selectedFacilityIdState',
+  default: null,
+});
+
+export {
+  selectedHospitalIdState,
+  selectedPharmacyIdState,
+  selectedFacilityIdState,
+};
