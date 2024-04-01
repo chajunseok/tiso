@@ -1,11 +1,12 @@
 from fastapi import Depends
+from pymongo import MongoClient
 from repository.odm import ShelterInfoDocument
 from database.mongo import get_mongo_client
 from typing import List
 import time
 
 class ShelterRepository:
-    def __init__(self,mongo_client=Depends(get_mongo_client)):
+    def __init__(self,mongo_client : MongoClient=Depends(get_mongo_client)):
         self.client=mongo_client
         print("ShelterRepository init")
         
