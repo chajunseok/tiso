@@ -15,7 +15,7 @@ class EmergencyDB:
         self.status = False
         self.danger_area={
         }
-        self.radius = 200
+        self.radius = 100
         print("비상상황 전역변수가 초기화되었습니다.")
         print("==========================EmergencyDB=========================")
 
@@ -35,6 +35,7 @@ class EmergencyDB:
             return False
         diff : datetime = (datetime.now()-self.occur_time)
         if diff.seconds > 60*30:
+            self.status=False
             return False
         return True
 emergencydb=EmergencyDB()

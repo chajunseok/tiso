@@ -38,8 +38,7 @@ class EmergencyService:
             raise HTTPException(status_code=404, detail="대전에 위치하지 않은 사용자입니다.")
         mapped_gps_spot=(mapped_gps_index[0]*5,mapped_gps_index[1]*5)
 
-        standard=300
-        danger_area_standard=100
+        standard=200
 
         if any(self.emergency_db.danger_area):
             #위험지역이 존재한다면 위험지역과 겹치지 않는 nearest_walkable_spot을 찾아야한다.
@@ -50,7 +49,7 @@ class EmergencyService:
             nearest_walkable_spot=get_nearest_walkable_spot_with_danger_area(self.map_db.binary_map,
                                                                              standard,mapped_gps_spot,
                                                                              danger_mapped_gps_index,
-                                                                             danger_area_standard)
+                                                                             self.emergency_db.radius)
         else:
             #장애물이 없다면 바로 변환
             nearest_walkable_spot=get_nearest_walkable_spot(self.map_db.binary_map,standard,mapped_gps_spot)
