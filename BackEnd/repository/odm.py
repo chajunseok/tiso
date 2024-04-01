@@ -1,5 +1,5 @@
-from typing import List,Optional
-
+from typing import Optional
+from bson.objectid import ObjectId
 class Document:
     def __new__(cls,*args ,**kwargs):
         obj = super().__new__(cls)
@@ -21,10 +21,12 @@ class Document:
         return not self.inserted
     
 class PathDocument(Document):
-    shelter_id : Optional[str] = "powqjdpqwd213"
-    coordinates :  Optional[list[list[float,float]]] = [[127.123,37.123123],[128.1651364312,38.121509135],[129.165136,135.214]]
+    _id :  Optional[ObjectId] = ObjectId('6602530ae409eb8a4dee4dbd')
+    shelter_id : Optional[str] = "65fd1f64a1c2102da599cf83"
+    path :  Optional[list[list[float,float]]] = [[127.123,37.123123],[128.1651364312,38.121509135],[129.165136,135.214]]
+    start : Optional[list[float,float]] = [127.30601804656527,36.38390384430509]
     distance : Optional[float] = "18.981347"
-    type : Optional[str] = "LineString"
+
 
 class ShelterInfoDocument(Document):
     _id : Optional[str] = "65fd1f64a1c2102da599cf79"
