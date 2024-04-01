@@ -5,8 +5,8 @@ import json
 
 load_dotenv()
 
-client_id = os.environ.get('client_id')
-client_secret = os.environ.get('client_secret')
+client_id = os.environ.get('NAVER_CLIENT_KEY')
+client_secret = os.environ.get('NAVER_SECRET_KEY')
 
 url = "http://tiso.run:8000/emergency"
 
