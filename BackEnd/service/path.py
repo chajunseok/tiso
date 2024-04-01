@@ -6,8 +6,16 @@ from repository.odm import PathDocument, ShelterInfoDocument
 from database.mapdb import MapDB, get_mapdb
 from util.map import lat_lon_array_binary_search
 from fastapi import HTTPException
+from bson.objectid import ObjectId
 import time
+import httpx
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+
+CLIENT_KEY = os.getenv('NAVER_CLIENT_KEY')
+SECRET_KEY = os.getenv('NAVER_SECRET_KEY')
 
 class PathService:
     def __init__(self,path_repository:PathRepository = Depends(),shelter_repository:ShelterRepository = Depends(),map_db: MapDB = Depends(get_mapdb)):
@@ -16,7 +24,7 @@ class PathService:
         self.shelter_repository=shelter_repository
         print("PathService init")
 
-    def get_path_from_gps_to_shelter(self,latitude:float,longitude:float,shelter_id:str)->PathDocument:
+    async def get_path_from_gps_to_shelter(self,latitude:float,longitude:float,shelter_id:str)->PathDocument:
         mapped_gps_index=lat_lon_array_binary_search(self.map_db.gps_mapping,(latitude,longitude))
         
         if mapped_gps_index==(-1,-1):
@@ -49,7 +57,44 @@ class PathService:
                                                                                             )
         
         if path_document.isEmpty():
-            raise HTTPException(status_code=404, detail="현 위치에서 3km이내의 대피소가 존재하지 않습니다.")
+            shelter_lng = shelter_info.coordinates[0]
+            shelter_lat = shelter_info.coordinates[1]
+            
+            # print(latitude, longitude, shelter_lat, shelter_lng)
+            # await self.naver_service(latitude, longitude, shelter_lat, shelter_lng)
+            path, distance = await self.naver_service(latitude, longitude, shelter_lat, shelter_lng)
+            return PathDocument(data={"_id":ObjectId(shelter_id),
+                                "shelter_id":shelter_id,
+                                "path":path,
+                                "start":[latitude, longitude],
+                                "distance":float(distance)}
+                                )
+            
+            # raise HTTPException(status_code=404, detail="현 위치에서 3km이내의 대피소가 존재하지 않습니다.")
         path_document.path.insert(0,[longitude,latitude])
         path_document.path.append(shelter_info.coordinates)
         return path_document
+    
+    
+    async def naver_service(self, s_lat: float, s_lng: float, e_lat: float, e_lng: float):
+        url_path =f"https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start={s_lng},{s_lat}&goal={e_lng},{e_lat}"
+        url_req = url_path.replace(",", "%2C").replace("|", "%7C")
+        
+        async with httpx.AsyncClient() as client:
+                headers = {
+                "X-NCP-APIGW-API-KEY-ID": CLIENT_KEY,
+                "X-NCP-APIGW-API-KEY": SECRET_KEY
+                }
+                try:
+                        response = await client.get(url_req, headers=headers)
+                        response.raise_for_status()
+                        resp_data = response.json()
+                        # print(resp_data)
+                        path = resp_data['route']['traoptimal'][0]['path']
+                        distance = resp_data['route']['traoptimal'][0]['summary']['distance']
+                        print(path)
+                        return path, distance
+                
+                except httpx.HTTPStatusError as exc:
+                # 서버에서 4XX나 5XX 응답을 반환했을 때 예외 처리
+                        raise HTTPException(status_code=exc.response.status_code, detail=str(exc))
