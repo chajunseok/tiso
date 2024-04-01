@@ -18,7 +18,7 @@ class ShelterPathSchema(BaseModel):
 
     @classmethod
     def from_odm_to_schema(cls,orm_shelter_path:PathDocument):
-        path=[{"latitude":latitude,"longitude":longitude} for [longitude,latitude] in orm_shelter_path.coordinates]
+        path=[{"latitude":latitude,"longitude":longitude} for [longitude,latitude] in orm_shelter_path.path]
         distance=orm_shelter_path.distance
         sheterId=orm_shelter_path.shelter_id
         return cls(path=path,distance=distance,sheterId=sheterId)
@@ -67,7 +67,20 @@ class PathRespSchema(BaseModel):
     status: int = 2000
     data : ShelterPathSchema = ShelterPathSchema()
     
-    
+
+class EmergencyPathRespSchema(BaseModel):
+    status: int = 2000
+    data : dict = {
+        "pathInfo" : ShelterPathSchema(),
+        "dangerAreaInfo" : {
+            "gps" : {
+                        "latitude":37.08448,
+		                "longitude":127.92740927
+            } ,
+            "radius" : 200
+        }
+    }
+
 class TipsRespSchema(BaseModel):
     status: int = 2000
     data : dict[str, list[TipsInfoSchema]]

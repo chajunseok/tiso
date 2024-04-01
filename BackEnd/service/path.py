@@ -50,6 +50,6 @@ class PathService:
         
         if path_document.isEmpty():
             raise HTTPException(status_code=404, detail="현 위치에서 3km이내의 대피소가 존재하지 않습니다.")
-        path_document.coordinates.insert(0,[longitude,latitude])
-        path_document.coordinates.append(shelter_info.coordinates)
+        path_document.path.insert(0,[longitude,latitude])
+        path_document.path.append(shelter_info.coordinates)
         return path_document
