@@ -4,8 +4,7 @@ from database.emergencydb import emergencydb
 from database.pathdb import pathdb
 from database.mapdb import mapdb
 from database.mongo import mongodb
-from schema.response import PingPongSchema
-from api import shelter,path,emergency, tips
+from api import shelter,path,emergency, tips, message
 from resource.logo import the_end_logo
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException
@@ -38,10 +37,8 @@ app.include_router(shelter.router)
 app.include_router(path.router)
 app.include_router(emergency.router)
 app.include_router(tips.router)
+app.include_router(message.router)
 
-@app.get("/",status_code=200)
-async def root() -> PingPongSchema:
-    return PingPongSchema()
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request, exc: HTTPException):
