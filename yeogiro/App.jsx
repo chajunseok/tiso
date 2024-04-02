@@ -16,10 +16,11 @@ import axios from 'axios';
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isMainLoading, setIsMainLoading] = useState(true);
+  const setPathData = useSetRecoilState(pathDataState);
   const setEmergency = useSetRecoilState(emergencyState);
 
   useEffect(() => {
-    const getToken = async () => {
+    async function fetchToken() {
       const authStatus = await messaging().requestPermission();
       console.log('Authorization status:', authStatus);
 
@@ -27,46 +28,35 @@ const App = () => {
       console.log('Device token:', token);
 
       await AsyncStorage.setItem('pushToken', token);
-    };
+    }
 
-    getToken();
+    fetchToken();
   }, []);
 
   useEffect(() => {
-    const requestUserPermission = async () => {
-      const isPushEnabledStr = await AsyncStorage.getItem('isPushEnabled');
-      const isPushEnabled =
-        isPushEnabledStr !== null ? JSON.parse(isPushEnabledStr) : true;
-
-      if (isPushEnabled) {
-        const authStatus = await messaging().requestPermission();
-        console.log('Authorization status:', authStatus);
-      }
-    };
-
-    requestUserPermission();
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          handleFindPath();
+        }
+      });
   }, []);
-
   useEffect(() => {
-    const unsubscribe = messaging().onMessage(
-      async remoteMessage => {
-        const {title, body} = remoteMessage.notification;
-        PushNotification.localNotification({
-          title: title,
-          message: body,
-        });
-        setEmergency(prevState => ({
-          ...prevState,
-          isVisible: true,
-        }));
-        return unsubscribe;
-      },
-      [setEmergency],
-    );
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      PushNotification.localNotification({
+        title: remoteMessage.notification.title,
+        message: remoteMessage.notification.body,
+      });
 
-    return () => {
-      unsubscribe();
-    };
+      setEmergency({
+        isVisible: true,
+      });
+
+      handleFindPath();
+    });
+
+    return unsubscribe;
   }, []);
 
   useEffect(() => {
@@ -74,67 +64,53 @@ const App = () => {
       setIsMainLoading(false);
     }, 3000);
 
-    return () => {
-      clearTimeout(timer);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
   const [currentLocation, setCurrentLocation] = useState(null);
-  const setPathData = useSetRecoilState(pathDataState);
 
   useEffect(() => {
-    requestPermissions().then(() => {
-      Geolocation.getCurrentPosition(
-        async position => {
-          console.log('위도 경도 저장');
-          const {latitude, longitude} = position.coords;
-          console.log(latitude, longitude);
-          setCurrentLocation({latitude, longitude});
+    async function getCurrentLocation() {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Location Permission',
+          message: 'This app needs access to your location.',
         },
-        error => {
-          console.log(error.code, error.message);
-        },
-        {enableHighAccuracy: true, timeout: 15000},
       );
-    });
+
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        Geolocation.getCurrentPosition(
+          position => {
+            const {latitude, longitude} = position.coords;
+            setCurrentLocation({latitude, longitude});
+          },
+          error => console.log(error),
+          {enableHighAccuracy: true, timeout: 15000},
+        );
+      } else {
+        console.log('Location permission denied');
+      }
+    }
+
+    getCurrentLocation();
   }, []);
 
-  async function requestPermissions() {
-    await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    );
-    console.log('내 위치');
-  }
-
-  async function findRoute(latitude, longitude) {
-    console.log('최적 길찾기 함수 실행');
-    try {
-      const response = await axios.get(
-        `http://tiso.run:8000/emergency/path?latitude=${latitude}&longitude=${longitude}`,
-      );
-      console.log('길찾기 API 요청보냄');
-      setPathData(response.data.data.pathInfo.path);
-      console.log(response.data.data.pathInfo.path);
-    } catch (error) {
-      if (error.response && error.response.status === 402) {
-        console.error('Validation Error: ', error.response.data);
-      } else {
-        console.error('An unexpected error occurred: ', error);
+  async function handleFindPath() {
+    if (currentLocation) {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(
+          `http://tiso.run:8000/emergency/path?latitude=${currentLocation.latitude}&longitude=${currentLocation.longitude}`,
+        );
+        setPathData(response.data.data.pathInfo.path);
+      } catch (error) {
+        console.log('Error finding route:', error);
+      } finally {
+        setIsLoading(false);
       }
-      return [];
     }
   }
-
-  const handleFindPath = async () => {
-    setIsLoading(true);
-    try {
-      await findRoute(currentLocation.latitude, currentLocation.longitude);
-    } catch (error) {
-      console.error('폴리라인 데이터 가져오기 실패:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   if (isMainLoading) {
     return <MainLoading />;
