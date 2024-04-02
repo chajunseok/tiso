@@ -131,13 +131,21 @@ const ShelterInfoDetail = ({route, navigation}) => {
               currentLocation.longitude,
             );
         }}>
-        <View>
+        <View style={styles.infoContainer}>
           <Text style={styles.title}>{item.name}</Text>
           <Text style={styles.address}>{item.address}</Text>
           <Text style={styles.phone}>{item.capacity}</Text>
         </View>
         <View style={styles.navigatorContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              onSheltersPress(item.id),
+                findShelter(
+                  item.shelterId,
+                  currentLocation.latitude,
+                  currentLocation.longitude,
+                );
+            }}>
             <Image
               source={require('../../../../assets/icons/Navigator.png')}
               style={styles.navigatorImage}
@@ -177,7 +185,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    // fontWeight: 'bold',
     fontFamily: 'Pretendard-Bold',
     fontSize: 16,
     marginBottom: 5,
@@ -187,6 +194,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Pretendard-Regular',
     color: '#666',
     marginBottom: 5,
+    width: '90%',
   },
   capacity: {
     fontSize: 14,
@@ -200,6 +208,11 @@ const styles = StyleSheet.create({
   navigatorImage: {
     width: 40,
     height: 40,
+  },
+
+  infoContainer: {
+    justifyContent: 'space-between',
+    width: '90%',
   },
 });
 
