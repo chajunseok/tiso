@@ -22,12 +22,19 @@ const bottomSheetState = atom({
 
 const pathDataState = atom({
   key: 'pathDataState',
-  default: null,
+  default: [],
 });
 
 const loadingState = atom({
   key: 'loadingState',
   default: false,
+});
+
+const emergencyState = atom({
+  key: 'emergencyState',
+  default: {
+    isVisible: false,
+  },
 });
 
 export {
@@ -37,4 +44,5 @@ export {
   bottomSheetState,
   pathDataState,
   loadingState,
+  emergencyState,
 };

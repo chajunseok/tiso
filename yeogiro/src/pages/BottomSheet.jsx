@@ -39,21 +39,10 @@ import ShelterInfoDetail from './Bottomsheet/FacilitiesInfo/ShelterInfoDetail';
 
 import Loading from './Loading';
 
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useRecoilState} from 'recoil';
 import {bottomSheetState} from '../state/atoms';
-import Geolocation from 'react-native-geolocation-service';
-import axios from 'axios';
-import {pathDataState} from '../state/atoms';
-import {useFocusEffect} from '@react-navigation/native';
 
 const Stack = createStackNavigator();
-async function requestPermissions() {
-  await PermissionsAndroid.request(
-    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-  );
-  console.log('내 위치');
-}
-
 const MyBottomSheet = ({onFindPath}) => {
   const [bottomSheet, setBottomSheet] = useRecoilState(bottomSheetState);
   const bottomSheetRef = useRef(null);
@@ -96,58 +85,11 @@ const MyBottomSheet = ({onFindPath}) => {
       });
     }, [navigation]);
 
-    const [currentLocation, setCurrentLocation] = useState(null);
-    const setPathData = useSetRecoilState(pathDataState);
-
-    useEffect(() => {
-      requestPermissions().then(() => {
-        Geolocation.getCurrentPosition(
-          async position => {
-            console.log('위도 경도 저장');
-            const {latitude, longitude} = position.coords;
-            console.log(latitude, longitude);
-            setCurrentLocation({latitude, longitude});
-          },
-          error => {
-            console.log(error.code, error.message);
-          },
-          {enableHighAccuracy: true, timeout: 15000},
-        );
-      });
-    }, []);
-
-    async function findRoute(latitude, longitude) {
-      console.log('최적 길찾기 함수 실행');
-      try {
-        const response = await axios.get(
-          `http://tiso.run:8000/emergency/path?latitude=${latitude}&longitude=${longitude}`,
-        );
-        console.log('길찾기 API 요청보냄');
-        setPathData(response.data.data.pathInfo.path);
-      } catch (error) {
-        if (error.response && error.response.status === 402) {
-          console.error('Validation Error: ', error.response.data);
-        } else {
-          console.error('An unexpected error occurred: ', error);
-        }
-        return [];
-      }
-    }
-
     async function handleFindPath() {
-      await findRoute(currentLocation.latitude, currentLocation.longitude);
       if (onFindPath) {
         onFindPath();
       }
     }
-
-    useFocusEffect(
-      useCallback(() => {
-        return () => {
-          setPathData(null);
-        };
-      }, [setPathData]),
-    );
 
     return (
       <View style={styles.container}>

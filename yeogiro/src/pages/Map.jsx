@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useMemo} from 'react';
 import {
   PermissionsAndroid,
   Platform,
@@ -16,6 +16,8 @@ import {
   hospitalState,
   pharmacyState,
   shelterState,
+  emergencyState,
+  loadingState,
 } from '../state/atoms';
 import HospitalInfoModal from './HospitalInfoModal';
 import PharmacyinfoModal from './PharmacyInfoModal';
@@ -25,6 +27,8 @@ import {
   selectedPharmacyIdState,
   selectedFacilityIdState,
 } from '../state/selectedAtom';
+import Loading from './Loading';
+import EmergencyModal from './EmergencyModal';
 
 function MyMap() {
   const [currentLocation, setCurrentLocation] = useState(null);
@@ -53,14 +57,22 @@ function MyMap() {
   const hospitals = useRecoilValue(hospitalState);
   const pharmacys = useRecoilValue(pharmacyState);
   const shelters = useRecoilValue(shelterState);
+  const isLoading = useRecoilValue(loadingState);
+  const emergency = useRecoilValue(emergencyState);
 
   const pathData = useRecoilValue(pathDataState);
-  const polylineCoordinates = pathData
-    ? pathData.map(point => ({
+  const polylineCoordinates = useMemo(() => {
+    return (
+      pathData?.map(point => ({
         latitude: point.latitude,
         longitude: point.longitude,
-      }))
-    : [];
+      })) || []
+    );
+  }, [pathData]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -122,6 +134,8 @@ function MyMap() {
       setIsCenteredOnCurrentLocation(true);
     }
   }, [shelters]);
+
+  useEffect(() => {}, [pathData]);
 
   const getInitLocation = () => {
     console.log('초기 위치');
@@ -253,20 +267,6 @@ function MyMap() {
             onClick={() => onMarkerPress_2(shelter)}
           />
         ))}
-        {pathData && polylineCoordinates.length > 0 && (
-          <>
-            {console.log(
-              'Rendering Polyline with coordinates:',
-              polylineCoordinates,
-            )}
-            <Polyline
-              coordinates={polylineCoordinates}
-              strokeColor="green"
-              strokeWidth={5}
-            />
-          </>
-        )}
-
         {currentLocation && (
           <Marker
             coordinate={currentLocation}
@@ -275,22 +275,30 @@ function MyMap() {
             height={30}
           />
         )}
+        {polylineCoordinates.length > 0 && (
+          <Polyline
+            coordinates={polylineCoordinates}
+            strokeColor="red"
+            strokeWidth={5}
+          />
+        )}
       </NaverMapView>
       <HospitalInfoModal
         hospital={selectedHospital}
         visible={hospitalModalVisible}
         onClose={() => setHospitalModalVisible(false)}
       />
+      <ShelterinfoModal
+        hospital={selectedShelter}
+        visible={shelterModalVisible}
+        onClose={() => setShelterModalVisible(false)}
+      />
       <PharmacyinfoModal
         hospital={selectedPharmacy}
         visible={pharmacyModalVisible}
         onClose={() => setPharmacyModalVisible(false)}
       />
-      <ShelterinfoModal
-        shelter={selectedShelter}
-        visible={shelterModalVisible}
-        onClose={() => setShelterModalVisible(false)}
-      />
+      {emergency.isVisible && <EmergencyModal message={emergency.message} />}
       <TouchableWithoutFeedback onPress={toggleLocationCenter}>
         <View
           style={[
