@@ -6,14 +6,8 @@ const Loading = () => {
   return (
     <View style={styles.container}>
       <FastImage
-        source={require('../../assets/icons/logo.png')}
-        style={styles.run}
-        resizeMode={FastImage.resizeMode.contain}
-      />
-      <FastImage
         source={require('../../assets/icons/tiso.gif')}
-        style={styles.run}
-        resizeMode={FastImage.resizeMode.contain}
+        style={styles.tiso}
       />
     </View>
   );
@@ -32,13 +26,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
   },
-  run: {
-    width: 300,
-    height: 300,
-  },
-  load: {
-    width: 200,
-    height: 100,
+  tiso: {
+    width: '100%',
+    height: '100%',
   },
 });
 
