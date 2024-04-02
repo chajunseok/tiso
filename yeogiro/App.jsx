@@ -9,7 +9,7 @@ import Loading from './src/pages/Loading';
 import MainLoading from './src/pages/MainLoading';
 import {View, StyleSheet, PermissionsAndroid} from 'react-native';
 import {useSetRecoilState} from 'recoil';
-import {pathDataState, emergencyState} from './src/state/atoms';
+import {pathDataState, emergencyState, dangerAreaDataState} from './src/state/atoms';
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
 
@@ -81,6 +81,7 @@ const App = () => {
 
   const [currentLocation, setCurrentLocation] = useState(null);
   const setPathData = useSetRecoilState(pathDataState);
+  const setDangerAreaData = useSetRecoilState(dangerAreaDataState);
 
   useEffect(() => {
     requestPermissions().then(() => {
@@ -114,7 +115,9 @@ const App = () => {
       );
       console.log('길찾기 API 요청보냄');
       setPathData(response.data.data.pathInfo.path);
+      setDangerAreaData(response.data.data.dangerAreaInfo);
       console.log(response.data.data.pathInfo.path);
+      console.log(response.data.data.dangerAreaInfo);
     } catch (error) {
       if (error.response && error.response.status === 402) {
         console.error('Validation Error: ', error.response.data);

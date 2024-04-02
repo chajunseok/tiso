@@ -25,6 +25,11 @@ const pathDataState = atom({
   default: [],
 });
 
+const dangerAreaDataState = atom({
+  key: 'dangerAreaDataState',
+  default: null,
+});
+
 const loadingState = atom({
   key: 'loadingState',
   default: false,
@@ -43,6 +48,7 @@ export {
   shelterState,
   bottomSheetState,
   pathDataState,
+  dangerAreaDataState,
   loadingState,
   emergencyState,
 };
