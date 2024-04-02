@@ -6,7 +6,13 @@ import React, {
   useEffect,
   useCallback,
 } from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  PermissionsAndroid,
+  StyleSheet,
+} from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -37,20 +43,11 @@ import {useRecoilState} from 'recoil';
 import {bottomSheetState} from '../state/atoms';
 
 const Stack = createStackNavigator();
-
 const MyBottomSheet = ({onFindPath}) => {
   const [bottomSheet, setBottomSheet] = useRecoilState(bottomSheetState);
   const bottomSheetRef = useRef(null);
   const [bottomSheetIndex, setBottomSheetIndex] = useState(1);
   const snapPoints = useMemo(() => ['25%', '50%', '90%'], []);
-
-  const handleFindPath = () => {
-    setBottomSheetIndex(prevIndex => (prevIndex === 0 ? 1 : 0));
-    setTimeout(() => setBottomSheetIndex(0), 0);
-    if (onFindPath) {
-      onFindPath();
-    }
-  };
 
   const handleHalf = () => {
     setBottomSheet({isOpen: true, index: 1});
@@ -87,6 +84,12 @@ const MyBottomSheet = ({onFindPath}) => {
         headerTitleAlign: 'center',
       });
     }, [navigation]);
+
+    async function handleFindPath() {
+      if (onFindPath) {
+        onFindPath();
+      }
+    }
 
     return (
       <View style={styles.container}>

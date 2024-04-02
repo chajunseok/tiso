@@ -9,7 +9,6 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        // jcenter() -> mavenCentral()보다 뒤에 나온거라 더 좋다고해요
     }
     dependencies {
         classpath("com.android.tools.build:gradle")

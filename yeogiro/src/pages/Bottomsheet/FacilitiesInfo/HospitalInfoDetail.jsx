@@ -68,6 +68,7 @@ const HospitalInfoDetail = ({navigation}) => {
       });
       console.log('길찾기 API 요청보냄');
       console.log(startLng, startLat, endLng, endLat);
+      console.log(response.data.data.path);
       setPathData(response.data.data.path);
     } catch (error) {
       console.log(error);

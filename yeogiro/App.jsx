@@ -7,12 +7,17 @@ import BottomSheet from './src/pages/BottomSheet';
 import Map from './src/pages/Map';
 import Loading from './src/pages/Loading';
 import MainLoading from './src/pages/MainLoading';
-import {View, StyleSheet} from 'react-native';
-import {RecoilRoot} from 'recoil';
+import {View, StyleSheet, PermissionsAndroid} from 'react-native';
+import {useSetRecoilState} from 'recoil';
+import {pathDataState, emergencyState} from './src/state/atoms';
+import Geolocation from 'react-native-geolocation-service';
+import axios from 'axios';
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isMainLoading, setIsMainLoading] = useState(true);
+  const setEmergency = useSetRecoilState(emergencyState);
+
   useEffect(() => {
     const getToken = async () => {
       const authStatus = await messaging().requestPermission();
@@ -26,6 +31,7 @@ const App = () => {
 
     getToken();
   }, []);
+
   useEffect(() => {
     const requestUserPermission = async () => {
       const isPushEnabledStr = await AsyncStorage.getItem('isPushEnabled');
@@ -42,13 +48,21 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      const {title, body} = remoteMessage.notification;
-      PushNotification.localNotification({
-        title: title,
-        message: body,
-      });
-    });
+    const unsubscribe = messaging().onMessage(
+      async remoteMessage => {
+        const {title, body} = remoteMessage.notification;
+        PushNotification.localNotification({
+          title: title,
+          message: body,
+        });
+        setEmergency(prevState => ({
+          ...prevState,
+          isVisible: true,
+        }));
+        return unsubscribe;
+      },
+      [setEmergency],
+    );
 
     return () => {
       unsubscribe();
@@ -65,11 +79,61 @@ const App = () => {
     };
   }, []);
 
-  const handleFindPath = () => {
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const setPathData = useSetRecoilState(pathDataState);
+
+  useEffect(() => {
+    requestPermissions().then(() => {
+      Geolocation.getCurrentPosition(
+        async position => {
+          console.log('위도 경도 저장');
+          const {latitude, longitude} = position.coords;
+          console.log(latitude, longitude);
+          setCurrentLocation({latitude, longitude});
+        },
+        error => {
+          console.log(error.code, error.message);
+        },
+        {enableHighAccuracy: true, timeout: 15000},
+      );
+    });
+  }, []);
+
+  async function requestPermissions() {
+    await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+    );
+    console.log('내 위치');
+  }
+
+  async function findRoute(latitude, longitude) {
+    console.log('최적 길찾기 함수 실행');
+    try {
+      const response = await axios.get(
+        `http://tiso.run:8000/emergency/path?latitude=${latitude}&longitude=${longitude}`,
+      );
+      console.log('길찾기 API 요청보냄');
+      setPathData(response.data.data.pathInfo.path);
+      console.log(response.data.data.pathInfo.path);
+    } catch (error) {
+      if (error.response && error.response.status === 402) {
+        console.error('Validation Error: ', error.response.data);
+      } else {
+        console.error('An unexpected error occurred: ', error);
+      }
+      return [];
+    }
+  }
+
+  const handleFindPath = async () => {
     setIsLoading(true);
-    setTimeout(() => {
+    try {
+      await findRoute(currentLocation.latitude, currentLocation.longitude);
+    } catch (error) {
+      console.error('폴리라인 데이터 가져오기 실패:', error);
+    } finally {
       setIsLoading(false);
-    }, 5000);
+    }
   };
 
   if (isMainLoading) {
@@ -77,19 +141,17 @@ const App = () => {
   }
 
   return (
-    <RecoilRoot>
-      <GestureHandlerRootView style={{flex: 1}}>
-        <View style={{flex: 1}}>
-          <Map />
-          <BottomSheet onFindPath={handleFindPath} />
-          {isLoading && (
-            <View style={styles.loadingOverlay}>
-              <Loading />
-            </View>
-          )}
-        </View>
-      </GestureHandlerRootView>
-    </RecoilRoot>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <View style={{flex: 1}}>
+        <Map />
+        <BottomSheet onFindPath={handleFindPath} />
+        {isLoading && (
+          <View style={styles.loadingOverlay}>
+            <Loading />
+          </View>
+        )}
+      </View>
+    </GestureHandlerRootView>
   );
 };
 

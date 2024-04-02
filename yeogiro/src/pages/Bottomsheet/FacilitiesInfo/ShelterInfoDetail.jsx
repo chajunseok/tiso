@@ -1,9 +1,23 @@
-import {TouchableOpacity} from '@gorhom/bottom-sheet';
-import React, {useLayoutEffect, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Image, PermissionsAndroid} from 'react-native';
+import React, {useLayoutEffect, useEffect, useState, useCallback} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  PermissionsAndroid,
+} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import Geolocation from 'react-native-geolocation-service';
+import {useRecoilState, useSetRecoilState} from 'recoil';
+import {
+  shelterState,
+  bottomSheetState,
+  pathDataState,
+} from '../../../state/atoms';
 import axios from 'axios';
+import {selectedFacilityIdState} from '../../../state/selectedAtom';
+import {useFocusEffect} from '@react-navigation/native';
 
 async function requestPermissions() {
   await PermissionsAndroid.request(
@@ -28,11 +42,41 @@ async function fetchShelters(latitude, longitude, shelter) {
 }
 
 const ShelterInfoDetail = ({route, navigation}) => {
+  const [selectedFacilityId, setselectedFacilityId] = useRecoilState(
+    selectedFacilityIdState,
+  );
+  const setBottomSheet = useSetRecoilState(bottomSheetState);
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const setPathData = useSetRecoilState(pathDataState);
   const {categoryId} = route.params;
-  const [shelters, setShelters] = useState([]);
+  const [shelters, setShelters] = useRecoilState(shelterState);
+  const onSheltersPress = sheltersId => {
+    setselectedFacilityId(sheltersId);
+    setBottomSheet({isOpen: true, index: 0});
+  };
+
+  async function findShelter(shelter_id, latitude, longitude) {
+    console.log('길찾기 함수 실행');
+    console.log(shelter_id, latitude, longitude);
+    try {
+      const response = await axios.get(
+        `http://tiso.run:8000/paths?shelter_id=${shelter_id}&latitude=${latitude}&longitude=${longitude}`,
+      );
+      console.log('길찾기 API 요청보냄');
+      setPathData(response.data.data.path);
+    } catch (error) {
+      if (error.response && error.response.status === 422) {
+        console.error('Validation Error: ', error.response.data);
+      } else {
+        console.error('An unexpected error occurred: ', error);
+      }
+      return [];
+    }
+  }
+
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: '시설 정보',
+      title: '대피소 정보',
       headerTitleStyle: {
         fontSize: 20,
         fontWeight: 'bold',
@@ -42,12 +86,22 @@ const ShelterInfoDetail = ({route, navigation}) => {
     });
   }, [navigation]);
 
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setPathData(null);
+        setShelters([]);
+      };
+    }, [setShelters, setPathData]),
+  );
+
   useEffect(() => {
     requestPermissions().then(() => {
       Geolocation.getCurrentPosition(
         async position => {
           console.log('위도 경도 저장');
           const {latitude, longitude} = position.coords;
+          setCurrentLocation({latitude, longitude});
           console.log(latitude, longitude);
           const sheltersData = await fetchShelters(
             latitude,
@@ -55,7 +109,6 @@ const ShelterInfoDetail = ({route, navigation}) => {
             categoryId,
           );
           setShelters(sheltersData);
-          console.log(shelters);
         },
         error => {
           console.log(error.code, error.message);
@@ -67,11 +120,20 @@ const ShelterInfoDetail = ({route, navigation}) => {
 
   const renderItem = ({item}) => {
     return (
-      <View style={styles.listItem}>
+      <TouchableOpacity
+        style={styles.listItem}
+        onPress={() => {
+          onSheltersPress(item.id),
+            findShelter(
+              item.shelterId,
+              currentLocation.latitude,
+              currentLocation.longitude,
+            );
+        }}>
         <View>
           <Text style={styles.title}>{item.name}</Text>
           <Text style={styles.address}>{item.address}</Text>
-          <Text style={styles.capacity}>수용 인원: {item.capacity}</Text>
+          <Text style={styles.phone}>{item.capacity}</Text>
         </View>
         <View style={styles.navigatorContainer}>
           <TouchableOpacity>
@@ -81,7 +143,7 @@ const ShelterInfoDetail = ({route, navigation}) => {
             />
           </TouchableOpacity>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 

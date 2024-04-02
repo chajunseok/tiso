@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useMemo} from 'react';
 import {
   PermissionsAndroid,
   Platform,
@@ -15,13 +15,20 @@ import {
   pathDataState,
   hospitalState,
   pharmacyState,
+  shelterState,
+  emergencyState,
+  loadingState,
 } from '../state/atoms';
 import HospitalInfoModal from './HospitalInfoModal';
 import PharmacyinfoModal from './PharmacyInfoModal';
+import ShelterinfoModal from './ShelterInfoModal';
 import {
   selectedHospitalIdState,
   selectedPharmacyIdState,
+  selectedFacilityIdState,
 } from '../state/selectedAtom';
+import Loading from './Loading';
+import EmergencyModal from './EmergencyModal';
 
 function MyMap() {
   const [currentLocation, setCurrentLocation] = useState(null);
@@ -33,6 +40,7 @@ function MyMap() {
 
   const [hospitalModalVisible, setHospitalModalVisible] = useState(false);
   const [pharmacyModalVisible, setPharmacyModalVisible] = useState(false);
+  const [shelterModalVisible, setShelterModalVisible] = useState(false);
 
   const [selectedHospital, setSelectedHospital] = useState(null);
   const [selectedHospitalId, setSelectedHospitalId] = useState(null);
@@ -42,16 +50,29 @@ function MyMap() {
   const [selectedPharmacyId, setselectedPharmacyId] = useState(null);
   const selectedPharmacyId_1 = useRecoilValue(selectedPharmacyIdState);
 
+  const [selectedShelter, setSelectedShelter] = useState(null);
+  const [selectedShelterId, setSelectedShelterId] = useState(null);
+  const selectedShelterId_1 = useRecoilValue(selectedFacilityIdState);
+
   const hospitals = useRecoilValue(hospitalState);
   const pharmacys = useRecoilValue(pharmacyState);
+  const shelters = useRecoilValue(shelterState);
+  const isLoading = useRecoilValue(loadingState);
+  const emergency = useRecoilValue(emergencyState);
 
   const pathData = useRecoilValue(pathDataState);
-  const polylineCoordinates = pathData
-    ? pathData.map(point => ({
+  const polylineCoordinates = useMemo(() => {
+    return (
+      pathData?.map(point => ({
         latitude: point.latitude,
         longitude: point.longitude,
-      }))
-    : [];
+      })) || []
+    );
+  }, [pathData]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -88,13 +109,13 @@ function MyMap() {
   const [blink, setBlink] = useState(false);
 
   useEffect(() => {
-    if (selectedHospitalId || selectedPharmacyId) {
+    if (selectedHospitalId || selectedPharmacyId || selectedShelterId) {
       const interval = setInterval(() => {
         setBlink(prev => !prev);
       }, 500);
       return () => clearInterval(interval);
     }
-  }, [selectedHospitalId, selectedPharmacyId]);
+  }, [selectedHospitalId, selectedPharmacyId, selectedShelterId]);
 
   useEffect(() => {
     if (hospitals && hospitals.length > 0 && currentLocation) {
@@ -107,6 +128,14 @@ function MyMap() {
       setIsCenteredOnCurrentLocation(true);
     }
   }, [pharmacys]);
+
+  useEffect(() => {
+    if (shelters && shelters.length > 0 && currentLocation) {
+      setIsCenteredOnCurrentLocation(true);
+    }
+  }, [shelters]);
+
+  useEffect(() => {}, [pathData]);
 
   const getInitLocation = () => {
     console.log('초기 위치');
@@ -154,6 +183,13 @@ function MyMap() {
     setselectedPharmacyId(pharmacy.id);
     setselectedPharmacy(pharmacy);
     setPharmacyModalVisible(true);
+    setBottomSheet({isOpen: true, index: 0});
+  };
+
+  const onMarkerPress_2 = shelter => {
+    setSelectedShelterId(shelter.id);
+    setSelectedShelter(shelter);
+    setShelterModalVisible(true);
     setBottomSheet({isOpen: true, index: 0});
   };
 
@@ -212,14 +248,25 @@ function MyMap() {
             onClick={() => onMarkerPress(hospital)}
           />
         ))}
-        {pathData && polylineCoordinates.length > 0 && (
-          <Polyline
-            coordinates={polylineCoordinates}
-            strokeColor="green"
-            strokeWidth={5}
+        {shelters?.map((shelter, index) => (
+          <Marker
+            key={index}
+            coordinate={{
+              latitude: parseFloat(shelter.latitude),
+              longitude: parseFloat(shelter.longitude),
+            }}
+            width={25}
+            height={35}
+            image={
+              selectedShelterId_1 === shelter.id
+                ? blink
+                  ? require('../../assets/icons/shelter_select.png')
+                  : require('../../assets/icons/shelter.png')
+                : require('../../assets/icons/shelter.png')
+            }
+            onClick={() => onMarkerPress_2(shelter)}
           />
-        )}
-
+        ))}
         {currentLocation && (
           <Marker
             coordinate={currentLocation}
@@ -228,17 +275,30 @@ function MyMap() {
             height={30}
           />
         )}
+        {polylineCoordinates.length > 0 && (
+          <Polyline
+            coordinates={polylineCoordinates}
+            strokeColor="red"
+            strokeWidth={5}
+          />
+        )}
       </NaverMapView>
       <HospitalInfoModal
         hospital={selectedHospital}
         visible={hospitalModalVisible}
         onClose={() => setHospitalModalVisible(false)}
       />
+      <ShelterinfoModal
+        hospital={selectedShelter}
+        visible={shelterModalVisible}
+        onClose={() => setShelterModalVisible(false)}
+      />
       <PharmacyinfoModal
         hospital={selectedPharmacy}
         visible={pharmacyModalVisible}
         onClose={() => setPharmacyModalVisible(false)}
       />
+      {emergency.isVisible && <EmergencyModal message={emergency.message} />}
       <TouchableWithoutFeedback onPress={toggleLocationCenter}>
         <View
           style={[

@@ -15,11 +15,6 @@ const shelterState = atom({
   default: [],
 });
 
-const selectedFacilityIdState = atom({
-  key: 'selectedFacilityIdState',
-  default: null,
-});
-
 const bottomSheetState = atom({
   key: 'bottomSheetState',
   default: {isOpen: false, index: 1},
@@ -27,14 +22,27 @@ const bottomSheetState = atom({
 
 const pathDataState = atom({
   key: 'pathDataState',
-  default: null,
+  default: [],
+});
+
+const loadingState = atom({
+  key: 'loadingState',
+  default: false,
+});
+
+const emergencyState = atom({
+  key: 'emergencyState',
+  default: {
+    isVisible: false,
+  },
 });
 
 export {
   hospitalState,
   pharmacyState,
   shelterState,
-  selectedFacilityIdState,
   bottomSheetState,
   pathDataState,
+  loadingState,
+  emergencyState,
 };
