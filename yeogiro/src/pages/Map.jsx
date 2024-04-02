@@ -277,11 +277,14 @@ function MyMap() {
             height={30}
           />
         )}
-        {dangerAreaData && (
+        {polylineCoordinates.length > 0 && (
           <Path
-            coordinates={dangerAreaData.gps}
+            coordinates={polylineCoordinates}
             color="#009900"
-            width={5}
+            passedColor="yellow"
+            passedOutlineColor="yellow"
+            width={7}
+            outlineColor="#009900"
           />
         )}
         {dangerAreaData && (
