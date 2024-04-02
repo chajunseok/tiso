@@ -19,6 +19,7 @@ const App = () => {
   const setPathData = useSetRecoilState(pathDataState);
   const setEmergency = useSetRecoilState(emergencyState);
 
+  // 앱 실행 시 푸시 토큰을 가져오고 저장
   useEffect(() => {
     async function fetchToken() {
       const authStatus = await messaging().requestPermission();
@@ -33,15 +34,18 @@ const App = () => {
     fetchToken();
   }, []);
 
+  // 백그라운드에서 푸시 알림으로 앱 시작 처리
   useEffect(() => {
     messaging()
       .getInitialNotification()
       .then(remoteMessage => {
         if (remoteMessage) {
-          handleFindPath();
+          handleFindPath(); 
         }
       });
   }, []);
+
+  // 포그라운드 상태에서 푸시 알림 수신 처리
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       PushNotification.localNotification({
@@ -68,6 +72,7 @@ const App = () => {
   }, []);
 
   const [currentLocation, setCurrentLocation] = useState(null);
+  const setDangerAreaData = useSetRecoilState(dangerAreaDataState);
 
   useEffect(() => {
     async function getCurrentLocation() {

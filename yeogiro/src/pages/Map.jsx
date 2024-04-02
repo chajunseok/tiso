@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
-import NaverMapView, {Marker, Polyline} from 'react-native-nmap';
+import NaverMapView, {Marker, Polyline, Circle} from 'react-native-nmap';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {
   bottomSheetState,
@@ -18,6 +18,7 @@ import {
   shelterState,
   emergencyState,
   loadingState,
+  dangerAreaDataState,
 } from '../state/atoms';
 import HospitalInfoModal from './HospitalInfoModal';
 import PharmacyinfoModal from './PharmacyInfoModal';
@@ -61,6 +62,7 @@ function MyMap() {
   const emergency = useRecoilValue(emergencyState);
 
   const pathData = useRecoilValue(pathDataState);
+  const dangerAreaData = useRecoilValue(dangerAreaDataState);
   const polylineCoordinates = useMemo(() => {
     return (
       pathData?.map(point => ({
@@ -278,8 +280,15 @@ function MyMap() {
         {polylineCoordinates.length > 0 && (
           <Polyline
             coordinates={polylineCoordinates}
-            strokeColor="red"
+            strokeColor="#009900"
             strokeWidth={5}
+          />
+        )}
+        {dangerAreaData && (
+          <Circle
+            coordinate={dangerAreaData.gps}
+            color={'rgba(255,0,0,0.5)'}
+            radius={dangerAreaData.radius}
           />
         )}
       </NaverMapView>
