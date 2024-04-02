@@ -8,7 +8,8 @@ function SettingsScreen({navigation}) {
       title: '환경 설정',
       headerTitleStyle: {
         fontSize: 20,
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
+        fontFamily: 'Pretendard-ExtraBold',
         marginBottom: 5,
       },
       headerTitleAlign: 'center',
@@ -70,6 +71,7 @@ const styles = StyleSheet.create({
   switchStyle: {
     transform: [{scaleX: 1.5}, {scaleY: 1.5}],
     marginRight: 5,
+    marginTop: -5,
   },
 
   container: {
@@ -85,11 +87,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     color: '#262626',
-    fontWeight: 'bold',
+    fontFamily: 'Pretendard-Bold',
   },
   subtitle: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontFamily: 'Pretendard-Medium',
   },
   contentbox: {
     marginBottom: 20,

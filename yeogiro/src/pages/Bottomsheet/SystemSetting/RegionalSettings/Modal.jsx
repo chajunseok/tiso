@@ -17,7 +17,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontFamily: 'Pretendard-Bold',
     color: 'black',
   },
 });

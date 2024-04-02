@@ -8,7 +8,8 @@ function SafetyGuidelineMain({navigation, handleAll}) {
       title: '행동 요령',
       headerTitleStyle: {
         fontSize: 20,
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
+        fontFamily: 'Pretendard-ExtraBold',
         marginBottom: 5,
       },
       headerTitleAlign: 'center',
@@ -115,15 +116,21 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgb(178, 201, 219)',
+    // backgroundColor: 'rgb(178, 201, 219)',
+    // backgroundColor: '#E9E9E9',
     borderRadius: 8,
+    borderColor: '#E9E9E9',
+    borderWidth: 1,
+
+    // 버튼 그림자 효과
+    backgroundColor: '#ffffff',
+    elevation: 3,
   },
   buttonText: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: 'white',
+    fontFamily: 'Pretendard-Bold',
+    color: '#282828',
   },
-
   buttonContent: {
     alignItems: 'center',
   },
@@ -136,20 +143,21 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginTop: -35,
     // color: '#888e9b',
-    color: '#fcfdff',
-    fontWeight: 'bold',
+    color: '#282828',
+    fontFamily: 'Pretendard-SemiBold',
   },
   buttonSubtitle: {
     fontSize: 15,
-    marginTop: -30,
+    marginTop: -28,
     paddingLeft: 3,
-    color: 'white',
-    fontWeight: 'bold',
+    // color: 'white',
+    color: '#929292',
+    fontFamily: 'Pretendard-Regular',
   },
   icon: {
     width: 35,
     height: 35,
-    marginBottom: 10,
+    marginBottom: 12,
   },
 });
 

@@ -9,7 +9,8 @@ function RegionalAdd({navigation}) {
       title: '환경 설정',
       headerTitleStyle: {
         fontSize: 20,
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
+        fontFamily: 'Pretendard-ExtraBold',
         marginBottom: 5,
       },
       headerTitleAlign: 'center',
@@ -88,11 +89,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     color: '#262626',
-    fontWeight: 'bold',
+    fontFamily: 'Pretendard-Bold',
   },
   subtitle: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontFamily: 'Pretendard-Medium',
   },
   contentbox: {
     marginBottom: 20,
@@ -107,6 +108,7 @@ const styles = StyleSheet.create({
   },
   cityName: {
     fontSize: 18,
+    fontFamily: 'Pretendard-Medium',
     color: '#262626',
   },
   addButton: {
@@ -117,6 +119,7 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: '#ffffff',
+    fontFamily: 'Pretendard-Medium',
     fontSize: 16,
   },
   buttonDisabled: {

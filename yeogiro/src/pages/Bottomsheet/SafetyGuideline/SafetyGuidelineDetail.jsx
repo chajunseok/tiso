@@ -22,7 +22,8 @@ const SafetyGuidelineDetail = ({route, navigation}) => {
       title: title,
       headerTitleStyle: {
         fontSize: 20,
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
+        fontFamily: 'Pretendard-Bold',
         marginBottom: 5,
       },
       headerTitleAlign: 'center',
@@ -112,7 +113,8 @@ const styles = StyleSheet.create({
   },
   detailsTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontFamily: 'Pretendard-Bold',
     marginBottom: 10,
   },
 });
