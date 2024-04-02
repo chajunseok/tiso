@@ -137,8 +137,6 @@ function MyMap() {
     }
   }, [shelters]);
 
-  useEffect(() => {}, [pathData]);
-
   const getInitLocation = () => {
     console.log('초기 위치');
     Geolocation.getCurrentPosition(
@@ -310,7 +308,7 @@ function MyMap() {
         visible={pharmacyModalVisible}
         onClose={() => setPharmacyModalVisible(false)}
       />
-      {emergency.isVisible && <EmergencyModal message={emergency.message} />}
+      {emergency.isVisible && <EmergencyModal visible={emergency.isVisible}/>}
       <TouchableWithoutFeedback onPress={toggleLocationCenter}>
         <View
           style={[

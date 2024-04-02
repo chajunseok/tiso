@@ -61,6 +61,12 @@ const App = () => {
         isVisible: true,
       });
 
+      setTimeout(() => {
+        setEmergency({
+          isVisible: false,
+        });
+      }, 1800000);
+
       handleFindPath();
     });
 
