@@ -280,14 +280,14 @@ function MyMap() {
         {polylineCoordinates.length > 0 && (
           <Polyline
             coordinates={polylineCoordinates}
-            strokeColor="red"
+            strokeColor="#009900"
             strokeWidth={5}
           />
         )}
         {dangerAreaData && (
           <Circle
             coordinate={dangerAreaData.gps}
-            color={'rgba(255,0,0,0.3)'}
+            color={'rgba(255,0,0,0.5)'}
             radius={dangerAreaData.radius}
           />
         )}
