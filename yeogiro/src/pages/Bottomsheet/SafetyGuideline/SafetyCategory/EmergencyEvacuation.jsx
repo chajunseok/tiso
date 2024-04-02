@@ -17,7 +17,8 @@ function EmergencyEvacuation({navigation}) {
       title: '비상 대피',
       headerTitleStyle: {
         fontSize: 20,
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
+        fontFamily: 'Pretendard-ExtraBold',
         marginBottom: 5,
       },
       headerTitleAlign: 'center',
@@ -99,7 +100,8 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 20,
     marginBottom: 10,
-    borderColor: 'rgb(178, 201, 219)',
+    // borderColor: 'rgb(178, 201, 219)',
+    borderColor: '#E9E9E9',
     borderWidth: 2,
     borderRadius: 8,
     width: buttonWidth,
@@ -107,7 +109,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     color: '#333333',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontFamily: 'Pretendard-SemiBold',
   },
   icon: {
     width: 15,

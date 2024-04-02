@@ -35,7 +35,8 @@ const ShelterInfoDetail = ({route, navigation}) => {
       title: '시설 정보',
       headerTitleStyle: {
         fontSize: 20,
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
+        fontFamily: 'Pretendard-ExtraBold',
         marginBottom: 5,
       },
       headerTitleAlign: 'center',
@@ -114,17 +115,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontFamily: 'Pretendard-Bold',
     fontSize: 16,
     marginBottom: 5,
   },
   address: {
     fontSize: 14,
+    fontFamily: 'Pretendard-Regular',
     color: '#666',
     marginBottom: 5,
   },
   capacity: {
     fontSize: 14,
+    fontFamily: 'Pretendard-Regular',
     color: '#007bff',
   },
   navigatorContainer: {
