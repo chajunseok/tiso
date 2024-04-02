@@ -9,7 +9,11 @@ import Loading from './src/pages/Loading';
 import MainLoading from './src/pages/MainLoading';
 import {View, StyleSheet, PermissionsAndroid} from 'react-native';
 import {useSetRecoilState} from 'recoil';
-import {pathDataState, emergencyState} from './src/state/atoms';
+import {
+  pathDataState,
+  emergencyState,
+  dangerAreaDataState,
+} from './src/state/atoms';
 import Geolocation from 'react-native-geolocation-service';
 import axios from 'axios';
 
@@ -40,7 +44,7 @@ const App = () => {
       .getInitialNotification()
       .then(remoteMessage => {
         if (remoteMessage) {
-          handleFindPath(); 
+          handleFindPath();
         }
       });
   }, []);
@@ -109,6 +113,7 @@ const App = () => {
           `http://tiso.run:8000/emergency/path?latitude=${currentLocation.latitude}&longitude=${currentLocation.longitude}`,
         );
         setPathData(response.data.data.pathInfo.path);
+        setDangerAreaData(response.data.data.dangerAreaInfo);
       } catch (error) {
         console.log('Error finding route:', error);
       } finally {

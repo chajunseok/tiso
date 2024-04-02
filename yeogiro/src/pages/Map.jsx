@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
-import NaverMapView, {Marker, Polyline, Circle} from 'react-native-nmap';
+import NaverMapView, {Marker, Circle, Path} from 'react-native-nmap';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
 import {
   bottomSheetState,
@@ -278,10 +278,13 @@ function MyMap() {
           />
         )}
         {polylineCoordinates.length > 0 && (
-          <Polyline
+          <Path
             coordinates={polylineCoordinates}
-            strokeColor="#009900"
-            strokeWidth={5}
+            color="#009900"
+            width={5}
+            outlineColor="#009900"
+            passedColor="yellow"
+            passedOutlineColor="yellow"
           />
         )}
         {dangerAreaData && (
