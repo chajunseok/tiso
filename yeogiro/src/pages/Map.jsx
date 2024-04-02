@@ -281,10 +281,12 @@ function MyMap() {
           <Path
             coordinates={polylineCoordinates}
             color="#009900"
-            width={5}
+            width={10}
             outlineColor="#009900"
             passedColor="yellow"
             passedOutlineColor="yellow"
+            pattern={require('../../assets/icons/arrow.png')}
+            patternInterval={30}
           />
         )}
         {dangerAreaData && (
