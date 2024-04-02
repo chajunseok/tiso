@@ -8,7 +8,7 @@ const buttonWidth = (screenWidth - 35) / 2; // 버튼 가로 길이
 const ShelterCategory = ({navigation}) => {
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: '시설 정보',
+      title: '대피소 정보',
       headerTitleStyle: {
         fontSize: 20,
         // fontWeight: 'bold',
@@ -26,7 +26,6 @@ const ShelterCategory = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.containerTitle}>대피소</Text>
       <View style={styles.categoryContainer}>
         <TouchableOpacity
           style={[
@@ -99,14 +98,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginLeft: 5,
     marginRight: 5,
-  },
-  containerTitle: {
-    fontSize: 20,
-    // fontWeight: 'bold',
-    fontFamily: 'Pretendard-Medium',
-    // color: 'black',
-    marginHorizontal: 20,
-    marginVertical: 25,
+    marginTop: 20,
   },
   button: {
     borderRadius: 8,
