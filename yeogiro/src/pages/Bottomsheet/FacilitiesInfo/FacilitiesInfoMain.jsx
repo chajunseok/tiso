@@ -26,7 +26,7 @@ function FacilitiesInfoMain({navigation}) {
           style={[styles.button, {width: buttonWidth, height: buttonWidth}]}
           onPress={() => navigation.navigate('ShelterCategory')}>
           <Image
-            source={require('../../../../assets/icons/hospital.png')}
+            source={require('../../../../assets/icons/shelter.png')}
             style={styles.icon}
           />
           <Text style={styles.buttonTitle}>대피소</Text>
@@ -36,7 +36,7 @@ function FacilitiesInfoMain({navigation}) {
           onPress={() => navigation.navigate('HospitalInfoDetail')}>
           <Image
             source={require('../../../../assets/icons/hospital.png')}
-            style={styles.icon}
+            style={styles.icon2}
           />
           <Text style={styles.buttonTitle}>병원</Text>
         </TouchableOpacity>
@@ -87,12 +87,12 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   icon: {
-    width: 25,
+    width: 30,
     height: 33,
   },
   icon2: {
-    width: 28,
-    height: 32,
+    width: 25,
+    height: 33,
   },
   icon3: {
     width: 28,
