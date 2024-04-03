@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     marginBottom: 15,
     textAlign: 'center',
-    fontWeight: 'bold',
+    fontFamily: 'Pretendard-Bold',
     fontSize: 18,
   },
   button: {
