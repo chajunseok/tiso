@@ -1,5 +1,12 @@
 import React from 'react';
-import {Modal, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  Modal,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Easing,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import TextTicker from 'react-native-text-ticker';
 
@@ -21,13 +28,10 @@ const EmergencyModal = ({visible, onClose}) => {
             resizeMode={FastImage.resizeMode.contain}
           />
           <TextTicker
-            style={{fontSize: 16, fontWeight: '600', color: 'red', width: 200}}
+            style={{width: 210, fontSize: 16, fontWeight: '600', color: 'red'}}
             loop
-            animationType="scroll"
-            scrollSpeed={20}
-            marqueeOnMount
-            marqueeDelay={0}
-            bounce={false}>
+            animationType="auto"
+            scrollSpeed={30}>
             긴급 재난 상황입니다! 최적의 길 찾기 버튼을 누르세요!
           </TextTicker>
         </View>
@@ -56,29 +60,8 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     width: '90%',
     height: 41,
-  },
-  messageText: {
-    color: 'black',
-    fontWeight: 'bold',
-    textAlign: 'left',
-    flex: 1,
-  },
-  closeButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#6495ED',
-    borderRadius: 20,
-    width: 25,
-    height: 25,
-    elevation: 2,
-  },
-  closeButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
   emergencyBell: {
     width: 40,
