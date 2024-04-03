@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 20,
   },
-  // 추가적인 스타일링...
 });
 
 export default HospitalInfoModal;

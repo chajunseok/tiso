@@ -31,17 +31,17 @@ async function requestPermissions() {
   await PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
   );
-  console.log('내 위치');
+  // console.log('내 위치');
 }
 
 async function fetchPharmacies(latitude, longitude) {
-  console.log('fetch함수실행');
+  // console.log('fetch함수실행');
   try {
     const response = await axios.get(
       `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=PM9&x=${longitude}&y=${latitude}`,
       {headers},
     );
-    console.log('API 요청보냄');
+    // console.log('API 요청보냄');
     return response.data.documents;
   } catch (error) {
     console.error(error);
@@ -62,13 +62,13 @@ const PharmacyInfoDetail = ({navigation}) => {
   };
 
   async function findPharmacy(startLng, startLat, endLng, endLat) {
-    console.log('길찾기 함수 실행');
+    // console.log('길찾기 함수 실행');
     try {
       const response = await axios.post('http://tiso.run:8000/paths/find', {
         url: `https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start=${startLng + ',' + startLat}&goal=${endLng + ',' + endLat}`,
       });
-      console.log('길찾기 API 요청보냄');
-      console.log(startLng, startLat, endLng, endLat);
+      // console.log('길찾기 API 요청보냄');
+      // console.log(startLng, startLat, endLng, endLat);
       setPathData(response.data.data.path);
     } catch (error) {
       console.log(error);
@@ -81,7 +81,6 @@ const PharmacyInfoDetail = ({navigation}) => {
       title: '약국 정보',
       headerTitleStyle: {
         fontSize: 20,
-        // fontWeight: 'bold',
         fontFamily: 'Pretendard-ExtraBold',
         marginBottom: 5,
       },
@@ -104,9 +103,9 @@ const PharmacyInfoDetail = ({navigation}) => {
     requestPermissions().then(() => {
       Geolocation.getCurrentPosition(
         async position => {
-          console.log('위도 경도 저장');
+          // console.log('위도 경도 저장');
           const {latitude, longitude} = position.coords;
-          console.log(latitude, longitude);
+          // console.log(latitude, longitude);
           setCurrentLocation({latitude, longitude});
           const pharmaciesData = await fetchPharmacies(latitude, longitude);
           setPharmacys(pharmaciesData);
@@ -180,7 +179,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    // fontWeight: 'bold',
     fontFamily: 'Pretendard-Bold',
     fontSize: 16,
     marginBottom: 5,

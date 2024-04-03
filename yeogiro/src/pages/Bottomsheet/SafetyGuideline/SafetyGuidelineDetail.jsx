@@ -22,7 +22,6 @@ const SafetyGuidelineDetail = ({route, navigation}) => {
       title: title,
       headerTitleStyle: {
         fontSize: 20,
-        // fontWeight: 'bold',
         fontFamily: 'Pretendard-Bold',
         marginBottom: 5,
       },
@@ -32,7 +31,7 @@ const SafetyGuidelineDetail = ({route, navigation}) => {
 
   useEffect(() => {
     if (route.params && route.params.api) {
-      fetch(`http://tiso.run:8000/tips/${route.params.api}`) // 이전에 클릭한 버튼의 타이틀과 연결된 API 호출
+      fetch(`http://tiso.run:8000/tips/${route.params.api}`)
         .then(response => response.json())
         .then(data => {
           const matchedTips = data.data.tips.filter(
@@ -56,7 +55,6 @@ const SafetyGuidelineDetail = ({route, navigation}) => {
 
   const renderDetailItem = ({item}) => (
     <View style={styles.detailsContainer}>
-      {/* title이 HTML 형식의 문자열이 아니라면 Text 컴포넌트 사용 */}
       {typeof item.title === 'string' ? (
         <Text style={styles.detailsTitle}>{item.title}</Text>
       ) : (
@@ -113,7 +111,6 @@ const styles = StyleSheet.create({
   },
   detailsTitle: {
     fontSize: 20,
-    // fontWeight: 'bold',
     fontFamily: 'Pretendard-Bold',
     marginBottom: 10,
   },

@@ -27,10 +27,10 @@ const App = () => {
   useEffect(() => {
     async function fetchToken() {
       const authStatus = await messaging().requestPermission();
-      console.log('Authorization status:', authStatus);
+      // console.log('Authorization status:', authStatus);
 
       const token = await messaging().getToken();
-      console.log('Device token:', token);
+      // console.log('Device token:', token);
 
       await AsyncStorage.setItem('pushToken', token);
     }

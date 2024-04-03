@@ -8,7 +8,6 @@ function FacilitiesInfoMain({navigation}) {
       title: '시설 정보',
       headerTitleStyle: {
         fontSize: 20,
-        // fontWeight: 'bold',
         fontFamily: 'Pretendard-ExtraBold',
         marginBottom: 5,
       },
@@ -68,20 +67,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   button: {
-    // margin: 5,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#E9E9E9',
     alignItems: 'center',
     justifyContent: 'center',
-
-    // 버튼 그림자 효과
     backgroundColor: '#ffffff',
     elevation: 3,
   },
   buttonTitle: {
     fontSize: 18,
-    // fontWeight: 'bold',
     fontFamily: 'Pretendard-Bold',
     color: '#282828',
     marginTop: 8,

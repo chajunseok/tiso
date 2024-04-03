@@ -30,17 +30,17 @@ async function requestPermissions() {
   await PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
   );
-  console.log('내 위치');
+  // console.log('내 위치');
 }
 
 async function fetchHospitals(latitude, longitude) {
-  console.log('fetch함수실행');
+  // console.log('fetch함수실행');
   try {
     const response = await axios.get(
       `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=HP8&x=${longitude}&y=${latitude}`,
       {headers},
     );
-    console.log('API 요청보냄');
+    // console.log('API 요청보냄');
     return response.data.documents;
   } catch (error) {
     console.error(error);
@@ -61,14 +61,14 @@ const HospitalInfoDetail = ({navigation}) => {
   };
 
   async function findHospital(startLng, startLat, endLng, endLat) {
-    console.log('길찾기 함수 실행');
+    // console.log('길찾기 함수 실행');
     try {
       const response = await axios.post('http://tiso.run:8000/paths/find', {
         url: `https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?start=${startLng + ',' + startLat}&goal=${endLng + ',' + endLat}`,
       });
-      console.log('길찾기 API 요청보냄');
-      console.log(startLng, startLat, endLng, endLat);
-      console.log(response.data.data.path);
+      // console.log('길찾기 API 요청보냄');
+      // console.log(startLng, startLat, endLng, endLat);
+      // console.log(response.data.data.path);
       setPathData(response.data.data.path);
     } catch (error) {
       console.log(error);
@@ -104,9 +104,9 @@ const HospitalInfoDetail = ({navigation}) => {
     requestPermissions().then(() => {
       Geolocation.getCurrentPosition(
         async position => {
-          console.log('위도 경도 저장');
+          // console.log('위도 경도 저장');
           const {latitude, longitude} = position.coords;
-          console.log(latitude, longitude);
+          // console.log(latitude, longitude);
           setCurrentLocation({latitude, longitude});
           const hospitalsData = await fetchHospitals(latitude, longitude);
           setHospitals(hospitalsData);
@@ -180,7 +180,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    // fontWeight: 'bold',
     fontFamily: 'Pretendard-Bold',
     fontSize: 16,
     marginBottom: 5,

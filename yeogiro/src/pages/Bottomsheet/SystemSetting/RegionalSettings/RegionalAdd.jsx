@@ -9,7 +9,6 @@ function RegionalAdd({navigation}) {
       title: '환경 설정',
       headerTitleStyle: {
         fontSize: 20,
-        // fontWeight: 'bold',
         fontFamily: 'Pretendard-ExtraBold',
         marginBottom: 5,
       },
@@ -39,7 +38,7 @@ function RegionalAdd({navigation}) {
 
   const handleAddCity = city => {
     addCity(city);
-    console.log(city + ' 추가하기 버튼이 눌렸습니다.');
+    // console.log(city + ' 추가하기 버튼이 눌렸습니다.');
   };
 
   const isCityAdded = city => addedCities.includes(city);

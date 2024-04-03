@@ -1,17 +1,10 @@
 import React from 'react';
-import {
-  Modal,
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Easing,
-} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import TextTicker from 'react-native-text-ticker';
 
 const EmergencyModal = ({visible, onClose}) => {
-  console.log('isVisible : ', visible);
+  // console.log('isVisible : ', visible);
   if (!visible) return null;
 
   return (

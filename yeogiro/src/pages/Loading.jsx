@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 30,
     marginBottom: 20,
-    // fontWeight: 'bold',
     fontFamily: 'Pretendard-ExtraBold',
     color: 'black',
   },

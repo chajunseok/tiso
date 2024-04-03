@@ -138,7 +138,7 @@ function MyMap() {
   }, [shelters]);
 
   const getInitLocation = () => {
-    console.log('초기 위치');
+    // console.log('초기 위치');
     Geolocation.getCurrentPosition(
       position => {
         const {latitude, longitude} = position.coords;
@@ -152,7 +152,7 @@ function MyMap() {
   };
 
   const getMyLocation = () => {
-    console.log('실시간 감시');
+    // console.log('실시간 감시');
     Geolocation.watchPosition(
       position => {
         const {latitude, longitude} = position.coords;

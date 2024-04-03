@@ -9,7 +9,6 @@ function SettingsScreen({navigation}) {
       title: '환경 설정',
       headerTitleStyle: {
         fontSize: 20,
-        // fontWeight: 'bold',
         fontFamily: 'Pretendard-ExtraBold',
         marginBottom: 5,
       },
@@ -58,7 +57,6 @@ function SettingsScreen({navigation}) {
           />
         </TouchableOpacity>
       </View>
-
       <View style={styles.content}>
         <View style={styles.contentbox}>
           <Text style={styles.title}>수신 지역 설정</Text>
@@ -72,7 +70,6 @@ function SettingsScreen({navigation}) {
           />
         </TouchableOpacity>
       </View>
-
       <View style={styles.content}>
         <View style={styles.contentbox}>
           <Text style={styles.title}>푸쉬 알람 설정</Text>
@@ -115,12 +112,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     color: '#262626',
-    // fontWeight: 'bold',
     fontFamily: 'Pretendard-Bold',
   },
   subtitle: {
     fontSize: 14,
-    // fontWeight: 'bold',
     fontFamily: 'Pretendard-Medium',
   },
   button: {

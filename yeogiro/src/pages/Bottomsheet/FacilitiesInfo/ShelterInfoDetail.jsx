@@ -23,17 +23,17 @@ async function requestPermissions() {
   await PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
   );
-  console.log('내 위치');
+  // console.log('내 위치');
 }
 
 async function fetchShelters(latitude, longitude, shelter) {
-  console.log('fetch함수실행');
+  // console.log('fetch함수실행');
   try {
     const response = await axios.get(
       `http://tiso.run:8000/shelters/type?lat=${latitude}&lng=${longitude}&type=${shelter}`,
     );
-    console.log('API 요청보냄');
-    console.log(response.data.data.shelterList);
+    // console.log('API 요청보냄');
+    // console.log(response.data.data.shelterList);
     return response.data.data.shelterList;
   } catch (error) {
     console.error(error);
@@ -56,13 +56,13 @@ const ShelterInfoDetail = ({route, navigation}) => {
   };
 
   async function findShelter(shelter_id, latitude, longitude) {
-    console.log('길찾기 함수 실행');
-    console.log(shelter_id, latitude, longitude);
+    // console.log('길찾기 함수 실행');
+    // console.log(shelter_id, latitude, longitude);
     try {
       const response = await axios.get(
         `http://tiso.run:8000/paths?shelter_id=${shelter_id}&latitude=${latitude}&longitude=${longitude}`,
       );
-      console.log('길찾기 API 요청보냄');
+      // console.log('길찾기 API 요청보냄');
       setPathData(response.data.data.path);
     } catch (error) {
       if (error.response && error.response.status === 422) {
@@ -79,7 +79,6 @@ const ShelterInfoDetail = ({route, navigation}) => {
       title: '대피소 정보',
       headerTitleStyle: {
         fontSize: 20,
-        // fontWeight: 'bold',
         fontFamily: 'Pretendard-ExtraBold',
         marginBottom: 5,
       },
@@ -100,10 +99,10 @@ const ShelterInfoDetail = ({route, navigation}) => {
     requestPermissions().then(() => {
       Geolocation.getCurrentPosition(
         async position => {
-          console.log('위도 경도 저장');
+          // console.log('위도 경도 저장');
           const {latitude, longitude} = position.coords;
           setCurrentLocation({latitude, longitude});
-          console.log(latitude, longitude);
+          // console.log(latitude, longitude);
           const sheltersData = await fetchShelters(
             latitude,
             longitude,

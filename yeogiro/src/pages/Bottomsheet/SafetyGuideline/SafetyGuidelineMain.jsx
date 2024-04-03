@@ -8,7 +8,6 @@ function SafetyGuidelineMain({navigation, handleAll}) {
       title: '행동 요령',
       headerTitleStyle: {
         fontSize: 20,
-        // fontWeight: 'bold',
         fontFamily: 'Pretendard-ExtraBold',
         marginBottom: 5,
       },
@@ -116,13 +115,9 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: 'rgb(178, 201, 219)',
-    // backgroundColor: '#E9E9E9',
     borderRadius: 8,
     borderColor: '#E9E9E9',
     borderWidth: 1,
-
-    // 버튼 그림자 효과
     backgroundColor: '#ffffff',
     elevation: 3,
   },
@@ -142,7 +137,6 @@ const styles = StyleSheet.create({
   buttonNumber: {
     fontSize: 22,
     marginTop: -35,
-    // color: '#888e9b',
     color: '#282828',
     fontFamily: 'Pretendard-SemiBold',
   },
@@ -150,7 +144,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginTop: -28,
     paddingLeft: 3,
-    // color: 'white',
     color: '#929292',
     fontFamily: 'Pretendard-Regular',
   },

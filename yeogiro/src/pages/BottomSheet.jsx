@@ -79,7 +79,6 @@ const MyBottomSheet = ({onFindPath}) => {
         title: '메인 기능',
         headerTitleStyle: {
           fontSize: 20,
-          // fontWeight: 'bold',
           fontFamily: 'Pretendard-ExtraBold',
           color: '#282828',
           marginBottom: 5,
@@ -144,7 +143,6 @@ const MyBottomSheet = ({onFindPath}) => {
                 <Text style={styles.buttonText}>행동 요령</Text>
               </View>
             </TouchableOpacity>
-
             <TouchableOpacity
               style={[styles.button, {width: buttonWidth, height: buttonWidth}]}
               onPress={() => {
@@ -262,14 +260,11 @@ const styles = StyleSheet.create({
     borderColor: '#E9E9E9',
     alignItems: 'center',
     justifyContent: 'center',
-
-    // 버튼 그림자 효과
     backgroundColor: '#ffffff',
     elevation: 3,
   },
   buttonText: {
     fontSize: 18,
-    // fontWeight: 'bold',
     fontFamily: 'Pretendard-SemiBold',
     color: '#282828',
   },

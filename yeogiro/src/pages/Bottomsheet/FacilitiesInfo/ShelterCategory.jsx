@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const {width: screenWidth} = Dimensions.get('window');
-const buttonWidth = (screenWidth - 35) / 2; // 버튼 가로 길이
+const buttonWidth = (screenWidth - 35) / 2;
 
 const ShelterCategory = ({navigation}) => {
   useLayoutEffect(() => {
@@ -11,18 +11,12 @@ const ShelterCategory = ({navigation}) => {
       title: '대피소 정보',
       headerTitleStyle: {
         fontSize: 20,
-        // fontWeight: 'bold',
         fontFamily: 'Pretendard-ExtraBold',
         marginBottom: 5,
       },
       headerTitleAlign: 'center',
     });
   }, [navigation]);
-
-  // const screenWidth = Dimensions.get('window').width;
-  // const buttonWidth = screenWidth * 0.45;
-  // const buttonHeight = buttonWidth * 0.4;
-  // const buttonMargin = (screenWidth - buttonWidth * 2) / 4;
 
   return (
     <View style={styles.container}>
@@ -31,10 +25,6 @@ const ShelterCategory = ({navigation}) => {
           style={[
             styles.button,
             {
-              // width: buttonWidth,
-              // height: buttonHeight,
-              // margin: buttonMargin,
-              // marginBottom: buttonMargin,
               marginLeft: 5,
               marginRight: 5,
             },
@@ -49,9 +39,6 @@ const ShelterCategory = ({navigation}) => {
           style={[
             styles.button,
             {
-              // width: buttonWidth,
-              // height: buttonHeight,
-              // margin: buttonMargin,
               marginLeft: 5,
               marginRight: 5,
             },
@@ -66,9 +53,6 @@ const ShelterCategory = ({navigation}) => {
           style={[
             styles.button,
             {
-              // width: buttonWidth,
-              // height: buttonHeight,
-              // margin: buttonMargin,
               marginLeft: 5,
               marginRight: 5,
             },
@@ -106,23 +90,14 @@ const styles = StyleSheet.create({
     borderColor: '#E9E9E9',
     paddingLeft: 10,
     paddingTop: 10,
-
-    // alignItems: 'center',
-    // justifyContent: 'center',
-
-    // 버튼 그림자 효과
     backgroundColor: '#ffffff',
     elevation: 3,
-
     width: buttonWidth,
-
     paddingVertical: 15,
-    // paddingHorizontal: 20,
     marginBottom: 15,
   },
   buttonTitle: {
     fontSize: 16,
-    // fontWeight: 'bold',
     fontFamily: 'Pretendard-Bold',
     color: '#282828',
   },

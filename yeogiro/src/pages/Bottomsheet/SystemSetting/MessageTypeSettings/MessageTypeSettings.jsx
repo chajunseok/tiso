@@ -8,7 +8,6 @@ function SettingsScreen({navigation}) {
       title: '환경 설정',
       headerTitleStyle: {
         fontSize: 20,
-        // fontWeight: 'bold',
         fontFamily: 'Pretendard-ExtraBold',
         marginBottom: 5,
       },
