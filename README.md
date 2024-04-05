@@ -258,7 +258,7 @@
 <table style="width: 100%; text-align: center;">
   <tr>
     <td style="text-align: center;"><img src="./docs/images/bo.jpg" width="110"><br><strong>서보현</strong><br>🍪Back-end<br>💎Team Leader</td>
-    <td style="text-align: center;"><img src="docs/images/sik.jpg" width="110"><br><strong>최재식</strong><br>💟Back-end</td>
+    <td style="text-align: center;"><img src="docs/images/sick.jpg" width="110"><br><strong>최재식</strong><br>💟Back-end</td>
     <td style="text-align: center;"><img src="docs/images/jeong.jpg" width="110"><br><strong>서정현</strong><br>🧗‍♂️Back-end<br>🤴Back-end Leader</td>
   </tr>
   <tr>
