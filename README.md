@@ -35,9 +35,9 @@
 
 ![프로젝트설명사진](docs/images/project.png)
 
-- 긴급, 위급 재난 발생시 사용자에게 푸시 알람
-- 현재 위치에서 가까운 대피소까지 최적의 경로 제공
-- 각 재난상황에 맞는 행동 요령
+-   긴급, 위급 재난 발생시 사용자에게 푸시 알람
+-   현재 위치에서 가까운 대피소까지 최적의 경로 제공
+-   각 재난상황에 맞는 행동 요령
 
 <br>
 
@@ -45,10 +45,10 @@
 
 ### 🚩 프로젝트 기술 설명
 
-- 크롤링 및 openAI를 이용한 재난 문자 분석
-- 지도 경로 데이터 이진화를 통한 대피소와의 전체경로 분산 처리
-- Dijkstrat, A\* 알고리즘을 이용한 길 찾기 서비스
-- 재난 발생 시 사용자에게 긴급 푸쉬 알람 서비스
+-   크롤링 및 openAI를 이용한 재난 문자 분석
+-   지도 경로 데이터 이진화를 통한 대피소와의 전체경로 분산 처리
+-   Dijkstrat, A\* 알고리즘을 이용한 길 찾기 서비스
+-   재난 발생 시 사용자에게 긴급 푸쉬 알람 서비스
 
 ### 기술스택
 
@@ -192,31 +192,31 @@
 
 #### 재난 문자 분석 및 앱 푸시
 
-- **재난문자**: 비상 시 빠른 대피 안내를 위해서 재난문자 푸쉬 알람이 발송됩니다.
-- **긴급대피 알람**: 비상 대피 기간동안에는 앱 상단에 긴급대피 알림이 켜져있게 됩니다.
+-   **재난문자**: 비상 시 빠른 대피 안내를 위해서 재난문자 푸쉬 알람이 발송됩니다.
+-   **긴급대피 알람**: 비상 대피 기간동안에는 앱 상단에 긴급대피 알림이 켜져있게 됩니다.
 
 #### 비상 시 최적 경로 안내
 
-- **최적의 길 찾기**: 현재 위치에서 A\*알고리즘을 이용해 가장 가깝고 안전한 대피소까지의 길을 빠르게 안내해줍니다. 재난 상황 중 통행 금지 지역이 생길 경우 우회하여 안내해줍니다.
+-   **최적의 길 찾기**: 현재 위치에서 A\*알고리즘을 이용해 가장 가깝고 안전한 대피소까지의 길을 빠르게 안내해줍니다. 재난 상황 중 통행 금지 지역이 생길 경우 우회하여 안내해줍니다.
 
 #### 평상 시 경로 안내
 
-- **대피소 길 찾기** : 현재 위치에서 다익스트라 알고리즘을 이용해 도보 위주의 대피소 경로를 안내해줍니다.
+-   **대피소 길 찾기** : 현재 위치에서 다익스트라 알고리즘을 이용해 도보 위주의 대피소 경로를 안내해줍니다.
 
 #### 시설정보
 
-- **대피소 정보**: 민방위 대피소, 지진 옥외 대피소, 무더위 쉼터에 대한 정보가 현재 위치에서 가까운 순으로 리스트로 보여주며, 길안내를 제공해줍니다.
-- **병원 정보**: 병원 정보가 현재 위치에서 가까운 순으로 리스트로 보여주며, 길 안내를 제공해줍니다.
-- **약국 정보**: 약국 정보가 현재 위치에서 가까운 순으로 리스트로 보여주며, 길 안내를 제공해줍니다.
+-   **대피소 정보**: 민방위 대피소, 지진 옥외 대피소, 무더위 쉼터에 대한 정보가 현재 위치에서 가까운 순으로 리스트로 보여주며, 길안내를 제공해줍니다.
+-   **병원 정보**: 병원 정보가 현재 위치에서 가까운 순으로 리스트로 보여주며, 길 안내를 제공해줍니다.
+-   **약국 정보**: 약국 정보가 현재 위치에서 가까운 순으로 리스트로 보여주며, 길 안내를 제공해줍니다.
 
 #### 행동요령
 
-- **재난 별 카테고리**: 자연 재난, 사회 재난, 생활 안전, 비상 대피의 행동요령을 펭수 영상과 함께 숙지해보세요.
+-   **재난 별 카테고리**: 자연 재난, 사회 재난, 생활 안전, 비상 대피의 행동요령을 펭수 영상과 함께 숙지해보세요.
 
 #### 환경설정
 
-- **수신 유형 설정**: 긴급, 안전 재난 문자 푸쉬 알림을 켜고, 끌 수 있습니다.
-- **수신 지역 설정**: 재난 알림 수신 지역을 추가할 수 있습니다.
+-   **수신 유형 설정**: 긴급, 안전 재난 문자 푸쉬 알림을 켜고, 끌 수 있습니다.
+-   **수신 지역 설정**: 재난 알림 수신 지역을 추가할 수 있습니다.
 
 <br>
 
@@ -226,13 +226,13 @@
 
 ### 프로젝트 산출물
 
-- [기능명세서](https://saber-circle-3a4.notion.site/9e9e996a08e849cb90723452cd8e7bcc)
-- [시스템 아키텍처](docs/프로젝트%20산출물/시스템아키텍처.md)
-- [와이어프레임](https://www.figma.com/file/0DDjCyLNKywBB8fPEVG39c/%ED%8A%B9%ED%99%94B308-WireFrame?type=design&node-id=0%3A1&mode=design&t=2iTlIruGBPeeCLg3-1)
-- [ERD](https://www.erdcloud.com/d/XtfXjLhRTTZepzt8H)
-- [API 명세서](https://saber-circle-3a4.notion.site/API-6c8bdfa3cea44cffb5eed5cb6f8f8609)
-- [BE 코드 컨벤션](https://saber-circle-3a4.notion.site/40829d09e2984b8cb94912d91beba8f6)
-- [FE 코드 컨벤션](https://saber-circle-3a4.notion.site/40829d09e2984b8cb94912d91beba8f6)
+-   [기능명세서](https://saber-circle-3a4.notion.site/9e9e996a08e849cb90723452cd8e7bcc)
+-   [시스템 아키텍처](docs/프로젝트%20산출물/시스템아키텍처.md)
+-   [와이어프레임](https://www.figma.com/file/0DDjCyLNKywBB8fPEVG39c/%ED%8A%B9%ED%99%94B308-WireFrame?type=design&node-id=0%3A1&mode=design&t=2iTlIruGBPeeCLg3-1)
+-   [ERD](https://www.erdcloud.com/d/XtfXjLhRTTZepzt8H)
+-   [API 명세서](https://saber-circle-3a4.notion.site/API-6c8bdfa3cea44cffb5eed5cb6f8f8609)
+-   [BE 코드 컨벤션](https://saber-circle-3a4.notion.site/40829d09e2984b8cb94912d91beba8f6)
+-   [FE 코드 컨벤션](https://saber-circle-3a4.notion.site/40829d09e2984b8cb94912d91beba8f6)
 
 <br>
 
@@ -242,8 +242,8 @@
 
 ### 프로젝트 결과물
 
-- [중간 발표자료](docs/프로젝트%20결과물/기획발표자료.md)
-- [최종 발표자료](docs/프로젝트%20결과물/최종발표자료.md)
+-   [중간 발표자료](docs/프로젝트%20결과물/기획발표자료.md)
+-   [최종 발표자료](docs/프로젝트%20결과물/최종발표자료.md)
 
 <br>
 
@@ -278,33 +278,33 @@
 
 ### 메인
 
-<img src="docs/images/메인화면.jpg" width="100%">
+<img src="docs/images/메인화면.jpg" width="50%">
 
 ### 긴급 재난 알림
 
-<img src="docs/images/긴급 알림.jpg" width="100%">
+<img src="docs/images/긴급 알림.jpg" width="50%">
 
 ### 긴급상황 대피소 길찾기
 
-<img src="docs/images/긴급상황 발생.jpg" width="100%">
-<img src="docs/images/긴급상황 최적길찾기.gif" width="100%">
+<img src="docs/images/긴급상황 발생.jpg" width="50%">
+<img src="docs/images/긴급상황 최적길찾기.gif" width="50%">
 
 ### 대피소, 병원, 약국 조회
 
-<img src="docs/images/대피소_병원_약국 조회.gif" width="100%">
+<img src="docs/images/대피소_병원_약국 조회.gif" width="50%">
 
 ### 시설 정보 조회 및 길찾기
 
-<img src="docs/images/시설정보 조회 및 길찾기.gif" width="100%">
+<img src="docs/images/시설정보 조회 및 길찾기.gif" width="50%">
 
 ### 행동요령
 
-<img src="docs/images/행동요령.gif" width="100%">
+<img src="docs/images/행동요령.gif" width="50%">
 
 ### 환경설정
 
-<img src="docs/images/환경설정.gif" width="100%">
+<img src="docs/images/환경설정.gif" width="50%">
 
 ### 지역설정
 
-<img src="docs/images/지역설정.gif" width="100%">
+<img src="docs/images/지역설정.gif" width="50%">
